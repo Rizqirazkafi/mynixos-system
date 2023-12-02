@@ -77,22 +77,6 @@
 	services.spice-vdagentd.enable = true;
 	programs.dconf.enable = true; # virt-manager requires dconf to remember settings
 
-networking.bridges.bridge0.interfaces = [ "enp2s0" "wlp0s20f3" ];
-
-# Configure bridge
-#   networking.bridger = {
-#     "virbr0" = {
-#       interfaces = [ "enp2s0" "wlp0s20f3" ];
-#     };
-#   };
-
-
-
-# networking.dhcpcd.denyInterfaces = [ "macvtap0@*" ];
-
-
-
-#Fancontrol
 
 # Bootloader.
 	boot.loader.systemd-boot.enable = true;
