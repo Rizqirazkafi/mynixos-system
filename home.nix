@@ -120,6 +120,10 @@
         cmp-latex-symbols
         latex-box
         {
+          plugin = gitsigns-nvim;
+          config = toLuaFile ./nvim/plugin/gitsigns.lua;
+        }
+        {
           plugin = lualine-nvim;
           config = toLuaFile ./nvim/plugin/lualine.lua;
         }
