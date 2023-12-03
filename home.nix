@@ -101,7 +101,7 @@
       extraPackages = with pkgs; [
 
         xclip
-        luajitPackages.lua-lsp
+        lua-language-server
         rnix-lsp
         ltex-ls
         texlab
@@ -140,6 +140,10 @@
           plugin = telescope-nvim;
           config = toLuaFile ./nvim/plugin/telescope.lua;
         }
+        {
+          plugin = harpoon;
+          config = toLuaFile ./nvim/plugin/harpoon.lua;
+        }
         telescope-fzf-native-nvim
         cmp_luasnip
         cmp-nvim-lsp
@@ -176,6 +180,7 @@
 
       extraLuaConfig = ''
         			${builtins.readFile ./nvim/options.lua}
+
 
         		'';
 
