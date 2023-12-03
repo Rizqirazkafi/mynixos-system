@@ -1,5 +1,5 @@
 local on_attach = function(_, bufnr)
-
+local builtin = require('telescope.builtin')
   local bufmap = function(keys, func)
     vim.keymap.set('n', keys, func, { buffer = bufnr })
   end
@@ -12,9 +12,14 @@ local on_attach = function(_, bufnr)
   bufmap('gI', vim.lsp.buf.implementation)
   bufmap('<leader>D', vim.lsp.buf.type_definition)
 
-  bufmap('gr', require('telescope.builtin').lsp_references)
-  bufmap('<leader>s', require('telescope.builtin').lsp_document_symbols)
-  bufmap('<leader>S', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+  bufmap('gr', builtin.lsp_references)
+  bufmap('<leader>s', builtin.lsp_document_symbols)
+  bufmap('<leader>S', builtin.lsp_dynamic_workspace_symbols)
+  bufmap('<leader>ff', builtin.find_files, {})
+  bufmap('<leader>gf', builtin.git_files, {})
+  bufmap('<leader>fg', builtin.live_grep, {})
+  bufmap('<leader>fb', builtin.buffers, {})
+  bufmap('<leader>fh', builtin.help_tags, {})
 
   bufmap('K', vim.lsp.buf.hover)
 
