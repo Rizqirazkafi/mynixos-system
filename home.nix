@@ -67,7 +67,7 @@
       extraPackages = with pkgs; [
 
         xclip
-        lua-language-server
+        luajitPackages.lua-lsp
         rnix-lsp
         ltex-ls
         texlab
@@ -110,6 +110,8 @@
           plugin = harpoon;
           config = toLuaFile ./nvim/plugin/harpoon.lua;
         }
+        fidget-nvim
+        which-key-nvim
         telescope-fzf-native-nvim
         cmp_luasnip
         cmp-nvim-lsp
