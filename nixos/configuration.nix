@@ -247,6 +247,7 @@
     xclip
     gnome.gnome-terminal
     gnome.gnome-keyring
+    gnome.nautilus
     polkit_gnome
     alacritty
     gcc.cc.libgcc
