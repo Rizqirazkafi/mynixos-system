@@ -22,6 +22,10 @@
 					inherit system;
 					modules = [ ./nixos/configuration.nix ];
 				};
+        nixos-vm = lib.nixosSystem {
+          inherit system;
+          modules = [./nixos-vm/configuration.nix];
+        };
 			};
       homeConfigurations."rizqirazkafi" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
