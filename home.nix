@@ -140,6 +140,7 @@
             p.tree-sitter-markdown
             p.tree-sitter-html
             p.tree-sitter-css
+            p.tree-sitter-arduino
           ]));
           config = toLuaFile ./nvim/plugin/treesitter.lua;
 
