@@ -43,6 +43,10 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   services.picom.enable = true;
+  services.devilspie2 = {
+    enable = true;
+    config =''if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
+  };
 
 
   programs.bash = {
@@ -119,6 +123,12 @@
         friendly-snippets
         cmp-latex-symbols
         latex-box
+        {
+          plugin = nvim-autopairs;
+          config = toLuaFile ./nvim/plugin/autopairs.lua;
+        }
+        autoclose-nvim
+        friendly-snippets
         {
           plugin = gitsigns-nvim;
           config = toLuaFile ./nvim/plugin/gitsigns.lua;
