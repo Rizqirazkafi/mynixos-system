@@ -15,11 +15,16 @@
     let
       system = "x86_64-linux";
 			lib = nixpkgs.lib;
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+      };
     in {
 			nixosConfigurations = {
 				nixos = lib.nixosSystem {
-					inherit system;
+          specialArgs  = {inherit inputs system;};
 					modules = [ ./nixos/configuration.nix ];
 				};
         nixos-vm = lib.nixosSystem {
@@ -27,16 +32,16 @@
           modules = [./nixos-vm/configuration.nix];
         };
 			};
-      homeConfigurations."rizqirazkafi" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = { inherit inputs; };
-
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ ./home.nix ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
-      };
+      # homeConfigurations."rizqirazkafi" = home-manager.lib.homeManagerConfiguration {
+      #   inherit pkgs;
+      #   extraSpecialArgs = { inherit inputs; };
+      #
+      #   # Specify your home configuration modules here, for example,
+      #   # the path to your home.nix.
+      #   modules = [ ./home.nix ];
+      #
+      #   # Optionally use extraSpecialArgs
+      #   # to pass through arguments to home.nix
+      # };
     };
 }
