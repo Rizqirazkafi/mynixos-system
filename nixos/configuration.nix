@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
   imports =
@@ -11,10 +11,17 @@
       ./hardware-configuration.nix
       ./nbfc.nix
       ./vim.nix
+      inputs.home-manager.nixosModules.home-manager
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.package = pkgs.nixFlakes;
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs;};
+    users.rizqirazkafi = import ../home.nix;
+  };
 
   # Nvidia Specific
   hardware.opengl = {
@@ -147,6 +154,9 @@
 
   # Enable the LXQT Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
+  services.xserver.displayManager.lightdm.greeters.gtk.theme.name = "rose-pine";
+  services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name = "rose-pine";
   services.xserver = {
     windowManager.i3 = {
       enable = true;
@@ -191,6 +201,10 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber = {
+      enable = true;
+      package = pkgs.wireplumber;
+    };
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -252,6 +266,8 @@
     alacritty
     gcc.cc.libgcc
     gcc_multi
+    rose-pine-gtk-theme
+    rose-pine-icon-theme
     i3
     i3status
     libnotify # Notification daemon
@@ -311,6 +327,7 @@
     arduino-cli
     vimPlugins.mason-nvim
     vimPlugins.mason-lspconfig-nvim
+    kicad
     # Audio
     noisetorch
     qpwgraph
@@ -322,6 +339,8 @@
     openssl
     gparted
     polkit
+    xdotool
+    # Ricing
 
   ];
   # Swap capslock with Escape and Ctrl key
