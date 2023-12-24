@@ -1,1 +1,1 @@
-require("nvim-autopair").setup{}
+require("nvim-autopairs").setup{}
