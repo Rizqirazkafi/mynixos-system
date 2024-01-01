@@ -76,6 +76,7 @@
         gopls
         eslint_d
         marksman
+        stylua
 
 
       ];
