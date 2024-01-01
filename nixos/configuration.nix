@@ -19,7 +19,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = { inherit inputs; };
     users.rizqirazkafi = import ../home.nix;
   };
 
@@ -84,10 +84,12 @@
   };
   services.spice-vdagentd.enable = true;
   programs.dconf.enable = true; # virt-manager requires dconf to remember settings
+  programs.file-roller.enable = true;
 
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" ];
@@ -105,6 +107,9 @@
     };
 
   networking.hostName = "nixos"; # Define your hostname.
+  # networking.hosts = {
+  #   "34.101.82.247" = ["pm.mrizqir.my.id"];
+  # };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -125,8 +130,8 @@
   services.pptpd.enable = true;
 
   # Enable zerotier
-  services.zerotierone.enable = true;
-  services.zerotierone.joinNetworks = [ "632ea29085bbd781" ];
+  services.zerotierone.enable = false;
+  # services.zerotierone.joinNetworks = [ "632ea29085bbd781" "9e1948db63c9a571"];
   services.zerotierone.port = 9993;
 
 
@@ -240,6 +245,13 @@
   environment.variables.QT_QPA_PLATFORMTHEME = "kvantum";
   qt.style = "kvantum";
   programs.light.enable = true;
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce;[
+      thunar-archive-plugin
+      thunar-volman
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -262,6 +274,7 @@
     gnome.gnome-terminal
     gnome.gnome-keyring
     gnome.nautilus
+    gnome.adwaita-icon-theme
     polkit_gnome
     alacritty
     gcc.cc.libgcc
@@ -289,6 +302,7 @@
     ventoy-full
     vlc
     mpv
+    mplayer
     zathura
     terminus_font
     terminus_font_ttf
@@ -311,6 +325,7 @@
     ppp
     winbox
     tigervnc
+    ansible
     # Tool for Nvidia
     lshw
     nvtop
@@ -328,6 +343,9 @@
     vimPlugins.mason-nvim
     vimPlugins.mason-lspconfig-nvim
     kicad
+    # Graphic
+    gimp
+    gnome.gnome-tweaks
     # Audio
     noisetorch
     qpwgraph
@@ -340,7 +358,12 @@
     gparted
     polkit
     xdotool
-    # Ricing
+    baobab
+    zoom-us
+    wineWowPackages.stable
+    winetricks
+    discord
+    ueberzugpp
 
   ];
   # Swap capslock with Escape and Ctrl key
