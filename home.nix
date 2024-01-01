@@ -25,6 +25,7 @@
   # environment.
   home.packages = with pkgs; [
     hello
+    lazygit
   ];
 
   home.file = { };
