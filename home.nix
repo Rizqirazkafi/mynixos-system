@@ -40,7 +40,7 @@
   services.picom.enable = true;
   services.devilspie2 = {
     enable = true;
-    config =''if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
+    config = ''if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
   };
 
 
@@ -83,10 +83,11 @@
 
       plugins = with pkgs.vimPlugins; [
         nvim-lspconfig
+        lazygit-nvim
+        plenary-nvim
         {
           plugin = comment-nvim;
           config = toLua "require(\"Comment\").setup()";
-
         }
         {
           plugin = nvim-lspconfig;
