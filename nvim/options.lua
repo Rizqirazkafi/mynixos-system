@@ -57,6 +57,8 @@ vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 -- Remap for new tab
 vim.keymap.set('n', '<C-t>', vim.cmd.tabnew)
 
+vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<CR>')
+vim.keymap.set('n', '<leader>ut', '<cmd>UndotreeToggle<CR>')
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
