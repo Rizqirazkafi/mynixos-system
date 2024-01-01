@@ -25,11 +25,6 @@
   # environment.
   home.packages = with pkgs; [
     hello
-    xfce.thunar
-    xfce.thunar-volman
-    xfce.thunar-dropbox-plugin
-    xfce.thunar-archive-plugin
-    xfce.thunar-media-tags-plugin
   ];
 
   home.file = { };
@@ -127,11 +122,14 @@
           plugin = nvim-autopairs;
           config = toLuaFile ./nvim/plugin/autopairs.lua;
         }
-        autoclose-nvim
         friendly-snippets
         {
           plugin = gitsigns-nvim;
           config = toLuaFile ./nvim/plugin/gitsigns.lua;
+        }
+        {
+          plugin = none-ls-nvim;
+          config = toLuaFile ./nvim/plugin/none-ls-nvim.lua;
         }
         {
           plugin = lualine-nvim;
@@ -190,6 +188,5 @@
   qt = {
     enable = true;
     style.name = "kvantum";
-
   };
 }
