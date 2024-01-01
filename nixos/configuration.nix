@@ -108,7 +108,7 @@
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.hosts = {
-  #   "34.101.82.247" = ["pm.mrizqir.my.id"];
+  #   "ip-address" = ["domain"];
   # };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -131,7 +131,7 @@
 
   # Enable zerotier
   services.zerotierone.enable = false;
-  # services.zerotierone.joinNetworks = [ "632ea29085bbd781" "9e1948db63c9a571"];
+  # services.zerotierone.joinNetworks = [""];
   services.zerotierone.port = 9993;
 
 
