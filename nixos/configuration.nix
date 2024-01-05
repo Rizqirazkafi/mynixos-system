@@ -92,7 +92,7 @@
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "ppp_mppe" "pptp"];
   fileSystems."/home/rizqirazkafi/winssd" =
     {
       device = "/dev/nvme0n1p3";
@@ -130,8 +130,8 @@
   services.pptpd.enable = true;
 
   # Enable zerotier
-  services.zerotierone.enable = false;
-  # services.zerotierone.joinNetworks = [""];
+  services.zerotierone.enable = true;
+  services.zerotierone.joinNetworks = ["abfd31bd4787082d"];
   services.zerotierone.port = 9993;
 
 
@@ -311,6 +311,7 @@
     # netutil
     nmap
     netcat-gnu # read write data via net
+    inetutils
     # Graphics and Video
     # libsForQt5.kdenlive
     flameshot # screenshot tool
@@ -333,6 +334,7 @@
     vnstat #monitor network
     gns3-gui
     gns3-server
+    ciscoPacketTracer8
     # themes
     libsForQt5.qtstyleplugin-kvantum
     libsForQt5.qt5ct
@@ -340,8 +342,6 @@
     # Programming and stuff
     arduino
     arduino-cli
-    vimPlugins.mason-nvim
-    vimPlugins.mason-lspconfig-nvim
     kicad
     # Graphic
     gimp
