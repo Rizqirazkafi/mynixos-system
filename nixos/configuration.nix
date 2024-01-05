@@ -22,6 +22,24 @@
     extraSpecialArgs = { inherit inputs; };
     users.rizqirazkafi = import ../home.nix;
   };
+  programs.tmux = {
+    enable = true;
+    extraConfig = ''
+      set-option -sa terminal-overrides ",xterm*:Tc"
+      # bind <C-Alt-*> to move arround windows
+      bind -n C-M-H next-window
+      bind -n C-M-L previous-window
+      # Set prefix to <C-Space>
+      unbind C-b
+      set -g prefix C-Space
+      bind C-Space send-prefix
+      set -g mouse
+    '';
+    plugins = with pkgs.tmuxPlugins ; [
+      vim-tmux-navigator
+      sensible
+    ];
+  };
 
   # Nvidia Specific
   hardware.opengl = {
@@ -92,7 +110,7 @@
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelModules = [ "kvm-intel" "ppp_mppe" "pptp"];
+  boot.kernelModules = [ "kvm-intel" "ppp_mppe" "pptp" ];
   fileSystems."/home/rizqirazkafi/winssd" =
     {
       device = "/dev/nvme0n1p3";
@@ -131,7 +149,7 @@
 
   # Enable zerotier
   services.zerotierone.enable = true;
-  services.zerotierone.joinNetworks = ["abfd31bd4787082d"];
+  services.zerotierone.joinNetworks = [ "abfd31bd4787082d" ];
   services.zerotierone.port = 9993;
 
 
