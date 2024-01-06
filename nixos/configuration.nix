@@ -280,16 +280,12 @@
     neofetch
     unzip
     stow
-    nodejs_18
-    python3Full
-    python311Packages.pip
     lm_sensors
     arandr
     wget
     interception-tools
     git
     xclip
-    gnome.gnome-terminal
     gnome.gnome-keyring
     gnome.nautilus
     gnome.adwaita-icon-theme
@@ -325,15 +321,10 @@
     terminus_font
     terminus_font_ttf
     flatpak
-    zerotierone
-    # netutil
-    nmap
-    netcat-gnu # read write data via net
-    inetutils
     # Graphics and Video
-    # libsForQt5.kdenlive
     flameshot # screenshot tool
     nomacs # image viewer
+    gimp
     # Office Suite
     texlab
     ltex-ls
@@ -345,14 +336,18 @@
     winbox
     tigervnc
     ansible
-    # Tool for Nvidia
-    lshw
-    nvtop
-    mediainfo
+    zerotierone
+    nmap
+    netcat-gnu # read write data via net
+    inetutils
     vnstat #monitor network
     gns3-gui
     gns3-server
     ciscoPacketTracer8
+    # Tool for Nvidia
+    lshw
+    nvtop
+    mediainfo
     # themes
     libsForQt5.qtstyleplugin-kvantum
     libsForQt5.qt5ct
@@ -361,9 +356,6 @@
     arduino
     arduino-cli
     kicad
-    # Graphic
-    gimp
-    gnome.gnome-tweaks
     # Audio
     noisetorch
     qpwgraph
@@ -372,6 +364,8 @@
     # Deployment
     docker
     docker-compose
+    #flutter
+    # etc
     openssl
     gparted
     polkit
@@ -382,6 +376,7 @@
     winetricks
     discord
     ueberzugpp
+    xorg.xkill
 
   ];
   # Swap capslock with Escape and Ctrl key
