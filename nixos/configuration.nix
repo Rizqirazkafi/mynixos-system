@@ -296,6 +296,7 @@
     gnome.gnome-keyring
     gnome.nautilus
     gnome.adwaita-icon-theme
+    gnome.gnome-shell
     polkit_gnome
     alacritty
     gcc.cc.libgcc
@@ -375,7 +376,7 @@
     # Deployment
     docker
     docker-compose
-    #flutter
+    flutter
     # etc
     openssl
     gparted
@@ -403,6 +404,8 @@
             EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
     '';
   };
+
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
