@@ -33,6 +33,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     XDG_DATA_DIRS = "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
+    # GTK_THEME = config.gtk.theme.name;
   };
 
 
@@ -53,6 +54,7 @@
       fanhalf = "sudo nbfc set -f 0 -s 50; sleep 5 && sudo nbfc set -f 1 -s 50";
       fanmax = "sudo nbfc set -f 0 -s 100; sleep 6 && sudo nbfc set -f 1 -s 100";
       labconnect = "sudo pon lab debug dump logfd 2 nodetach";
+      lg = "lazygit";
     };
     enableCompletion = true;
   };
@@ -78,8 +80,6 @@
         eslint_d
         marksman
         stylua
-
-
       ];
 
       plugins = with pkgs.vimPlugins; [
@@ -138,6 +138,10 @@
           plugin = lualine-nvim;
           config = toLuaFile ./nvim/plugin/lualine.lua;
         }
+        {
+          plugin = flutter-tools-nvim;
+          config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+        }
         vim-latex-live-preview
         {
           plugin = (nvim-treesitter.withPlugins (p: [
@@ -156,16 +160,11 @@
           config = toLuaFile ./nvim/plugin/treesitter.lua;
 
         }
-
-
         vim-nix
-
       ];
 
       extraLuaConfig = ''
         			${builtins.readFile ./nvim/options.lua}
-
-
         		'';
 
 
