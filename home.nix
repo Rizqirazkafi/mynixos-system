@@ -26,6 +26,7 @@
   home.packages = with pkgs; [
     hello
     lazygit
+    tree
   ];
 
   home.file = { };
@@ -93,7 +94,10 @@
         {
           plugin = nvim-lspconfig;
           config = toLuaFile ./nvim/plugin/lsp.lua;
-
+        }
+        {
+          plugin = flutter-tools-nvim;
+          config = toLuaFile ./nvim/plugin/flutter-tools.lua;
         }
         {
           plugin = rose-pine;
@@ -137,10 +141,6 @@
         {
           plugin = lualine-nvim;
           config = toLuaFile ./nvim/plugin/lualine.lua;
-        }
-        {
-          plugin = flutter-tools-nvim;
-          config = toLuaFile ./nvim/plugin/flutter-tools.lua;
         }
         vim-latex-live-preview
         {
