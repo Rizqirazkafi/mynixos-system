@@ -9,9 +9,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-colors.url = "github:misterio77/nix-colors";
+    nbfc-linux.url = "github:nbfc-linux/nbfc-linux";
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs:
+  outputs = { nixpkgs, home-manager, nbfc-linux, ... }@inputs:
     let
       system = "x86_64-linux";
 			lib = nixpkgs.lib;
