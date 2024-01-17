@@ -36,6 +36,7 @@
     XDG_DATA_DIRS = "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
     # GTK_THEME = config.gtk.theme.name;
     CHROME_EXECUTABLE = "google-chrome-stable";
+    dart = "/run/current-system/sw/bin/dart";
   };
 
 
@@ -82,6 +83,8 @@
         eslint_d
         marksman
         stylua
+        dart
+        flutter
       ];
 
       plugins = with pkgs.vimPlugins; [
@@ -89,16 +92,16 @@
         lazygit-nvim
         plenary-nvim
         {
+          plugin = flutter-tools-nvim;
+          config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+        }
+        {
           plugin = comment-nvim;
           config = toLua "require(\"Comment\").setup()";
         }
         {
           plugin = nvim-lspconfig;
           config = toLuaFile ./nvim/plugin/lsp.lua;
-        }
-        {
-          plugin = flutter-tools-nvim;
-          config = toLuaFile ./nvim/plugin/flutter-tools.lua;
         }
         {
           plugin = rose-pine;
@@ -157,6 +160,7 @@
             p.tree-sitter-html
             p.tree-sitter-css
             p.tree-sitter-arduino
+            p.tree-sitter-dart
           ]));
           config = toLuaFile ./nvim/plugin/treesitter.lua;
 
