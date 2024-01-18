@@ -91,8 +91,20 @@
         plenary-nvim
         nvim-lspconfig
         {
+          plugin = nvim-ts-rainbow2;
+          config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
+        }
+        {
           plugin = flutter-tools-nvim;
           config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+        }
+        {
+          plugin = indent-blankline-nvim;
+          config = toLuaFile ./nvim/plugin/ibl.lua;
+        }
+        {
+          plugin = nvim-autopairs;
+          config = toLuaFile ./nvim/plugin/autopairs.lua;
         }
         {
           plugin = comment-nvim;
