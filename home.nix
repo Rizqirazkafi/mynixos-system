@@ -85,13 +85,13 @@
       ];
 
       plugins = with pkgs.vimPlugins; [
-        nvim-lspconfig
-        lazygit-nvim
-        plenary-nvim
         {
           plugin = flutter-tools-nvim;
           config = toLuaFile ./nvim/plugin/flutter-tools.lua;
         }
+        nvim-lspconfig
+        lazygit-nvim
+        plenary-nvim
         {
           plugin = comment-nvim;
           config = toLua "require(\"Comment\").setup()";
@@ -117,8 +117,14 @@
           plugin = harpoon;
           config = toLuaFile ./nvim/plugin/harpoon.lua;
         }
-        fidget-nvim
-        which-key-nvim
+        {
+          plugin = fidget-nvim;
+          config = toLuaFile ./nvim/plugin/fidget.lua;
+        }
+        {
+          plugin = which-key-nvim;
+          config = toLuaFile ./nvim/plugin/which-key.lua;
+        }
         telescope-fzf-native-nvim
         cmp_luasnip
         cmp-nvim-lsp
@@ -126,10 +132,6 @@
         friendly-snippets
         cmp-latex-symbols
         latex-box
-        {
-          plugin = nvim-autopairs;
-          config = toLuaFile ./nvim/plugin/autopairs.lua;
-        }
         friendly-snippets
         {
           plugin = gitsigns-nvim;
