@@ -377,6 +377,7 @@
     docker
     docker-compose
     flutter
+    dart
     # etc
     openssl
     gparted
