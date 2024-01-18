@@ -70,6 +70,7 @@
 
       extraPackages = with pkgs; [
 
+        nodejs_18
         xclip
         luajitPackages.lua-lsp
         rnix-lsp
@@ -82,19 +83,24 @@
         eslint_d
         marksman
         stylua
+        tree-sitter
       ];
 
       plugins = with pkgs.vimPlugins; [
+        lazygit-nvim
+        plenary-nvim
+        nvim-lspconfig
         {
           plugin = flutter-tools-nvim;
           config = toLuaFile ./nvim/plugin/flutter-tools.lua;
         }
-        nvim-lspconfig
-        lazygit-nvim
-        plenary-nvim
         {
           plugin = comment-nvim;
           config = toLua "require(\"Comment\").setup()";
+        }
+        {
+          plugin = dressing-nvim;
+          config = toLua "require(\"dressing\").setup()";
         }
         {
           plugin = nvim-lspconfig;
