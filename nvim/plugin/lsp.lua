@@ -95,6 +95,10 @@ require("lspconfig").marksman.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
+require("lspconfig").dartls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 require("lspconfig").gopls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
