@@ -91,8 +91,8 @@
         plenary-nvim
         nvim-lspconfig
         {
-          plugin = nvim-ts-rainbow2;
-          config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
+          plugin = rainbow-delimiters-nvim;
+          config = toLuaFile ./nvim/plugin/rainbow-delimiters.lua;
         }
         {
           plugin = flutter-tools-nvim;
