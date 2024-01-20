@@ -10,9 +10,13 @@
     };
     nix-colors.url = "github:misterio77/nix-colors";
     nbfc-linux.url = "github:nbfc-linux/nbfc-linux";
+    plugin-luasnip = {
+      url = "github:L3MON4D3/LuaSnip";
+      flake = false;
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nbfc-linux, ... }@inputs:
+  outputs = { nixpkgs, home-manager, nbfc-linux, plugin-luasnip, ... }@inputs:
     let
       system = "x86_64-linux";
 			lib = nixpkgs.lib;

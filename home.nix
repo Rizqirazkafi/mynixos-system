@@ -60,6 +60,18 @@
     };
     enableCompletion = true;
   };
+  nixpkgs = {
+    overlays = [
+      (final: prev: {
+        vimPlugins = prev.vimPlugins // {
+          own-luasnip-nvim = prev.vimUtils.buildVimPlugin {
+            name = "luasnip";
+            src = inputs.plugin-luasnip;
+          };
+        };
+      })
+    ];
+  };
   programs.neovim =
     let
       toLua = str: "lua << EOF\n${str}\nEOF\n";
@@ -72,10 +84,11 @@
 
         nodejs_18
         xclip
-        luajitPackages.lua-lsp
+        # luajitPackages.lua-lsp
+        lua-language-server
         rnix-lsp
-        ltex-ls
-        texlab
+        # ltex-ls
+        # texlab
         emmet-ls
         nodePackages.typescript-language-server
         javascript-typescript-langserver
@@ -84,6 +97,7 @@
         marksman
         stylua
         tree-sitter
+        fd
       ];
 
       plugins = with pkgs.vimPlugins; [
@@ -146,7 +160,8 @@
         telescope-fzf-native-nvim
         cmp_luasnip
         cmp-nvim-lsp
-        luasnip
+        # luasnip
+        vimPlugins.own-luasnip-nvim
         friendly-snippets
         cmp-latex-symbols
         latex-box

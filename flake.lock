@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1705535278,
-        "narHash": "sha256-V5+XKfNbiY0bLKLQlH+AXyhHttEL7XcZBH9iSbxxexA=",
+        "lastModified": 1705708511,
+        "narHash": "sha256-3f4BkRY70Fj7yvuo87c4QQPAjnt571g2wJ50jY7hnYc=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b84191db127c16a92cbdf7f7b9969d58bb456699",
+        "rev": "ce4b88c465d928f4f8b75d0920f1788d5b65ca94",
         "type": "github"
       },
       "original": {
@@ -42,11 +42,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1705506291,
-        "narHash": "sha256-O2NHjzdkufTbofLXdn9PSrqmnP+ojGEk0jD09bWtAeQ=",
+        "lastModified": 1705682963,
+        "narHash": "sha256-lKx8bkE9Hxf7XsLpO4yJgvJrs4vgHo6YHkObOrjJF7s=",
         "owner": "nbfc-linux",
         "repo": "nbfc-linux",
-        "rev": "58315f9b7ad78adbdf916c9d6e15177204b17a48",
+        "rev": "869a41873a6f10a654717f937e49c13919540428",
         "type": "github"
       },
       "original": {
@@ -121,12 +121,29 @@
         "type": "github"
       }
     },
+    "plugin-luasnip": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1705505979,
+        "narHash": "sha256-TlzIaDERoWt5yOyuCVtqJq3lHEtDsEd0lHKnFcvVqo8=",
+        "owner": "L3MON4D3",
+        "repo": "LuaSnip",
+        "rev": "2dbef19461198630b3d7c39f414d09fb07d1fdd2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "L3MON4D3",
+        "repo": "LuaSnip",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nbfc-linux": "nbfc-linux",
         "nix-colors": "nix-colors",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_2",
+        "plugin-luasnip": "plugin-luasnip"
       }
     },
     "systems": {

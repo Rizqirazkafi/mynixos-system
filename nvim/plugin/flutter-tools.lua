@@ -1,4 +1,4 @@
 require("flutter-tools").setup({
-	flutter_lookup_cmd = "dirname $(which flutter)",
+	flutter_path = "/home/rizqirazkafi/Packages/flutter/bin/flutter",
 	root_patterns = { ".git", "pubspec.yaml" },
 })

@@ -155,9 +155,9 @@
   networking.firewall.connectionTrackingModules = [ "pptp" "snmp" ];
   services.pptpd.enable = true;
 
-  # Enable zerotier
-  services.zerotierone.enable = true;
-  services.zerotierone.port = 9993;
+  # # Enable zerotier
+  # services.zerotierone.enable = true;
+  # services.zerotierone.port = 9993;
 
 
   # Set your time zone.
@@ -334,9 +334,9 @@
     nomacs # image viewer
     gimp
     # Office Suite
-    texlab
-    ltex-ls
-    texlive.combined.scheme-full
+    # texlab
+    # ltex-ls
+    # texlive.combined.scheme-full
     libreoffice
     # Networking
     pptp
@@ -351,7 +351,7 @@
     vnstat #monitor network
     gns3-gui
     gns3-server
-    ciscoPacketTracer8
+    # ciscoPacketTracer8
     remmina
     gnomeExtensions.remmina-search-provider
     # Tool for Nvidia
@@ -365,7 +365,7 @@
     # Programming and stuff
     arduino
     arduino-cli
-    kicad
+    # kicad
     go
     gofumpt
     # Audio
