@@ -12,6 +12,7 @@
       ./nbfc.nix
       ./vim.nix
       inputs.home-manager.nixosModules.home-manager
+      inputs.plugin-luasnip
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

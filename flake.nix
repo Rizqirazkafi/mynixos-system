@@ -16,7 +16,7 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nbfc-linux, plugin-luasnip, ... }@inputs:
+  outputs = { nixpkgs, home-manager, nbfc-linux, ... }@inputs:
     let
       system = "x86_64-linux";
 			lib = nixpkgs.lib;

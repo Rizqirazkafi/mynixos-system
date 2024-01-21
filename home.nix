@@ -161,7 +161,7 @@
         cmp_luasnip
         cmp-nvim-lsp
         # luasnip
-        vimPlugins.own-luasnip-nvim
+        own-luasnip-nvim
         friendly-snippets
         cmp-latex-symbols
         latex-box
