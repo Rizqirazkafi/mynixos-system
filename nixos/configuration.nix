@@ -12,7 +12,6 @@
       ./nbfc.nix
       ./vim.nix
       inputs.home-manager.nixosModules.home-manager
-      inputs.plugin-luasnip
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -156,7 +155,7 @@
   networking.firewall.connectionTrackingModules = [ "pptp" "snmp" ];
   services.pptpd.enable = true;
 
-  # # Enable zerotier
+  # Enable zerotier
   # services.zerotierone.enable = true;
   # services.zerotierone.port = 9993;
 
@@ -345,13 +344,13 @@
     winbox
     tigervnc
     ansible
-    zerotierone
+    # zerotierone
     nmap
     netcat-gnu # read write data via net
     inetutils
     vnstat #monitor network
-    gns3-gui
-    gns3-server
+    # gns3-gui
+    # gns3-server
     # ciscoPacketTracer8
     remmina
     gnomeExtensions.remmina-search-provider

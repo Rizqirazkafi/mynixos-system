@@ -60,18 +60,16 @@
     };
     enableCompletion = true;
   };
-  nixpkgs = {
-    overlays = [
-      (final: prev: {
-        vimPlugins = prev.vimPlugins // {
-          own-luasnip-nvim = prev.vimUtils.buildVimPlugin {
-            name = "luasnip";
-            src = inputs.plugin-luasnip;
-          };
+  nixpkgs.overlays = [
+    (final: prev: {
+      vimPlugins = prev.vimPlugins // {
+        own-luasnip-nvim = prev.vimUtils.buildVimPlugin{
+          name = "luasnip";
+          src = inputs.plugin-luasnip;
         };
-      })
-    ];
-  };
+      };
+    })
+  ];
   programs.neovim =
     let
       toLua = str: "lua << EOF\n${str}\nEOF\n";
@@ -84,8 +82,7 @@
 
         nodejs_18
         xclip
-        # luajitPackages.lua-lsp
-        lua-language-server
+        luajitPackages.lua-lsp
         rnix-lsp
         # ltex-ls
         # texlab
@@ -97,7 +94,6 @@
         marksman
         stylua
         tree-sitter
-        fd
       ];
 
       plugins = with pkgs.vimPlugins; [
