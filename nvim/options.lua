@@ -67,3 +67,5 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+-- Mitigate null-ls for flutter-tools.nvim
+vim.keymap.set('n', '<leader>fo', '<cmd>lua vim.lsp.buf.format()<CR>')
