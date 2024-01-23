@@ -10,6 +10,8 @@
     };
     nix-colors.url = "github:misterio77/nix-colors";
     nbfc-linux.url = "github:nbfc-linux/nbfc-linux";
+    own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
+    own-flutter-tools.flake = false;
     # plugin-luasnip.url = "github:L3MON4D3/LuaSnip";
     # plugin-luasnip.flake = false;
     # ultimate-autopairs.url = "github:altermo/ultimate-autopair.nvim";

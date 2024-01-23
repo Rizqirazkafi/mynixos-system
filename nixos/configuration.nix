@@ -11,9 +11,10 @@
       ./hardware-configuration.nix
       ./nbfc.nix
       ./vim.nix
-      # ./nvidia.nix
+      ./nvidia.nix
       ./virt-manager.nix
       ./file-system.nix
+      ./overlays.nix
       inputs.home-manager.nixosModules.home-manager
     ];
 

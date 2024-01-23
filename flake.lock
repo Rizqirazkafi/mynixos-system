@@ -121,12 +121,29 @@
         "type": "github"
       }
     },
+    "own-flutter-tools": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1705943990,
+        "narHash": "sha256-g/cgFJ8kwBk1gNVaio+s1sa5KqpC/LMf06/6+MOPZk4=",
+        "owner": "akinsho",
+        "repo": "flutter-tools.nvim",
+        "rev": "271eec9edb0f1a2bf30ad449ec3b4eeb2c88af05",
+        "type": "github"
+      },
+      "original": {
+        "owner": "akinsho",
+        "repo": "flutter-tools.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nbfc-linux": "nbfc-linux",
         "nix-colors": "nix-colors",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_2",
+        "own-flutter-tools": "own-flutter-tools"
       }
     },
     "systems": {

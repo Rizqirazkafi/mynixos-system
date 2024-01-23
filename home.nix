@@ -93,11 +93,11 @@
         plenary-nvim
         nvim-lspconfig
         {
-          plugin = rainbow-delimiters-nvim;
-          config = toLuaFile ./nvim/plugin/rainbow-delimiters.lua;
+          plugin = nvim-ts-rainbow2;
+          config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
         }
         {
-          plugin = flutter-tools-nvim;
+          plugin = own-flutter-tools;
           config = toLuaFile ./nvim/plugin/flutter-tools.lua;
         }
         {
@@ -149,6 +149,7 @@
         cmp_luasnip
         cmp-nvim-lsp
         # my-luasnip
+        luasnip
         friendly-snippets
         cmp-latex-symbols
         latex-box
