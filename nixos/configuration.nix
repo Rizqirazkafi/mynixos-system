@@ -11,7 +11,7 @@
       ./hardware-configuration.nix
       ./nbfc.nix
       ./vim.nix
-      ./nvidia.nix
+      # ./nvidia.nix
       ./virt-manager.nix
       ./file-system.nix
       inputs.home-manager.nixosModules.home-manager
@@ -31,23 +31,14 @@
       set -g default-terminal "tmux-256color"
       set-option -sa terminal-overrides ",xterm*:Tc"
       set-option -sa terminal-overrides ",alacritty:RGB"
-      # bind <C-Alt-*> to move arround windows
-      bind -n C-M-H next-window
-      bind -n C-M-L previous-window
-      # Set prefix to <C-Space>
       unbind C-b
       set -g prefix C-Space
       bind C-Space send-prefix
       set -g mouse
-      set -g history-limit 50000
-      set -g display-time 4000
-      set -g status-interval 5
-      set -g status-keys emacs
-      set -g focus-events on
-      setw -g aggressive-resize on
     '';
     plugins = with pkgs.tmuxPlugins ; [
-      # vim-tmux-navigator
+      sensible
+      vim-tmux-navigator
     ];
     terminal = "screen-256color";
   };

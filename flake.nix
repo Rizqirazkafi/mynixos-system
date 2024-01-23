@@ -3,33 +3,36 @@
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-colors.url = "github:misterio77/nix-colors";
     nbfc-linux.url = "github:nbfc-linux/nbfc-linux";
-    plugin-luasnip.url = "github:L3MON4D3/LuaSnip";
-    plugin-luasnip.flake = false;
+    # plugin-luasnip.url = "github:L3MON4D3/LuaSnip";
+    # plugin-luasnip.flake = false;
+    # ultimate-autopairs.url = "github:altermo/ultimate-autopair.nvim";
+    # ultimate-autopairs.flake = false;
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
     let
       system = "x86_64-linux";
-			lib = nixpkgs.lib;
+      lib = nixpkgs.lib;
       pkgs = import nixpkgs {
         inherit system;
         config = {
           allowUnfree = true;
         };
       };
-    in {
-			nixosConfigurations = {
-				nixos = lib.nixosSystem {
-          specialArgs  = {inherit inputs system;};
-					modules = [ ./nixos/configuration.nix ];
-				};
-			};
+    in
+    {
+      nixosConfigurations = {
+        nixos = lib.nixosSystem {
+          specialArgs = { inherit inputs system; };
+          modules = [ ./nixos/configuration.nix ];
+        };
+      };
     };
 }

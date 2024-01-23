@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1705535278,
-        "narHash": "sha256-V5+XKfNbiY0bLKLQlH+AXyhHttEL7XcZBH9iSbxxexA=",
+        "lastModified": 1705879479,
+        "narHash": "sha256-ZIohbyly1KOe+8I3gdyNKgVN/oifKdmeI0DzMfytbtg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b84191db127c16a92cbdf7f7b9969d58bb456699",
+        "rev": "2d47379ad591bcb14ca95a90b6964b8305f6c913",
         "type": "github"
       },
       "original": {
@@ -42,11 +42,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1705506291,
-        "narHash": "sha256-O2NHjzdkufTbofLXdn9PSrqmnP+ojGEk0jD09bWtAeQ=",
+        "lastModified": 1705951367,
+        "narHash": "sha256-bcmoKpwBVO1WSI3MuKJI5MZ/2nHB8fC/VaNjWPScU44=",
         "owner": "nbfc-linux",
         "repo": "nbfc-linux",
-        "rev": "58315f9b7ad78adbdf916c9d6e15177204b17a48",
+        "rev": "70361d448b7ad181176aaad5268a14330fb6a532",
         "type": "github"
       },
       "original": {
@@ -107,33 +107,17 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1705496572,
-        "narHash": "sha256-rPIe9G5EBLXdBdn9ilGc0nq082lzQd0xGGe092R/5QE=",
+        "lastModified": 1705774713,
+        "narHash": "sha256-j6ADaDH9XiumUzkTPlFyCBcoWYhO83lfgiSqEJF2zcs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "842d9d80cfd4560648c785f8a4e6f3b096790e19",
+        "rev": "1b64fc1287991a9cce717a01c1973ef86cb1af0b",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-unstable",
+        "ref": "nixos-23.11",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "plugin-luasnip": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1705505979,
-        "narHash": "sha256-TlzIaDERoWt5yOyuCVtqJq3lHEtDsEd0lHKnFcvVqo8=",
-        "owner": "L3MON4D3",
-        "repo": "LuaSnip",
-        "rev": "2dbef19461198630b3d7c39f414d09fb07d1fdd2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "L3MON4D3",
-        "repo": "LuaSnip",
         "type": "github"
       }
     },
@@ -142,8 +126,7 @@
         "home-manager": "home-manager",
         "nbfc-linux": "nbfc-linux",
         "nix-colors": "nix-colors",
-        "nixpkgs": "nixpkgs_2",
-        "plugin-luasnip": "plugin-luasnip"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "systems": {

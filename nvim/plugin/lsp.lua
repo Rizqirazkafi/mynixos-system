@@ -26,14 +26,13 @@ local on_attach = function(_, bufnr)
 	vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
 		vim.lsp.buf.format()
 	end, { desc = "Format current buffer with LSP" })
-	vim.keymap.set("n", "<leader>fo", function()
-		vim.lsp.buf.format()
-	end)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
 require("neodev").setup()
 require("lspconfig").lua_ls.setup({
 	on_attach = on_attach,
