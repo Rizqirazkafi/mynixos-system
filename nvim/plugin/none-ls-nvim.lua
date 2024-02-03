@@ -6,6 +6,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.gofumpt,
 		null_ls.builtins.formatting.dart_format,
+		null_ls.builtins.formatting.nixfmt,
 		-- null_ls.builtins.completion.gopls,
 	},
 	on_attach = function(client, bufnr)
