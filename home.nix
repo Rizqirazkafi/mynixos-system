@@ -5,10 +5,12 @@
   # manage.
   home.username = "rizqirazkafi";
   home.homeDirectory = "/home/rizqirazkafi";
-  imports = [
-    inputs.nix-colors.homeManagerModules.default
-    ./features/alacritty.nix
-  ];
+  imports =
+    [
+      #list of inputs
+      inputs.nix-colors.homeManagerModules.default
+      ./features/alacritty.nix
+    ];
 
   colorScheme = inputs.nix-colors.colorSchemes.rose-pine;
 
@@ -24,29 +26,32 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    # list of packages
     hello
     lazygit
     tree
+    nerdfonts
+    nixpkgs-fmt
   ];
 
   home.file = { };
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    XDG_DATA_DIRS = "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
+    XDG_DATA_DIRS =
+      "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
     # GTK_THEME = config.gtk.theme.name;
     CHROME_EXECUTABLE = "google-chrome-stable";
   };
-
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   services.picom.enable = true;
   services.devilspie2 = {
     enable = true;
-    config = ''if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
+    config = ''
+      if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
   };
-
 
   programs.bash = {
     enable = true;
@@ -54,16 +59,26 @@
       ll = "ls -la";
       fanauto = "sudo nbfc set -f 0 -a; sleep 5 && sudo nbfc set -f 1 -a";
       fanhalf = "sudo nbfc set -f 0 -s 50; sleep 5 && sudo nbfc set -f 1 -s 50";
-      fanmax = "sudo nbfc set -f 0 -s 100; sleep 6 && sudo nbfc set -f 1 -s 100";
+      fanmax =
+        "sudo nbfc set -f 0 -s 100; sleep 6 && sudo nbfc set -f 1 -s 100";
       labconnect = "sudo pon lab debug dump logfd 2 nodetach";
       lg = "lazygit";
     };
     enableCompletion = true;
+    initExtra = ''echo "Hello, what good shall I do today?"'';
   };
   programs.neovim =
     let
-      toLua = str: "lua << EOF\n${str}\nEOF\n";
-      toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
+      toLua = str: ''
+        lua << EOF
+        ${str}
+        EOF
+      '';
+      toLuaFile = file: ''
+        lua << EOF
+        ${builtins.readFile file}
+        EOF
+      '';
     in
     {
       enable = true;
@@ -84,7 +99,9 @@
         marksman
         stylua
         tree-sitter
-        vimPlugins.luasnip
+        flutter
+        dart
+        nixfmt
       ];
 
       plugins = with pkgs.vimPlugins; [
@@ -110,11 +127,11 @@
         }
         {
           plugin = comment-nvim;
-          config = toLua "require(\"Comment\").setup()";
+          config = toLua ''require("Comment").setup()'';
         }
         {
           plugin = dressing-nvim;
-          config = toLua "require(\"dressing\").setup()";
+          config = toLua ''require("dressing").setup()'';
         }
         {
           plugin = nvim-lspconfig;
@@ -188,17 +205,12 @@
         vim-nix
       ];
 
-      extraLuaConfig = ''
-        			${builtins.readFile ./nvim/options.lua}
-        		'';
-
+      extraLuaConfig = "	${builtins.readFile ./nvim/options.lua}\n";
 
     };
 
-  xsession = {
-    enable = true;
-  };
-
+  xsession = { enable = true; };
+  fonts.fontconfig.enable = true;
 
   gtk = {
     enable = true;
@@ -208,7 +220,7 @@
     cursorTheme.package = pkgs.bibata-cursors;
     iconTheme.name = "rose-pine";
     iconTheme.package = pkgs.rose-pine-icon-theme;
-    font.name = "terminus";
+    font.name = "TerminessNerdFont-Regular";
     font.package = pkgs.terminus_font;
     font.size = 14;
   };
