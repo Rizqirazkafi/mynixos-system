@@ -1,22 +1,21 @@
-#et:s Edit this configuration file to define what should be installed on
+# et:s Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { inputs, config, lib, pkgs, ... }:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./nbfc.nix
-      ./vim.nix
-      ./nvidia.nix
-      ./virt-manager.nix
-      ./file-system.nix
-      ./overlays.nix
-      inputs.home-manager.nixosModules.home-manager
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./nbfc.nix
+    ./vim.nix
+    ./nvidia.nix
+    ./virt-manager.nix
+    ./file-system.nix
+    ./overlays.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.package = pkgs.nixFlakes;
@@ -37,16 +36,12 @@
       bind C-Space send-prefix
       set -g mouse
     '';
-    plugins = with pkgs.tmuxPlugins ; [
-      sensible
-      vim-tmux-navigator
-    ];
+    plugins = with pkgs.tmuxPlugins; [ sensible vim-tmux-navigator ];
     terminal = "screen-256color";
   };
 
   # for virt-manager
   programs.file-roller.enable = true;
-
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -54,6 +49,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" "ppp_mppe" "pptp" ];
+  boot.kernelPackages = pkgs.linuxPackages_6_7;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.hosts = {
@@ -82,7 +78,6 @@
   # services.zerotierone.enable = true;
   # services.zerotierone.port = 9993;
 
-
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
   time.hardwareClockInLocalTime = true;
@@ -107,17 +102,20 @@
 
   # Enable the LXQT Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.displayManager.lightdm.background =
+    "../wallpapers/rose-pine.jpg";
   services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
   services.xserver.displayManager.lightdm.greeters.gtk.theme.name = "rose-pine";
-  services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name = "rose-pine";
+  services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name =
+    "rose-pine";
   services.xserver = {
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
-        dmenu #application launcher most people use
+        dmenu # application launcher most people use
         i3status # gives you the default i3 status bar
-        i3lock #default i3 screen locker
-        i3blocks #if you are planning on using i3blocks over i3status
+        i3lock # default i3 screen locker
+        i3blocks # if you are planning on using i3blocks over i3status
       ];
     };
     desktopManager = {
@@ -127,9 +125,7 @@
         noDesktop = true;
         enableXfwm = false;
       };
-      lxqt = {
-        enable = false;
-      };
+      lxqt = { enable = false; };
     };
   };
 
@@ -172,11 +168,22 @@
   users.users.rizqirazkafi = {
     isNormalUser = true;
     description = "rizqirazkafi";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "video" "dialout" ];
-    packages = with pkgs; [
-      firefox
-      #  thunderbird
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+      "video"
+      "dialout"
+      "ubridge"
+      "kvm"
+      "wireshark"
+      "docker"
     ];
+    packages = with pkgs;
+      [
+        firefox
+        #  thunderbird
+      ];
   };
 
   # Allow unfree packages
@@ -194,10 +201,7 @@
   programs.light.enable = true;
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce;[
-      thunar-archive-plugin
-      thunar-volman
-    ];
+    plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
   };
 
   # List packages installed in system profile. To search, run:
@@ -250,6 +254,9 @@
     zathura
     terminus_font
     terminus_font_ttf
+    nerdfonts
+    terminus-nerdfont
+    fira-code-nerdfont
     flatpak
     # Graphics and Video
     flameshot # screenshot tool
@@ -270,12 +277,15 @@
     nmap
     netcat-gnu # read write data via net
     inetutils
-    vnstat #monitor network
-    # gns3-gui
-    # gns3-server
+    vnstat # monitor network
+    gns3-gui
+    gns3-server
+    ubridge
+    dynamips
     # ciscoPacketTracer8
     remmina
     gnomeExtensions.remmina-search-provider
+    distrobox
     # Tool for Nvidia
     lshw
     nvtop
@@ -312,14 +322,23 @@
     xorg.xkill
 
   ];
+
+  # Enable docker with rootles
+
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
+
   # Swap capslock with Escape and Ctrl key
   services.interception-tools = {
     enable = true;
-    plugins = with pkgs; [
-      interception-tools-plugins.caps2esc
-    ];
+    plugins = with pkgs; [ interception-tools-plugins.caps2esc ];
     udevmonConfig = ''
-      - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc -m 1 | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+      - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc -m 0 | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
         DEVICE:
           EVENTS:
             EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
@@ -350,9 +369,6 @@
   # Monitor network usage
   services.vnstat.enable = true;
 
-
-
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -361,9 +377,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
-  security = {
-    polkit.enable = true;
-  };
+  security = { polkit.enable = true; };
   xdg.portal.lxqt.enable = true;
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
