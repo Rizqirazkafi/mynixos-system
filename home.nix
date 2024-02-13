@@ -5,12 +5,11 @@
   # manage.
   home.username = "rizqirazkafi";
   home.homeDirectory = "/home/rizqirazkafi";
-  imports =
-    [
-      #list of inputs
-      inputs.nix-colors.homeManagerModules.default
-      ./features/alacritty.nix
-    ];
+  imports = [
+    #list of inputs
+    inputs.nix-colors.homeManagerModules.default
+    ./features/alacritty.nix
+  ];
 
   colorScheme = inputs.nix-colors.colorSchemes.rose-pine;
 
@@ -67,147 +66,149 @@
     enableCompletion = true;
     initExtra = ''echo "Hello, what good shall I do today?"'';
   };
-  programs.neovim =
-    let
-      toLua = str: ''
-        lua << EOF
-        ${str}
-        EOF
-      '';
-      toLuaFile = file: ''
-        lua << EOF
-        ${builtins.readFile file}
-        EOF
-      '';
-    in
-    {
-      enable = true;
+  programs.neovim = let
+    toLua = str: ''
+      lua << EOF
+      ${str}
+      EOF
+    '';
+    toLuaFile = file: ''
+      lua << EOF
+      ${builtins.readFile file}
+      EOF
+    '';
+  in {
+    enable = true;
 
-      extraPackages = with pkgs; [
+    extraPackages = with pkgs; [
+      nodejs_18
+      xclip
+      luajitPackages.lua-lsp
+      rnix-lsp
+      # ltex-ls
+      # texlab
+      emmet-ls
+      nodePackages.typescript-language-server
+      javascript-typescript-langserver
+      gopls
+      eslint_d
+      marksman
+      stylua
+      tree-sitter
+      flutter
+      dart
+      nixfmt
+      asmfmt
+      asm-lsp
+      ccls
+    ];
 
-        nodejs_18
-        xclip
-        luajitPackages.lua-lsp
-        rnix-lsp
-        # ltex-ls
-        # texlab
-        emmet-ls
-        nodePackages.typescript-language-server
-        javascript-typescript-langserver
-        gopls
-        eslint_d
-        marksman
-        stylua
-        tree-sitter
-        flutter
-        dart
-        nixfmt
-      ];
+    plugins = with pkgs.vimPlugins; [
+      vim-tmux-navigator
+      lazygit-nvim
+      plenary-nvim
+      nvim-lspconfig
+      {
+        plugin = nvim-ts-rainbow2;
+        config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
+      }
+      {
+        plugin = own-flutter-tools;
+        config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+      }
+      {
+        plugin = indent-blankline-nvim;
+        config = toLuaFile ./nvim/plugin/ibl.lua;
+      }
+      {
+        plugin = nvim-autopairs;
+        config = toLuaFile ./nvim/plugin/autopairs.lua;
+      }
+      {
+        plugin = comment-nvim;
+        config = toLua ''require("Comment").setup()'';
+      }
+      {
+        plugin = dressing-nvim;
+        config = toLua ''require("dressing").setup()'';
+      }
+      {
+        plugin = nvim-lspconfig;
+        config = toLuaFile ./nvim/plugin/lsp.lua;
+      }
+      {
+        plugin = rose-pine;
+        config = "colorscheme rose-pine";
+      }
+      neodev-nvim
+      {
+        plugin = nvim-cmp;
+        config = toLuaFile ./nvim/plugin/cmp.lua;
+      }
+      {
+        plugin = telescope-nvim;
+        config = toLuaFile ./nvim/plugin/telescope.lua;
+      }
+      {
+        plugin = harpoon;
+        config = toLuaFile ./nvim/plugin/harpoon.lua;
+      }
+      {
+        plugin = fidget-nvim;
+        config = toLuaFile ./nvim/plugin/fidget.lua;
+      }
+      {
+        plugin = which-key-nvim;
+        config = toLuaFile ./nvim/plugin/which-key.lua;
+      }
+      telescope-fzf-native-nvim
+      cmp_luasnip
+      cmp-nvim-lsp
+      # my-luasnip
+      luasnip
+      friendly-snippets
+      cmp-latex-symbols
+      latex-box
+      friendly-snippets
+      {
+        plugin = gitsigns-nvim;
+        config = toLuaFile ./nvim/plugin/gitsigns.lua;
+      }
+      {
+        plugin = none-ls-nvim;
+        config = toLuaFile ./nvim/plugin/none-ls-nvim.lua;
+      }
+      {
+        plugin = lualine-nvim;
+        config = toLuaFile ./nvim/plugin/lualine.lua;
+      }
+      vim-latex-live-preview
+      markdown-preview-nvim
+      {
+        plugin = (nvim-treesitter.withPlugins (p: [
+          p.tree-sitter-nix
+          p.tree-sitter-vim
+          p.tree-sitter-bash
+          p.tree-sitter-lua
+          p.tree-sitter-json
+          p.tree-sitter-latex
+          p.tree-sitter-javascript
+          p.tree-sitter-markdown
+          p.tree-sitter-html
+          p.tree-sitter-css
+          p.tree-sitter-arduino
+          p.tree-sitter-dart
+          p.tree-sitter-c
+        ]));
+        config = toLuaFile ./nvim/plugin/treesitter.lua;
 
-      plugins = with pkgs.vimPlugins; [
-        vim-tmux-navigator
-        lazygit-nvim
-        plenary-nvim
-        nvim-lspconfig
-        {
-          plugin = nvim-ts-rainbow2;
-          config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
-        }
-        {
-          plugin = own-flutter-tools;
-          config = toLuaFile ./nvim/plugin/flutter-tools.lua;
-        }
-        {
-          plugin = indent-blankline-nvim;
-          config = toLuaFile ./nvim/plugin/ibl.lua;
-        }
-        {
-          plugin = nvim-autopairs;
-          config = toLuaFile ./nvim/plugin/autopairs.lua;
-        }
-        {
-          plugin = comment-nvim;
-          config = toLua ''require("Comment").setup()'';
-        }
-        {
-          plugin = dressing-nvim;
-          config = toLua ''require("dressing").setup()'';
-        }
-        {
-          plugin = nvim-lspconfig;
-          config = toLuaFile ./nvim/plugin/lsp.lua;
-        }
-        {
-          plugin = rose-pine;
-          config = "colorscheme rose-pine";
-        }
-        neodev-nvim
-        {
-          plugin = nvim-cmp;
-          config = toLuaFile ./nvim/plugin/cmp.lua;
-        }
-        {
-          plugin = telescope-nvim;
-          config = toLuaFile ./nvim/plugin/telescope.lua;
-        }
-        {
-          plugin = harpoon;
-          config = toLuaFile ./nvim/plugin/harpoon.lua;
-        }
-        {
-          plugin = fidget-nvim;
-          config = toLuaFile ./nvim/plugin/fidget.lua;
-        }
-        {
-          plugin = which-key-nvim;
-          config = toLuaFile ./nvim/plugin/which-key.lua;
-        }
-        telescope-fzf-native-nvim
-        cmp_luasnip
-        cmp-nvim-lsp
-        # my-luasnip
-        luasnip
-        friendly-snippets
-        cmp-latex-symbols
-        latex-box
-        friendly-snippets
-        {
-          plugin = gitsigns-nvim;
-          config = toLuaFile ./nvim/plugin/gitsigns.lua;
-        }
-        {
-          plugin = none-ls-nvim;
-          config = toLuaFile ./nvim/plugin/none-ls-nvim.lua;
-        }
-        {
-          plugin = lualine-nvim;
-          config = toLuaFile ./nvim/plugin/lualine.lua;
-        }
-        vim-latex-live-preview
-        {
-          plugin = (nvim-treesitter.withPlugins (p: [
-            p.tree-sitter-nix
-            p.tree-sitter-vim
-            p.tree-sitter-bash
-            p.tree-sitter-lua
-            p.tree-sitter-json
-            p.tree-sitter-latex
-            p.tree-sitter-javascript
-            p.tree-sitter-markdown
-            p.tree-sitter-html
-            p.tree-sitter-css
-            p.tree-sitter-arduino
-            p.tree-sitter-dart
-          ]));
-          config = toLuaFile ./nvim/plugin/treesitter.lua;
+      }
+      vim-nix
+    ];
 
-        }
-        vim-nix
-      ];
+    extraLuaConfig = "	${builtins.readFile ./nvim/options.lua}\n";
 
-      extraLuaConfig = "	${builtins.readFile ./nvim/options.lua}\n";
-
-    };
+  };
 
   xsession = { enable = true; };
   fonts.fontconfig.enable = true;
