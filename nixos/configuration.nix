@@ -102,8 +102,6 @@
 
   # Enable the LXQT Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.lightdm.background =
-    "../wallpapers/rose-pine.jpg";
   services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
   services.xserver.displayManager.lightdm.greeters.gtk.theme.name = "rose-pine";
   services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name =
@@ -282,7 +280,7 @@
     gns3-server
     ubridge
     dynamips
-    # ciscoPacketTracer8
+    #ciscoPacketTracer8
     remmina
     gnomeExtensions.remmina-search-provider
     distrobox
@@ -300,6 +298,8 @@
     # kicad
     go
     gofumpt
+    nasm
+    gnumake
     # Audio
     noisetorch
     qpwgraph
