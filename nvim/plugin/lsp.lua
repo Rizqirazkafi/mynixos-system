@@ -22,6 +22,7 @@ local on_attach = function(_, bufnr)
 	bufmap("<leader>fh", builtin.help_tags, {})
 
 	bufmap("K", vim.lsp.buf.hover)
+	bufmap("E", vim.diagnostic.open_float)
 
 	vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
 		vim.lsp.buf.format()
@@ -75,6 +76,7 @@ require("lspconfig").rnix.setup({
 require("lspconfig").ltex.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	filetypes = { "tex", "bib" },
 })
 require("lspconfig").texlab.setup({
 	on_attach = on_attach,
@@ -95,6 +97,24 @@ require("lspconfig").marksman.setup({
 	capabilities = capabilities,
 })
 require("lspconfig").dartls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	single_file_support = true,
+})
+require("lspconfig").ccls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	init_options = {
+		compilationDatabaseDirectory = "build",
+		index = {
+			threads = 0,
+		},
+		clang = {
+			excludeArgs = { "-frounding-math" },
+		},
+	},
+})
+require("lspconfig").asm_lsp.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	single_file_support = true,
