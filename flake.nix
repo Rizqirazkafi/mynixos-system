@@ -10,8 +10,10 @@
     };
     nix-colors.url = "github:misterio77/nix-colors";
     nbfc-linux.url = "github:nbfc-linux/nbfc-linux";
-    own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
-    own-flutter-tools.flake = false;
+    # own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
+    # own-flutter-tools.flake = false;
+    own-texlive.url =
+      "github:nixos/nixpkgs/bf8462aeba50cc753971480f613fbae0747cffc0";
     # plugin-luasnip.url = "github:L3MON4D3/LuaSnip";
     # plugin-luasnip.flake = false;
     # ultimate-autopairs.url = "github:altermo/ultimate-autopair.nvim";
@@ -24,12 +26,9 @@
       lib = nixpkgs.lib;
       pkgs = import nixpkgs {
         inherit system;
-        config = {
-          allowUnfree = true;
-        };
+        config = { allowUnfree = true; };
       };
-    in
-    {
+    in {
       nixosConfigurations = {
         nixos = lib.nixosSystem {
           specialArgs = { inherit inputs system; };

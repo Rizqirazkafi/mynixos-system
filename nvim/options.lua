@@ -33,6 +33,8 @@ vim.opt.clipboard = "unnamedplus"
 vim.g.mkdp_browser = "firefox"
 vim.g.livepreview_previewer = "zathura"
 vim.g.livepreview_engine = "pdflatex"
+vim.g.livepreview_cursorhold_recompile = 0
+vim.g.tex_fold_enabled = 1
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")

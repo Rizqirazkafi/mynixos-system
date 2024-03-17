@@ -137,13 +137,30 @@
         "type": "github"
       }
     },
+    "own-texlive": {
+      "locked": {
+        "lastModified": 1710191394,
+        "narHash": "sha256-bPyv7hsbtuxyL6LLKtOYL6QsmPeFWP839BZQMd3RoUg=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "bf8462aeba50cc753971480f613fbae0747cffc0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "bf8462aeba50cc753971480f613fbae0747cffc0",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nbfc-linux": "nbfc-linux",
         "nix-colors": "nix-colors",
         "nixpkgs": "nixpkgs_2",
-        "own-flutter-tools": "own-flutter-tools"
+        "own-flutter-tools": "own-flutter-tools",
+        "own-texlive": "own-texlive"
       }
     },
     "systems": {

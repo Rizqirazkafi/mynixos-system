@@ -13,7 +13,7 @@
     ./nvidia.nix
     ./virt-manager.nix
     ./file-system.nix
-    ./overlays.nix
+    # ./overlays.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -75,8 +75,8 @@
   services.pptpd.enable = true;
 
   # Enable zerotier
-  # services.zerotierone.enable = true;
-  # services.zerotierone.port = 9993;
+  services.zerotierone.enable = false;
+  services.zerotierone.port = 9993;
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -120,8 +120,8 @@
       xterm.enable = false;
       xfce = {
         enable = true;
-        noDesktop = true;
-        enableXfwm = false;
+        noDesktop = false;
+        enableXfwm = true;
       };
       lxqt = { enable = false; };
     };
@@ -194,6 +194,15 @@
       name = "Utterly Nord Plasma";
     };
   };
+  environment.variables = {
+    # GDK_SCALE = "0.3";
+    GDK_DPI_SCALE = "1";
+    # Scale QT Application e.g: VirtualBox
+    # QT_AUTO_SCREEN_SET_FACTOR = "0";
+    QT_SCALE_FACTOR = "1.5";
+    QT_FONT_DPI = "96";
+    SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
+  };
   environment.variables.QT_QPA_PLATFORMTHEME = "kvantum";
   qt.style = "kvantum";
   programs.light.enable = true;
@@ -201,6 +210,9 @@
     enable = true;
     plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
   };
+  environment.shellInit = ''
+    [ -n "$DISPLAY" ] && xhost +si:localuser:$USER || true
+  '';
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -242,7 +254,6 @@
     libvirt
     qemu
     qemu_kvm
-    virtualbox
     pcmanfm
     lxappearance
     ventoy-full
@@ -252,26 +263,25 @@
     zathura
     terminus_font
     terminus_font_ttf
-    nerdfonts
-    terminus-nerdfont
-    fira-code-nerdfont
+    # nerdfonts
+    # terminus-nerdfont
+    # fira-code-nerdfont
     flatpak
+    jq
     # Graphics and Video
     flameshot # screenshot tool
     nomacs # image viewer
     gimp
     # Office Suite
-    # texlab
-    # ltex-ls
-    # texlive.combined.scheme-full
+    inputs.own-texlive.legacyPackages.${system}.texliveFull
     libreoffice
     # Networking
     pptp
     ppp
     winbox
     tigervnc
+    x11vnc
     ansible
-    # zerotierone
     nmap
     netcat-gnu # read write data via net
     inetutils
@@ -280,10 +290,15 @@
     gns3-server
     ubridge
     dynamips
+    tigervnc
     #ciscoPacketTracer8
     remmina
     gnomeExtensions.remmina-search-provider
     distrobox
+    rclone
+    # Add polkit for distrobox
+    gnome.zenity
+    xorg.xhost
     # Tool for Nvidia
     lshw
     nvtop
@@ -291,23 +306,24 @@
     # themes
     libsForQt5.qtstyleplugin-kvantum
     libsForQt5.qt5ct
-    theme-obsidian2
+    # theme-obsidian2
     # Programming and stuff
     arduino
     arduino-cli
     # kicad
-    go
-    gofumpt
-    nasm
+    # go
+    # gofumpt
+    # nasm
     gnumake
     # Audio
     noisetorch
+    easyeffects
     qpwgraph
     obs-studio
     pavucontrol
     # Deployment
-    flutter
-    dart
+    # flutter
+    # dart
     # etc
     openssl
     gparted
@@ -318,10 +334,12 @@
     wineWowPackages.stable
     winetricks
     discord
-    ueberzugpp
     xorg.xkill
-
+    ueberzug
   ];
+
+  fonts.packages = with pkgs;
+    [ (nerdfonts.override { fonts = [ "Terminus" ]; }) ];
 
   # Enable docker with rootles
 
@@ -332,6 +350,17 @@
       setSocketVariable = true;
     };
   };
+  virtualisation.virtualbox = {
+    host = {
+      enable = true;
+      enableExtensionPack = true;
+    };
+    # guest = {
+    #   enable = true;
+    #   x11 = true;
+    # };
+  };
+  users.extraGroups.vboxusers.members = [ "rizqirazkafi" ];
 
   # Swap capslock with Escape and Ctrl key
   services.interception-tools = {

@@ -41,7 +41,9 @@
       "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
     # GTK_THEME = config.gtk.theme.name;
     CHROME_EXECUTABLE = "google-chrome-stable";
+    SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
   };
+  home.sessionPath = [ "/home/rizqirazkafi/.local/bin" ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -62,6 +64,8 @@
         "sudo nbfc set -f 0 -s 100; sleep 6 && sudo nbfc set -f 1 -s 100";
       labconnect = "sudo pon lab debug dump logfd 2 nodetach";
       lg = "lazygit";
+      myfdm =
+        "distrobox-enter --root -n ubuntu -- /opt/freedownloadmanager/fdm";
     };
     enableCompletion = true;
     initExtra = ''echo "Hello, what good shall I do today?"'';
@@ -85,21 +89,19 @@
       xclip
       luajitPackages.lua-lsp
       rnix-lsp
-      # ltex-ls
-      # texlab
-      emmet-ls
-      nodePackages.typescript-language-server
-      javascript-typescript-langserver
-      gopls
-      eslint_d
+      ltex-ls
+      texlab
+      # emmet-ls
+      # gopls
+      # eslint_d
       marksman
       stylua
       tree-sitter
-      flutter
-      dart
+      # flutter
+      # dart
       nixfmt
-      asmfmt
-      asm-lsp
+      # asmfmt
+      # asm-lsp
       ccls
     ];
 
@@ -112,18 +114,18 @@
         plugin = nvim-ts-rainbow2;
         config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
       }
-      {
-        plugin = own-flutter-tools;
-        config = toLuaFile ./nvim/plugin/flutter-tools.lua;
-      }
+      # {
+      #   plugin = own-flutter-tools;
+      #   config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+      # }
       {
         plugin = indent-blankline-nvim;
         config = toLuaFile ./nvim/plugin/ibl.lua;
       }
-      {
-        plugin = nvim-autopairs;
-        config = toLuaFile ./nvim/plugin/autopairs.lua;
-      }
+      # {
+      #   plugin = nvim-autopairs;
+      #   config = toLuaFile ./nvim/plugin/autopairs.lua;
+      # }
       {
         plugin = comment-nvim;
         config = toLua ''require("Comment").setup()'';
@@ -168,7 +170,7 @@
       luasnip
       friendly-snippets
       cmp-latex-symbols
-      latex-box
+      # latex-box
       friendly-snippets
       {
         plugin = gitsigns-nvim;
@@ -192,12 +194,12 @@
           p.tree-sitter-lua
           p.tree-sitter-json
           p.tree-sitter-latex
-          p.tree-sitter-javascript
+          # p.tree-sitter-javascript
           p.tree-sitter-markdown
-          p.tree-sitter-html
-          p.tree-sitter-css
+          # p.tree-sitter-html
+          # p.tree-sitter-css
           p.tree-sitter-arduino
-          p.tree-sitter-dart
+          # p.tree-sitter-dart
           p.tree-sitter-c
         ]));
         config = toLuaFile ./nvim/plugin/treesitter.lua;

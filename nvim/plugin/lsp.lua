@@ -55,52 +55,58 @@ require("lspconfig").lua_ls.setup({
 		},
 	},
 })
-require("lspconfig").emmet_ls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	filetypes = { "css", "eruby", "html", "less", "sass", "scss", "svelte", "pug", "vue" },
-	init_options = {
-		html = {
-			options = {
-				-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-				["bem.enabled"] = true,
-			},
-		},
-	},
-})
+--require("lspconfig").emmet_ls.setup({
+--	on_attach = on_attach,
+--	capabilities = capabilities,
+--	filetypes = { "css", "eruby", "html", "less", "sass", "scss", "svelte", "pug", "vue" },
+--	init_options = {
+--		html = {
+--			options = {
+--				-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+--				["bem.enabled"] = true,
+--			},
+--		},
+--	},
+--})
 
 require("lspconfig").rnix.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
-require("lspconfig").ltex.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	filetypes = { "tex", "bib" },
-})
+-- require("lspconfig").ltex.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	filetypes = { "tex", "bib" },
+-- 	single_file_support = true,
+-- })
 require("lspconfig").texlab.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
-})
-require("lspconfig").tsserver.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
 	single_file_support = true,
+	build = {
+		executable = "pdflatex",
+		onSave = true,
+	},
 })
-require("lspconfig").eslint.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	single_file_support = true,
-})
+--require("lspconfig").tsserver.setup({
+--	on_attach = on_attach,
+--	capabilities = capabilities,
+--	single_file_support = true,
+--})
+--require("lspconfig").eslint.setup({
+--	on_attach = on_attach,
+--	capabilities = capabilities,
+--	single_file_support = true,
+--})
 require("lspconfig").marksman.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
-require("lspconfig").dartls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	single_file_support = true,
-})
+--require("lspconfig").dartls.setup({
+--	on_attach = on_attach,
+--	capabilities = capabilities,
+--	single_file_support = true,
+--})
 require("lspconfig").ccls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -114,23 +120,23 @@ require("lspconfig").ccls.setup({
 		},
 	},
 })
-require("lspconfig").asm_lsp.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	single_file_support = true,
-})
-require("lspconfig").gopls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	cmd = { "gopls" },
-	filetypes = { "go", "gomod", "gowork", "gotmp" },
-	settings = {
-		gopls = {
-			completeUnimported = true,
-			usePlaceholders = true,
-			analyses = {
-				unusedparams = true,
-			},
-		},
-	},
-})
+--require("lspconfig").asm_lsp.setup({
+--	on_attach = on_attach,
+--	capabilities = capabilities,
+--	single_file_support = true,
+--})
+--require("lspconfig").gopls.setup({
+--	on_attach = on_attach,
+--	capabilities = capabilities,
+--	cmd = { "gopls" },
+--	filetypes = { "go", "gomod", "gowork", "gotmp" },
+--	settings = {
+--		gopls = {
+--			completeUnimported = true,
+--			usePlaceholders = true,
+--			analyses = {
+--				unusedparams = true,
+--			},
+--		},
+--	},
+--})
