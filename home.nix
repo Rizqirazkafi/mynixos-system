@@ -29,7 +29,7 @@
     hello
     lazygit
     tree
-    nerdfonts
+    # nerdfonts
     nixpkgs-fmt
   ];
 
