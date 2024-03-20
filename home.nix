@@ -31,6 +31,7 @@
     tree
     # nerdfonts
     nixpkgs-fmt
+    pkg-config
   ];
 
   home.file = { };
@@ -88,7 +89,7 @@
       nodejs_18
       xclip
       luajitPackages.lua-lsp
-      rnix-lsp
+      nil
       ltex-ls
       texlab
       # emmet-ls
@@ -103,6 +104,7 @@
       # asmfmt
       # asm-lsp
       ccls
+      fd
     ];
 
     plugins = with pkgs.vimPlugins; [
