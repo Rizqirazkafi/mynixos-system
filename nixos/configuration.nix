@@ -15,6 +15,7 @@
     ./virt-manager.nix
     ./file-system.nix
     # ./overlays.nix
+    ./auto-cpufreq.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
