@@ -10,7 +10,8 @@
     ./hardware-configuration.nix
     ./nbfc.nix
     ./vim.nix
-    ./nvidia.nix
+    # ./nvidia.nix
+    ./nvidia-powersave.nix
     ./virt-manager.nix
     ./file-system.nix
     # ./overlays.nix
@@ -199,8 +200,8 @@
     GDK_DPI_SCALE = "1";
     # Scale QT Application e.g: VirtualBox
     # QT_AUTO_SCREEN_SET_FACTOR = "0";
-    QT_SCALE_FACTOR = "1.5";
-    QT_FONT_DPI = "96";
+    # QT_SCALE_FACTOR = "1.5";
+    # QT_FONT_DPI = "96";
     SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
   };
   environment.variables.QT_QPA_PLATFORMTHEME = "kvantum";
@@ -237,6 +238,7 @@
     alacritty
     gcc.cc.libgcc
     gcc_multi
+    python3
     rose-pine-gtk-theme
     rose-pine-icon-theme
     i3
@@ -256,10 +258,10 @@
     qemu_kvm
     pcmanfm
     lxappearance
-    ventoy-full
+    # ventoy-full
     vlc
     mpv
-    mplayer
+    # mplayer
     zathura
     terminus_font
     terminus_font_ttf
@@ -286,26 +288,27 @@
     netcat-gnu # read write data via net
     inetutils
     vnstat # monitor network
-    gns3-gui
-    gns3-server
-    ubridge
-    dynamips
+    # gns3-gui
+    # gns3-server
+    # ubridge
+    # dynamips
     tigervnc
     #ciscoPacketTracer8
     remmina
     gnomeExtensions.remmina-search-provider
     distrobox
-    rclone
+    # rclone
     # Add polkit for distrobox
     gnome.zenity
     xorg.xhost
     # Tool for Nvidia
     lshw
     nvtop
+    nvtop-intel
     mediainfo
     # themes
-    libsForQt5.qtstyleplugin-kvantum
-    libsForQt5.qt5ct
+    # libsForQt5.qtstyleplugin-kvantum
+    # libsForQt5.qt5ct
     # theme-obsidian2
     # Programming and stuff
     arduino
@@ -316,7 +319,7 @@
     # nasm
     gnumake
     # Audio
-    noisetorch
+    # noisetorch
     easyeffects
     qpwgraph
     obs-studio
@@ -335,7 +338,7 @@
     winetricks
     discord
     xorg.xkill
-    ueberzug
+    # ueberzug
   ];
 
   fonts.packages = with pkgs;

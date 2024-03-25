@@ -31,7 +31,6 @@
     tree
     # nerdfonts
     nixpkgs-fmt
-    pkg-config
   ];
 
   home.file = { };
@@ -90,7 +89,7 @@
       xclip
       luajitPackages.lua-lsp
       nil
-      ltex-ls
+      # ltex-ls
       texlab
       # emmet-ls
       # gopls
