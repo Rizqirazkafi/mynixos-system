@@ -101,6 +101,7 @@ require("lspconfig").texlab.setup({
 require("lspconfig").marksman.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	single_file_support = true,
 })
 --require("lspconfig").dartls.setup({
 --	on_attach = on_attach,
@@ -110,6 +111,7 @@ require("lspconfig").marksman.setup({
 require("lspconfig").ccls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	single_file_support = true,
 	init_options = {
 		compilationDatabaseDirectory = "build",
 		index = {
