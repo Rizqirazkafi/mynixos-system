@@ -56,9 +56,9 @@
   boot.kernelPackages = pkgs.linuxPackages_6_7;
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.hosts = {
-  #   "ip-address" = ["domain"];
-  # };
+  networking.hosts = {
+    "127.0.0.1" = [ "phpdemo.myhome.local" "myhome.local" ];
+  };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -181,6 +181,7 @@
       "kvm"
       "wireshark"
       "docker"
+      "nginx"
     ];
     packages = with pkgs;
       [
@@ -437,5 +438,7 @@
       };
     };
   };
+  #enable PHP-fpm to access home
+  systemd.services.phpfpm-simanja.serviceConfig.ProtectHome = lib.mkForce false;
 
 }
