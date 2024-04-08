@@ -16,10 +16,12 @@
     ./file-system.nix
     # ./overlays.nix
     ./auto-cpufreq.nix
+    ./nginx.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = [ "root" "rizqirazkafi" ];
   nix.package = pkgs.nixFlakes;
   home-manager = {
     useGlobalPkgs = true;
@@ -101,6 +103,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xserver.dpi = 75;
 
   # Enable the LXQT Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
@@ -198,7 +201,7 @@
   };
   environment.variables = {
     # GDK_SCALE = "0.3";
-    GDK_DPI_SCALE = "1";
+    # GDK_DPI_SCALE = "1";
     # Scale QT Application e.g: VirtualBox
     # QT_AUTO_SCREEN_SET_FACTOR = "0";
     # QT_SCALE_FACTOR = "1.5";
@@ -210,7 +213,11 @@
   programs.light.enable = true;
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-volman
+      xfce4-whiskermenu-plugin
+    ];
   };
   environment.shellInit = ''
     [ -n "$DISPLAY" ] && xhost +si:localuser:$USER || true
@@ -226,6 +233,7 @@
     unzip
     stow
     lm_sensors
+    auto-cpufreq # manage power
     arandr
     wget
     interception-tools
@@ -392,6 +400,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  security.pam.enableSSHAgentAuth = true;
 
   # Open ports in the firewall.
   #	networking.firewall.allowedTCPPorts = [ 22 ];
