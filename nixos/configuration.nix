@@ -438,7 +438,5 @@
       };
     };
   };
-  #enable PHP-fpm to access home
-  systemd.services.phpfpm-simanja.serviceConfig.ProtectHome = lib.mkForce false;
 
 }
