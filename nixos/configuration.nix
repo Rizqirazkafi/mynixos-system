@@ -227,6 +227,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    vscodium-fhs
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
@@ -298,10 +299,10 @@
     netcat-gnu # read write data via net
     inetutils
     vnstat # monitor network
-    # gns3-gui
-    # gns3-server
-    # ubridge
-    # dynamips
+    gns3-gui
+    gns3-server
+    ubridge
+    dynamips
     tigervnc
     #ciscoPacketTracer8
     remmina
@@ -437,6 +438,16 @@
         TimeoutStopSec = 10;
       };
     };
+  };
+
+  # Workarround for GNS3 ubridge
+
+  security.wrappers.ubridge = {
+    source = "/run/current-system/sw/bin/ubridge";
+    capabilities = "cap_net_admin,cap_net_raw=ep";
+    owner = "rizqirazkafi";
+    group = "users";
+    permissions = "u+rx,g+x";
   };
 
 }
