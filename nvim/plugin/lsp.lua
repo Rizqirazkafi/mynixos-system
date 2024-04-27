@@ -55,19 +55,19 @@ require("lspconfig").lua_ls.setup({
 		},
 	},
 })
---require("lspconfig").emmet_ls.setup({
---	on_attach = on_attach,
---	capabilities = capabilities,
---	filetypes = { "css", "eruby", "html", "less", "sass", "scss", "svelte", "pug", "vue" },
---	init_options = {
---		html = {
---			options = {
---				-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
---				["bem.enabled"] = true,
---			},
---		},
---	},
---})
+require("lspconfig").emmet_ls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	filetypes = { "css", "eruby", "html", "less", "sass", "scss", "svelte", "pug", "vue", "php" },
+	init_options = {
+		html = {
+			options = {
+				-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+				["bem.enabled"] = true,
+			},
+		},
+	},
+})
 
 require("lspconfig").nil_ls.setup({
 	on_attach = on_attach,
@@ -87,7 +87,17 @@ require("lspconfig").texlab.setup({
 		executable = "pdflatex",
 		onSave = true,
 	},
+	formatterLineLength = 80,
+	latexFormatter = "latexindent",
+	latexindent = {
+		modifyLineBreaks = false,
+	},
 })
+-- require("lspconfig").digestif.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	single_file_support = true,
+-- })
 --require("lspconfig").tsserver.setup({
 --	on_attach = on_attach,
 --	capabilities = capabilities,
@@ -98,11 +108,60 @@ require("lspconfig").texlab.setup({
 --	capabilities = capabilities,
 --	single_file_support = true,
 --})
+require("lspconfig").intelephense.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 require("lspconfig").marksman.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	single_file_support = true,
 })
+-- require("lspconfig").phpactor.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	root_pattern = { "composer.json", ".git" },
+-- })
+-- require("lspconfig").html.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	filetypes = { "html", "php" },
+-- 	init_options = {
+-- 		configurationSection = { "html", "css", "javascript" },
+-- 		embeddedLanguages = {
+-- 			css = true,
+-- 			javascript = true,
+-- 		},
+-- 		provideFormatter = true,
+-- 	},
+-- 	single_file_support = true,
+-- })
+-- require("lspconfig").cssls.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	filetypes = { "css", "scss", "less" },
+-- 	root_pattern = { "package.json", ".git" },
+-- 	init_options = {
+-- 		configurationSection = { "html", "css", "javascript" },
+-- 		embeddedLanguages = {
+-- 			css = true,
+-- 			javascript = true,
+-- 		},
+-- 		provideFormatter = true,
+-- 	},
+-- 	single_file_support = true,
+-- 	settings = {
+-- 		css = {
+-- 			validate = true,
+-- 		},
+-- 		less = {
+-- 			validate = true,
+-- 		},
+-- 		scss = {
+-- 			validate = true,
+-- 		},
+-- 	},
+-- })
 --require("lspconfig").dartls.setup({
 --	on_attach = on_attach,
 --	capabilities = capabilities,
