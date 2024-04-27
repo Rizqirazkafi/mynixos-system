@@ -91,7 +91,8 @@
       nil
       # ltex-ls
       texlab
-      # emmet-ls
+      # lua53Packages.digestif
+      emmet-ls
       # gopls
       # eslint_d
       marksman
@@ -104,6 +105,12 @@
       # asm-lsp
       ccls
       fd
+      markdownlint-cli2
+      phpactor
+      php82Packages.phpcs
+      php82Packages.phpcbf
+      vscode-langservers-extracted
+      nodePackages.intelephense
     ];
 
     plugins = with pkgs.vimPlugins; [
@@ -167,12 +174,14 @@
       telescope-fzf-native-nvim
       cmp_luasnip
       cmp-nvim-lsp
-      # my-luasnip
       luasnip
       friendly-snippets
       cmp-latex-symbols
-      # latex-box
-      friendly-snippets
+      phpactor
+      ncm2
+      ncm2-path
+      ncm2-bufword
+      ncm2-html-subscope
       {
         plugin = gitsigns-nvim;
         config = toLuaFile ./nvim/plugin/gitsigns.lua;
@@ -186,6 +195,7 @@
         config = toLuaFile ./nvim/plugin/lualine.lua;
       }
       vim-latex-live-preview
+      # vimtex
       markdown-preview-nvim
       {
         plugin = (nvim-treesitter.withPlugins (p: [
@@ -202,6 +212,7 @@
           p.tree-sitter-arduino
           # p.tree-sitter-dart
           p.tree-sitter-c
+          p.tree-sitter-php
         ]));
         config = toLuaFile ./nvim/plugin/treesitter.lua;
 
