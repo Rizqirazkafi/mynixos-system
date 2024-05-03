@@ -29,9 +29,7 @@ in {
       ${domain} = {
         root = "${dataDir}";
 
-        extraConfig = ''
-          index index.php;
-        '';
+        extraConfig = "index index.php; ";
 
         locations."/" = {
           extraConfig = ''
