@@ -107,8 +107,7 @@
 
   # Enable the LXQT Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.lightdm.background =
-    ./wallpaper/nixos-wallpaper-catppuccin-mocha.png;
+  services.xserver.displayManager.lightdm.background = ./wallpaper.png;
   services.xserver.displayManager.lightdm.greeters.gtk.extraConfig =
     "user-background = false";
   services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
