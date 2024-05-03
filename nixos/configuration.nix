@@ -53,7 +53,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" "ppp_mppe" "pptp" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_7;
+  boot.kernelPackages = pkgs.linuxPackages_6_6;
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.hosts = {
@@ -107,6 +107,10 @@
 
   # Enable the LXQT Desktop Environment.
   services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.displayManager.lightdm.background =
+    "./wallpaper/nixos-wallpapaer-catppuccin-mocha.png";
+  services.xserver.displayManager.lightdm.greeters.gtk.extraConfig =
+    "user-background = false";
   services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
   services.xserver.displayManager.lightdm.greeters.gtk.theme.name = "rose-pine";
   services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name =
@@ -227,7 +231,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vscodium-fhs
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
