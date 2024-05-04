@@ -8,10 +8,14 @@
   imports = [
     #list of inputs
     inputs.nix-colors.homeManagerModules.default
+    inputs.catppuccin.homeManagerModules.catppuccin
     ./features/alacritty.nix
   ];
 
-  colorScheme = inputs.nix-colors.colorSchemes.rose-pine;
+  # colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
+  xdg.enable = true;
+  catppuccin.flavour = "mocha";
+  catppuccin.accent = "lavender";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -31,6 +35,9 @@
     tree
     # nerdfonts
     nixpkgs-fmt
+    # papirus-icon-theme
+    papirus-folders
+    catppuccin-papirus-folders
   ];
 
   home.file = { };
@@ -53,6 +60,10 @@
     config = ''
       if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
   };
+  programs.tmux = {
+    enable = true;
+    catppuccin.enable = true;
+  };
 
   programs.bash = {
     enable = true;
@@ -66,6 +77,7 @@
       lg = "lazygit";
       myfdm =
         "distrobox-enter --root -n ubuntu -- /opt/freedownloadmanager/fdm";
+      ubuntu-firefox = "distrobox-enter --root -n ubuntu -- /usr/bin/firefox";
     };
     enableCompletion = true;
     initExtra = ''echo "Hello, what good shall I do today?"'';
@@ -83,6 +95,7 @@
     '';
   in {
     enable = true;
+    catppuccin.enable = true;
 
     extraPackages = with pkgs; [
       nodejs_18
@@ -146,10 +159,10 @@
         plugin = nvim-lspconfig;
         config = toLuaFile ./nvim/plugin/lsp.lua;
       }
-      {
-        plugin = rose-pine;
-        config = "colorscheme rose-pine";
-      }
+      # {
+      #   plugin = catppuccin-nvim;
+      #   config = "colorscheme catppuccin-mocha";
+      # }
       neodev-nvim
       {
         plugin = nvim-cmp;
@@ -226,15 +239,25 @@
 
   xsession = { enable = true; };
   fonts.fontconfig.enable = true;
+  programs.alacritty = {
+    enable = true;
+    catppuccin = { enable = true; };
+  };
+  programs.rofi = {
+    enable = true;
+    catppuccin = { enable = true; };
+  };
 
   gtk = {
     enable = true;
-    theme.name = "rose-pine";
-    theme.package = pkgs.rose-pine-gtk-theme;
-    cursorTheme.name = "Bibata-Modern-Ice";
-    cursorTheme.package = pkgs.bibata-cursors;
-    iconTheme.name = "rose-pine";
-    iconTheme.package = pkgs.rose-pine-icon-theme;
+    catppuccin = {
+      enable = true;
+      size = "standard";
+      tweaks = [ "normal" ];
+      cursor = { enable = true; };
+    };
+    iconTheme.name = "Papirus-Dark";
+    iconTheme.package = pkgs.catppuccin-papirus-folders;
     font.name = "TerminessNerdFont-Regular";
     font.package = pkgs.terminus_font;
     font.size = 14;
