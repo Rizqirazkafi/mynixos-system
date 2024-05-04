@@ -18,6 +18,7 @@
     ./auto-cpufreq.nix
     ./nginx.nix
     inputs.home-manager.nixosModules.home-manager
+    inputs.catppuccin.nixosModules.catppuccin
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
