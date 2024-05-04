@@ -60,10 +60,6 @@
     config = ''
       if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
   };
-  programs.tmux = {
-    enable = true;
-    catppuccin.enable = true;
-  };
 
   programs.bash = {
     enable = true;
