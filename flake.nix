@@ -10,6 +10,9 @@
     };
     nix-colors.url = "github:misterio77/nix-colors";
     nbfc-linux.url = "github:nbfc-linux/nbfc-linux";
+    #catppuccin.url = "github:catppuccin/nix";
+    catppuccin.url =
+      "github:catppuccin/nix/a48e70a31616cb63e4794fd3465bff1835cc4246";
     # own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
     # own-flutter-tools.flake = false;
     own-texlive.url =
