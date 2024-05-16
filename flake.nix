@@ -4,12 +4,16 @@
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-colors.url = "github:misterio77/nix-colors";
-    nbfc-linux.url = "github:nbfc-linux/nbfc-linux";
+    nbfc-linux = {
+      url = "github:nbfc-linux/nbfc-linux";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
     #catppuccin.url = "github:catppuccin/nix";
     catppuccin.url =
       "github:catppuccin/nix/a48e70a31616cb63e4794fd3465bff1835cc4246";
@@ -23,7 +27,7 @@
     # ultimate-autopairs.flake = false;
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, nbfc-linux, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
