@@ -99,7 +99,7 @@
       luajitPackages.lua-lsp
       nil
       # ltex-ls
-      texlab
+      inputs.nixpkgs-unstable.legacyPackages.${system}.texlab
       # lua53Packages.digestif
       emmet-ls
       # gopls
@@ -120,6 +120,8 @@
       php82Packages.phpcbf
       vscode-langservers-extracted
       nodePackages.intelephense
+      ansible-language-server
+      ansible-lint
     ];
 
     plugins = with pkgs.vimPlugins; [
@@ -203,7 +205,6 @@
         plugin = lualine-nvim;
         config = toLuaFile ./nvim/plugin/lualine.lua;
       }
-      vim-latex-live-preview
       # vimtex
       markdown-preview-nvim
       {
@@ -227,6 +228,7 @@
 
       }
       vim-nix
+      ansible-vim
     ];
 
     extraLuaConfig = "	${builtins.readFile ./nvim/options.lua}\n";
