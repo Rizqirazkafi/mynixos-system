@@ -59,11 +59,15 @@ require("lspconfig").emmet_ls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	filetypes = { "css", "eruby", "html", "less", "sass", "scss", "svelte", "pug", "vue", "php" },
-	init_options = {
-		html = {
-			options = {
-				-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-				["bem.enabled"] = true,
+	settings = {
+		emmet_ls = {
+			init_options = {
+				html = {
+					options = {
+						-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+						["bem.enabled"] = true,
+					},
+				},
 			},
 		},
 	},
@@ -83,14 +87,23 @@ require("lspconfig").texlab.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 	single_file_support = true,
-	build = {
-		executable = "pdflatex",
-		onSave = true,
-	},
-	formatterLineLength = 80,
-	latexFormatter = "latexindent",
-	latexindent = {
-		modifyLineBreaks = false,
+	settings = {
+		texlab = {
+			build = {
+				args = { "-pdf", "-interaction=nonstopmode", "-shell-escape", "-synctex=1", "%f" },
+				executable = "pdflatex",
+				onSave = true,
+			},
+			completion = { matcher = "fuzzy" },
+			diagnostics = {
+				ignoredPatterns = { "Underfull.*" },
+			},
+			formatterLineLength = 80,
+			latexFormatter = "texlab",
+			latexindent = {
+				modifyLineBreaks = false,
+			},
+		},
 	},
 })
 -- require("lspconfig").digestif.setup({
@@ -201,3 +214,28 @@ require("lspconfig").ccls.setup({
 --		},
 --	},
 --})
+require("lspconfig").ansiblels.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	settings = {
+		ansible = {
+			ansible = {
+				path = "ansible",
+			},
+			executionEnvironment = {
+				enabled = false,
+			},
+			python = {
+				interpreterPath = "python",
+			},
+			validation = {
+				enabled = true,
+				lint = {
+					enabled = true,
+					path = "ansible-lint",
+				},
+			},
+		},
+	},
+	single_file_support = true,
+})
