@@ -14,6 +14,7 @@ null_ls.setup({
 		-- null_ls.builtins.formatting.asmfmt,
 		-- null_ls.builtins.completion.gopls,
 		-- null_ls.builtins.formatting.ccls,
+		null_ls.builtins.diagnostics.ansiblelint,
 	},
 	on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
