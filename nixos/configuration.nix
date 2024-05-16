@@ -19,6 +19,7 @@
     ./nginx.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.catppuccin.nixosModules.catppuccin
+    # ./moodle.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -58,7 +59,7 @@
 
   networking.hostName = "nixos"; # Define your hostname.
   networking.hosts = {
-    "127.0.0.1" = [ "phpdemo.myhome.local" "myhome.local" ];
+    "127.0.0.1" = [ "phpdemo.myhome.local" "myhome.local" "moodle.local" ];
   };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -290,6 +291,7 @@
     nomacs # image viewer
     gimp
     # Office Suite
+    python312Packages.pygments
     inputs.own-texlive.legacyPackages.${system}.texliveFull
     libreoffice
     # Networking
@@ -308,6 +310,7 @@
     ubridge
     dynamips
     tigervnc
+    sshfs
     #ciscoPacketTracer8
     remmina
     gnomeExtensions.remmina-search-provider
