@@ -184,6 +184,7 @@
       }
       telescope-fzf-native-nvim
       cmp_luasnip
+      cmp-buffer
       cmp-nvim-lsp
       luasnip
       friendly-snippets
