@@ -16,7 +16,7 @@
     ./file-system.nix
     # ./overlays.nix
     ./auto-cpufreq.nix
-    ./nginx.nix
+    # ./nginx.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.catppuccin.nixosModules.catppuccin
     # ./moodle.nix
@@ -126,6 +126,7 @@
         i3lock # default i3 screen locker
         i3blocks # if you are planning on using i3blocks over i3status
       ];
+      updateSessionEnvironment = true;
     };
     desktopManager = {
       xterm.enable = false;
@@ -357,6 +358,7 @@
     discord
     xorg.xkill
     # ueberzug
+    goverlay # displayFPS
   ];
 
   fonts.packages = with pkgs;
@@ -429,23 +431,29 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
   security = { polkit.enable = true; };
-  xdg.portal.lxqt.enable = true;
-  systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart =
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
+  xdg.portal = {
+    xdgOpenUsePortal = true;
+    enable = true;
+    lxqt.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-xapp pkgs.xdg-desktop-portal-gtk ];
+    config = { common = { default = [ "xapp" "gtk" ]; }; };
   };
+  # systemd = {
+  #   user.services.polkit-gnome-authentication-agent-1 = {
+  #     description = "polkit-gnome-authentication-agent-1";
+  #     wantedBy = [ "graphical-session.target" ];
+  #     wants = [ "graphical-session.target" ];
+  #     after = [ "graphical-session.target" ];
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       ExecStart =
+  #         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+  #       Restart = "on-failure";
+  #       RestartSec = 1;
+  #       TimeoutStopSec = 10;
+  #     };
+  #   };
+  # };
 
   # Workarround for GNS3 ubridge
 
