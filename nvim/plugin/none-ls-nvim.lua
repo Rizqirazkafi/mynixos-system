@@ -8,6 +8,7 @@ null_ls.setup({
 		-- null_ls.builtins.formatting.dart_format,
 		null_ls.builtins.formatting.nixfmt,
 		null_ls.builtins.formatting.phpcbf,
+		null_ls.builtins.formatting.latexindent,
 		-- null_ls.builtins.diagnostics.phpcs,
 		null_ls.builtins.diagnostics.markdownlint_cli2,
 		-- null_ls.builtins.diagnostics.digestif,
