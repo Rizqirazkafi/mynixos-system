@@ -96,10 +96,10 @@ require("lspconfig").texlab.setup({
 			},
 			completion = { matcher = "fuzzy" },
 			diagnostics = {
-				ignoredPatterns = { "Underfull.*" },
+				ignoredPatterns = { "Underfull.*", "Overfull.*" },
 			},
 			formatterLineLength = 80,
-			latexFormatter = "texlab",
+			latexFormatter = "latexindent",
 			latexindent = {
 				modifyLineBreaks = false,
 			},
