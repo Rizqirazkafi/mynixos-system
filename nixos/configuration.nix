@@ -238,6 +238,7 @@
     ripgrep
     htop
     neofetch
+    fastfetch
     unzip
     stow
     lm_sensors
@@ -280,6 +281,7 @@
     mpv
     # mplayer
     zathura
+    marp-cli
     terminus_font
     terminus_font_ttf
     # nerdfonts
@@ -294,6 +296,8 @@
     # Office Suite
     python312Packages.pygments
     inputs.own-texlive.legacyPackages.${system}.texliveFull
+    inputs.nixpkgs-unstable.legacyPackages.${system}.libreoffice
+    beamerpresenter
     libreoffice
     # Networking
     pptp
@@ -359,6 +363,7 @@
     xorg.xkill
     # ueberzug
     goverlay # displayFPS
+    mangohud
   ];
 
   fonts.packages = with pkgs;
