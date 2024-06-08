@@ -79,6 +79,7 @@
     initExtra = ''echo "Hello, what good shall I do today?"'';
   };
   programs.neovim = let
+    system = "x86_64-linux";
     toLua = str: ''
       lua << EOF
       ${str}
@@ -97,27 +98,17 @@
       nodejs_18
       xclip
       luajitPackages.lua-lsp
+      lua53Packages.jsregexp
+      luajitPackages.fidget-nvim
       nil
-      # ltex-ls
       inputs.nixpkgs-unstable.legacyPackages.${system}.texlab
-      # lua53Packages.digestif
       emmet-ls
-      # gopls
-      # eslint_d
-      marksman
       stylua
       tree-sitter
-      # flutter
-      # dart
-      nixfmt
-      # asmfmt
-      # asm-lsp
+      nixfmt-classic
       ccls
       fd
-      markdownlint-cli2
-      phpactor
-      php82Packages.phpcs
-      php82Packages.phpcbf
+      php82Packages.php-codesniffer
       vscode-langservers-extracted
       nodePackages.intelephense
       ansible-language-server
@@ -129,22 +120,14 @@
       lazygit-nvim
       plenary-nvim
       nvim-lspconfig
-      {
-        plugin = nvim-ts-rainbow2;
-        config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
-      }
       # {
-      #   plugin = own-flutter-tools;
-      #   config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+      #   plugin = nvim-ts-rainbow2;
+      #   config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
       # }
       {
         plugin = indent-blankline-nvim;
         config = toLuaFile ./nvim/plugin/ibl.lua;
       }
-      # {
-      #   plugin = nvim-autopairs;
-      #   config = toLuaFile ./nvim/plugin/autopairs.lua;
-      # }
       {
         plugin = comment-nvim;
         config = toLua ''require("Comment").setup()'';
@@ -186,7 +169,7 @@
       cmp_luasnip
       cmp-buffer
       cmp-nvim-lsp
-      luasnip
+      inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
       friendly-snippets
       cmp-latex-symbols
       phpactor
@@ -211,18 +194,16 @@
       {
         plugin = (nvim-treesitter.withPlugins (p: [
           p.tree-sitter-nix
-          p.tree-sitter-vim
           p.tree-sitter-bash
-          p.tree-sitter-lua
           p.tree-sitter-json
           p.tree-sitter-latex
-          # p.tree-sitter-javascript
+          p.tree-sitter-vimdoc
+          p.tree-sitter-javascript
           p.tree-sitter-markdown
           # p.tree-sitter-html
           # p.tree-sitter-css
           p.tree-sitter-arduino
           # p.tree-sitter-dart
-          p.tree-sitter-c
           p.tree-sitter-php
         ]));
         config = toLuaFile ./nvim/plugin/treesitter.lua;
