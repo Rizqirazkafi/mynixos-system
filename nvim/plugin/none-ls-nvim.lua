@@ -10,7 +10,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.phpcbf,
 		null_ls.builtins.formatting.latexindent,
 		-- null_ls.builtins.diagnostics.phpcs,
-		null_ls.builtins.diagnostics.markdownlint_cli2,
+		-- null_ls.builtins.diagnostics.markdownlint_cli2,
 		-- null_ls.builtins.diagnostics.digestif,
 		-- null_ls.builtins.formatting.asmfmt,
 		-- null_ls.builtins.completion.gopls,
@@ -27,7 +27,7 @@ null_ls.setup({
 				group = augroup,
 				buffer = bufnr,
 				callback = function()
-					vim.lsp.buf.format({ bufnr = bufnr })
+					vim.lsp.buf.format({ bufnr = bufnr, timeout_ms = 10000 })
 				end,
 			})
 		end
