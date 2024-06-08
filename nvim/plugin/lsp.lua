@@ -101,7 +101,7 @@ require("lspconfig").texlab.setup({
 			formatterLineLength = 80,
 			latexFormatter = "latexindent",
 			latexindent = {
-				modifyLineBreaks = false,
+				modifyLineBreaks = true,
 			},
 		},
 	},
@@ -125,11 +125,11 @@ require("lspconfig").intelephense.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
-require("lspconfig").marksman.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	single_file_support = true,
-})
+-- require("lspconfig").marksman.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	single_file_support = true,
+-- })
 -- require("lspconfig").phpactor.setup({
 -- 	on_attach = on_attach,
 -- 	capabilities = capabilities,
