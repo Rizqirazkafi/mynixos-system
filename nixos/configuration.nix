@@ -142,10 +142,7 @@
   # Enable flatpak
   services.flatpak.enable = true;
   # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
+  services.xserver.xkb = { layout = "us"; };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -326,8 +323,7 @@
     xorg.xhost
     # Tool for Nvidia
     lshw
-    nvtop
-    nvtop-intel
+    # nvtopPackages.full
     mediainfo
     # themes
     # libsForQt5.qtstyleplugin-kvantum
@@ -416,8 +412,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  security.pam.enableSSHAgentAuth = true;
-
+  security.pam.sshAgentAuth.enable = true;
   # Open ports in the firewall.
   #	networking.firewall.allowedTCPPorts = [ 22 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
