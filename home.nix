@@ -76,7 +76,7 @@
       ubuntu-firefox = "distrobox-enter --root -n ubuntu -- /usr/bin/firefox";
     };
     enableCompletion = true;
-    initExtra = ''echo "Hello, what good shall I do today?"'';
+    initExtra = ''fastfetch ; echo "Hello, what good shall I do today?"'';
   };
   programs.neovim = let
     system = "x86_64-linux";
