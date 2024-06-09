@@ -23,10 +23,6 @@ local on_attach = function(_, bufnr)
 
 	bufmap("K", vim.lsp.buf.hover)
 	bufmap("E", vim.diagnostic.open_float)
-
-	vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-		vim.lsp.buf.format()
-	end, { desc = "Format current buffer with LSP" })
 end
 
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
