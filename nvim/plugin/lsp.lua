@@ -51,23 +51,23 @@ require("lspconfig").lua_ls.setup({
 		},
 	},
 })
-require("lspconfig").emmet_ls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	filetypes = { "css", "eruby", "html", "less", "sass", "scss", "svelte", "pug", "vue", "php" },
-	settings = {
-		emmet_ls = {
-			init_options = {
-				html = {
-					options = {
-						-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
-						["bem.enabled"] = true,
-					},
-				},
-			},
-		},
-	},
-})
+-- require("lspconfig").emmet_ls.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	filetypes = { "css", "eruby", "html", "less", "sass", "scss", "svelte", "pug", "vue", "php" },
+-- 	settings = {
+-- 		emmet_ls = {
+-- 			init_options = {
+-- 				html = {
+-- 					options = {
+-- 						-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+-- 						["bem.enabled"] = true,
+-- 					},
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+-- })
 
 require("lspconfig").nil_ls.setup({
 	on_attach = on_attach,
@@ -117,20 +117,23 @@ require("lspconfig").texlab.setup({
 --	capabilities = capabilities,
 --	single_file_support = true,
 --})
-require("lspconfig").intelephense.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
+-- require("lspconfig").intelephense.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- })
 -- require("lspconfig").marksman.setup({
 -- 	on_attach = on_attach,
 -- 	capabilities = capabilities,
 -- 	single_file_support = true,
 -- })
--- require("lspconfig").phpactor.setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- 	root_pattern = { "composer.json", ".git" },
--- })
+require("lspconfig").phpactor.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	single_file_support = true,
+	settings = {
+		root_pattern = { "composer.json", ".git" },
+	},
+})
 -- require("lspconfig").html.setup({
 -- 	on_attach = on_attach,
 -- 	capabilities = capabilities,

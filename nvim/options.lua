@@ -65,4 +65,5 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = highlight_group,
 	pattern = "*",
 })
-vim.keymap.set("n", "<leader>fo", "<cmd>lua vim.lsp.buf.format({timeout_ms = 1000})<CR>")
+vim.keymap.set("n", "<leader>fo", "<cmd>lua vim.lsp.buf.format({timeout_ms = 5000})<CR>")
+-- vim.keymap.set("n", "<leader>fo", "<cmd>lua vim.lsp.buf.format()<CR>")
