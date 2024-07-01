@@ -1,5 +1,4 @@
-{ config, lib, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }: {
   virtualisation = {
     libvirtd = {
       enable = true;
@@ -14,5 +13,4 @@
     spiceUSBRedirection.enable = true;
   };
   services.spice-vdagentd.enable = true;
-  programs.dconf.enable = true; # virt-manager requires dconf to remember settings
 }

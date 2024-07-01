@@ -16,7 +16,7 @@
     ./file-system.nix
     # ./overlays.nix
     ./auto-cpufreq.nix
-    # ./nginx.nix
+    ./nginx.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.catppuccin.nixosModules.catppuccin
     # ./moodle.nix
@@ -57,16 +57,15 @@
   boot.kernelModules = [ "kvm-intel" "ppp_mppe" "pptp" ];
   boot.kernelPackages = pkgs.linuxPackages_6_6;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nixos-laptop"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
   networking.hosts = {
     "127.0.0.1" = [ "phpdemo.myhome.local" "myhome.local" "moodle.local" ];
   };
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
+  programs.dconf.enable =
+    true; # virt-manager requires dconf to remember settings
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -74,7 +73,7 @@
   programs.nm-applet.enable = true;
 
   # Enable noise torch
-  programs.noisetorch.enable = true;
+  # programs.noisetorch.enable = true;
 
   # Enable legacy PPTP module
   networking.firewall.connectionTrackingModules = [ "pptp" "snmp" ];
@@ -317,6 +316,7 @@
     remmina
     gnomeExtensions.remmina-search-provider
     distrobox
+    transmission-gtk
     # rclone
     # Add polkit for distrobox
     gnome.zenity
