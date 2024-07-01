@@ -7,14 +7,15 @@
   home.homeDirectory = "/home/rizqirazkafi";
   imports = [
     #list of inputs
-    inputs.nix-colors.homeManagerModules.default
+    # inputs.nix-colors.homeManagerModules.default
     inputs.catppuccin.homeManagerModules.catppuccin
     ./features/alacritty.nix
   ];
 
   # colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
   xdg.enable = true;
-  catppuccin.flavour = "mocha";
+  catppuccin.enable = true;
+  catppuccin.flavor = "mocha";
   catppuccin.accent = "lavender";
 
   # This value determines the Home Manager release that your configuration is
@@ -55,11 +56,11 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   services.picom.enable = true;
-  services.devilspie2 = {
-    enable = true;
-    config = ''
-      if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
-  };
+  # services.devilspie2 = {
+  #   enable = true;
+  #   config = ''
+  #     if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
+  # };
 
   programs.bash = {
     enable = true;
@@ -92,7 +93,7 @@
     '';
   in {
     enable = true;
-    catppuccin.enable = true;
+    # catppuccin.enable = true;
 
     extraPackages = with pkgs; [
       nodejs_18
@@ -102,7 +103,7 @@
       luajitPackages.fidget-nvim
       nil
       inputs.nixpkgs-unstable.legacyPackages.${system}.texlab
-      emmet-ls
+      # emmet-ls
       stylua
       tree-sitter
       nixfmt-classic
@@ -110,9 +111,11 @@
       fd
       php82Packages.php-codesniffer
       vscode-langservers-extracted
-      nodePackages.intelephense
-      ansible-language-server
-      ansible-lint
+      phpactor
+      php
+      # nodePackages.intelephense
+      # ansible-language-server
+      # ansible-lint
     ];
 
     plugins = with pkgs.vimPlugins; [
@@ -166,13 +169,13 @@
         config = toLuaFile ./nvim/plugin/which-key.lua;
       }
       telescope-fzf-native-nvim
-      cmp_luasnip
+      luasnip
       cmp-buffer
       cmp-nvim-lsp
       inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
       friendly-snippets
       cmp-latex-symbols
-      phpactor
+      # phpactor
       ncm2
       ncm2-path
       ncm2-bufword
@@ -221,21 +224,15 @@
   fonts.fontconfig.enable = true;
   programs.alacritty = {
     enable = true;
-    catppuccin = { enable = true; };
+    # catppuccin = { enable = true; };
   };
   programs.rofi = {
     enable = true;
-    catppuccin = { enable = true; };
+    # catppuccin = { enable = true; };
   };
 
   gtk = {
     enable = true;
-    catppuccin = {
-      enable = true;
-      size = "standard";
-      tweaks = [ "normal" ];
-      cursor = { enable = true; };
-    };
     iconTheme.name = "Papirus-Dark";
     iconTheme.package = pkgs.catppuccin-papirus-folders;
     font.name = "TerminessNerdFont-Regular";
@@ -245,5 +242,6 @@
   qt = {
     enable = true;
     style.name = "kvantum";
+    platformTheme.name = "kvantum";
   };
 }

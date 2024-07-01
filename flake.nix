@@ -7,8 +7,8 @@
     nixpkgs-legacy.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:nix-community/home-manager/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-colors.url = "github:misterio77/nix-colors";
     nbfc-linux = {
@@ -16,8 +16,7 @@
       # inputs.nixpkgs.follows = "nixpkgs";
     };
     #catppuccin.url = "github:catppuccin/nix";
-    catppuccin.url =
-      "github:catppuccin/nix/a48e70a31616cb63e4794fd3465bff1835cc4246";
+    catppuccin.url = "github:catppuccin/nix";
     # own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
     # own-flutter-tools.flake = false;
     own-texlive.url =
@@ -34,12 +33,12 @@
       lib = nixpkgs.lib;
       pkgs = import nixpkgs {
         inherit system;
-        config = { allowUnfree = true; };
+        config.allowUnfree = true;
       };
     in {
       nixosConfigurations = {
-        nixos = lib.nixosSystem {
-          specialArgs = { inherit inputs system; };
+        nixos-laptop = lib.nixosSystem {
+          specialArgs = { inherit inputs; };
           modules = [ ./nixos/configuration.nix ];
         };
       };
