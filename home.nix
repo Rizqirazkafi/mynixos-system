@@ -233,6 +233,7 @@
 
   gtk = {
     enable = true;
+    catppuccin.enable = true;
     iconTheme.name = "Papirus-Dark";
     iconTheme.package = pkgs.catppuccin-papirus-folders;
     font.name = "TerminessNerdFont-Regular";
@@ -241,6 +242,7 @@
   };
   qt = {
     enable = true;
+    style.catppuccin.enable = true;
     style.name = "kvantum";
     platformTheme.name = "kvantum";
   };

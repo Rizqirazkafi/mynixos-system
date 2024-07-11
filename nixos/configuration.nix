@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
 
 {
   imports = [
@@ -212,8 +212,8 @@
     # QT_FONT_DPI = "96";
     SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
   };
-  environment.variables.QT_QPA_PLATFORMTHEME = "kvantum";
-  qt.style = "kvantum";
+  # environment.variables.QT_QPA_PLATFORMTHEME = "kvantum";
+  # qt.style = "kvantum";
   programs.light.enable = true;
   programs.thunar = {
     enable = true;
@@ -230,6 +230,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    gabutdm
+    pkgs-unstable.zoom-us
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
@@ -277,13 +279,14 @@
     mpv
     # mplayer
     zathura
-    marp-cli
+    # marp-cli
     terminus_font
     terminus_font_ttf
     # nerdfonts
     # terminus-nerdfont
     # fira-code-nerdfont
     flatpak
+    kdePackages.kdeconnect-kde
     jq
     # Graphics and Video
     flameshot # screenshot tool
@@ -292,7 +295,7 @@
     # Office Suite
     python312Packages.pygments
     inputs.own-texlive.legacyPackages.${system}.texliveFull
-    inputs.nixpkgs-unstable.legacyPackages.${system}.libreoffice
+    # inputs.nixpkgs-unstable.legacyPackages.${system}.libreoffice
     beamerpresenter
     libreoffice
     # Networking
@@ -301,7 +304,7 @@
     winbox
     tigervnc
     x11vnc
-    ansible
+    # ansible
     nmap
     netcat-gnu # read write data via net
     inetutils
@@ -311,8 +314,9 @@
     ubridge
     dynamips
     tigervnc
-    sshfs
-    #ciscoPacketTracer8
+    # sshfs
+    ciscoPacketTracer8
+    jre_minimal
     remmina
     gnomeExtensions.remmina-search-provider
     distrobox
@@ -330,8 +334,8 @@
     # libsForQt5.qt5ct
     # theme-obsidian2
     # Programming and stuff
-    arduino
-    arduino-cli
+    # arduino
+    # arduino-cli
     # kicad
     # go
     # gofumpt
@@ -437,6 +441,9 @@
     lxqt.enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-xapp pkgs.xdg-desktop-portal-gtk ];
     config = { common = { default = [ "xapp" "gtk" ]; }; };
+  };
+  xdg.mime.defaultApplications = {
+    "application/octet-stream" = "cisco-pt8.desktop.desktop";
   };
   # systemd = {
   #   user.services.polkit-gnome-authentication-agent-1 = {

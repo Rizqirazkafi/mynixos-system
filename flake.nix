@@ -27,7 +27,7 @@
     # ultimate-autopairs.flake = false;
   };
 
-  outputs = { self, nixpkgs, nbfc-linux, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -35,10 +35,14 @@
         inherit system;
         config.allowUnfree = true;
       };
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in {
       nixosConfigurations = {
         nixos-laptop = lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs pkgs pkgs-unstable; };
           modules = [ ./nixos/configuration.nix ];
         };
       };
