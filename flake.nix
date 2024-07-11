@@ -21,8 +21,8 @@
     # own-flutter-tools.flake = false;
     own-texlive.url =
       "github:nixos/nixpkgs/bf8462aeba50cc753971480f613fbae0747cffc0";
-    # plugin-luasnip.url = "github:L3MON4D3/LuaSnip";
-    # plugin-luasnip.flake = false;
+    plugin-luasnip.url = "github:L3MON4D3/LuaSnip";
+    plugin-luasnip.flake = false;
     # ultimate-autopairs.url = "github:altermo/ultimate-autopair.nvim";
     # ultimate-autopairs.flake = false;
   };

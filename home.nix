@@ -95,15 +95,16 @@
     enable = true;
     # catppuccin.enable = true;
 
-    extraPackages = with pkgs; [
+    package = inputs.nixpkgs-unstable.legacyPackages.${system}.neovim-unwrapped;
+    extraPackages = with inputs.nixpkgs-unstable.legacyPackages.${system}; [
       nodejs_18
       xclip
       luajitPackages.lua-lsp
-      lua53Packages.jsregexp
+      luajitPackages.jsregexp
       luajitPackages.fidget-nvim
       nil
-      inputs.nixpkgs-unstable.legacyPackages.${system}.texlab
-      # emmet-ls
+      texlab
+      emmet-ls
       stylua
       tree-sitter
       nixfmt-classic
@@ -111,110 +112,120 @@
       fd
       php82Packages.php-codesniffer
       vscode-langservers-extracted
-      phpactor
+      # phpactor
       php
       # nodePackages.intelephense
       # ansible-language-server
       # ansible-lint
     ];
 
-    plugins = with pkgs.vimPlugins; [
-      vim-tmux-navigator
-      lazygit-nvim
-      plenary-nvim
-      nvim-lspconfig
-      # {
-      #   plugin = nvim-ts-rainbow2;
-      #   config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
-      # }
-      {
-        plugin = indent-blankline-nvim;
-        config = toLuaFile ./nvim/plugin/ibl.lua;
-      }
-      {
-        plugin = comment-nvim;
-        config = toLua ''require("Comment").setup()'';
-      }
-      {
-        plugin = dressing-nvim;
-        config = toLua ''require("dressing").setup()'';
-      }
-      {
-        plugin = nvim-lspconfig;
-        config = toLuaFile ./nvim/plugin/lsp.lua;
-      }
-      # {
-      #   plugin = catppuccin-nvim;
-      #   config = "colorscheme catppuccin-mocha";
-      # }
-      neodev-nvim
-      {
-        plugin = nvim-cmp;
-        config = toLuaFile ./nvim/plugin/cmp.lua;
-      }
-      {
-        plugin = telescope-nvim;
-        config = toLuaFile ./nvim/plugin/telescope.lua;
-      }
-      {
-        plugin = harpoon;
-        config = toLuaFile ./nvim/plugin/harpoon.lua;
-      }
-      {
-        plugin = fidget-nvim;
-        config = toLuaFile ./nvim/plugin/fidget.lua;
-      }
-      {
-        plugin = which-key-nvim;
-        config = toLuaFile ./nvim/plugin/which-key.lua;
-      }
-      telescope-fzf-native-nvim
-      luasnip
-      cmp-buffer
-      cmp-nvim-lsp
-      inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
-      friendly-snippets
-      cmp-latex-symbols
-      # phpactor
-      ncm2
-      ncm2-path
-      ncm2-bufword
-      ncm2-html-subscope
-      {
-        plugin = gitsigns-nvim;
-        config = toLuaFile ./nvim/plugin/gitsigns.lua;
-      }
-      {
-        plugin = none-ls-nvim;
-        config = toLuaFile ./nvim/plugin/none-ls-nvim.lua;
-      }
-      {
-        plugin = lualine-nvim;
-        config = toLuaFile ./nvim/plugin/lualine.lua;
-      }
-      # vimtex
-      markdown-preview-nvim
-      {
-        plugin = (nvim-treesitter.withPlugins (p: [
-          p.tree-sitter-nix
-          p.tree-sitter-bash
-          p.tree-sitter-json
-          p.tree-sitter-latex
-          p.tree-sitter-vimdoc
-          p.tree-sitter-javascript
-          p.tree-sitter-markdown
-          # p.tree-sitter-html
-          # p.tree-sitter-css
-          p.tree-sitter-arduino
-          # p.tree-sitter-dart
-          p.tree-sitter-php
-        ]));
-        config = toLuaFile ./nvim/plugin/treesitter.lua;
+    plugins =
+      with inputs.nixpkgs-unstable.legacyPackages.${system}.vimPlugins; [
+        lspkind-nvim
+        vim-tmux-navigator
+        lazygit-nvim
+        plenary-nvim
+        nvim-lspconfig
+        # {
+        #   plugin = nvim-ts-rainbow2;
+        #   config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
+        # }
+        {
+          plugin = indent-blankline-nvim;
+          config = toLuaFile ./nvim/plugin/ibl.lua;
+        }
+        {
+          plugin = comment-nvim;
+          config = toLua ''require("Comment").setup()'';
+        }
+        {
+          plugin = dressing-nvim;
+          config = toLua ''require("dressing").setup()'';
+        }
+        {
+          plugin = nvim-lspconfig;
+          config = toLuaFile ./nvim/plugin/lsp.lua;
+        }
+        # {
+        #   plugin = catppuccin-nvim;
+        #   config = "colorscheme catppuccin-mocha";
+        # }
+        neodev-nvim
+        {
+          plugin = nvim-cmp;
+          config = toLuaFile ./nvim/plugin/cmp.lua;
+        }
+        {
+          plugin = telescope-nvim;
+          config = toLuaFile ./nvim/plugin/telescope.lua;
+        }
+        {
+          plugin = harpoon;
+          config = toLuaFile ./nvim/plugin/harpoon.lua;
+        }
+        {
+          plugin = fidget-nvim;
+          config = toLuaFile ./nvim/plugin/fidget.lua;
+        }
+        {
+          plugin = which-key-nvim;
+          config = toLuaFile ./nvim/plugin/which-key.lua;
+        }
+        telescope-fzf-native-nvim
+        # luasnip
 
-      }
-      vim-nix
-      ansible-vim
-    ];
+        # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.cmp-buffer
+        # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.cmp-nvim-lsp
+        inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
+        # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.cmp_luasnip
+
+        cmp-buffer
+        cmp-nvim-lsp
+        # pkgs.vimPlugins.myluasnip
+        cmp_luasnip
+        inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
+        vim-snipmate
+        cmp-latex-symbols
+        # phpactor
+        ncm2
+        ncm2-path
+        ncm2-bufword
+        ncm2-html-subscope
+        {
+          plugin = gitsigns-nvim;
+          config = toLuaFile ./nvim/plugin/gitsigns.lua;
+        }
+        {
+          plugin = none-ls-nvim;
+          config = toLuaFile ./nvim/plugin/none-ls-nvim.lua;
+        }
+        {
+          plugin = lualine-nvim;
+          config = toLuaFile ./nvim/plugin/lualine.lua;
+        }
+        # vimtex
+        markdown-preview-nvim
+        {
+          plugin = (nvim-treesitter.withPlugins (p: [
+            p.tree-sitter-nix
+            p.tree-sitter-bash
+            p.tree-sitter-json
+            p.tree-sitter-latex
+            p.tree-sitter-vimdoc
+            p.tree-sitter-javascript
+            p.tree-sitter-markdown
+            p.tree-sitter-html
+            # p.tree-sitter-css
+            p.tree-sitter-arduino
+            # p.tree-sitter-dart
+            p.tree-sitter-php
+          ]));
+          config = toLuaFile ./nvim/plugin/treesitter.lua;
+
+        }
+        vim-nix
+        ansible-vim
+      ];
 
     extraLuaConfig = "	${builtins.readFile ./nvim/options.lua}\n";
 
