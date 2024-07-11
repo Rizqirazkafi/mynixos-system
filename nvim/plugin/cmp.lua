@@ -1,9 +1,10 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+local lspkind = require("lspkind")
 
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip").filetype_extend("php", { "html", "css", "javascript" })
-luasnip.config.setup({})
+-- luasnip.config.setup({})
 
 cmp.setup({
 	snippet = {
@@ -18,10 +19,19 @@ cmp.setup({
 	mapping = cmp.mapping.preset.insert({
 		["<Tab>"] = cmp.mapping.select_next_item(),
 		["<S-Tab>"] = cmp.mapping.select_prev_item(),
-		["<CR>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
-		}),
+		["<CR>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				if luasnip.expandable() then
+					luasnip.expand()
+				else
+					cmp.confirm({
+						select = true,
+					})
+				end
+			else
+				fallback()
+			end
+		end),
 		["<C-k>"] = cmp.mapping(function(fallback)
 			if luasnip.expand_or_locally_jumpable() then
 				luasnip.expand_or_jump()
@@ -38,4 +48,17 @@ cmp.setup({
 		{ name = "luasnip" },
 		{ name = "buffer" },
 	}),
+	formatting = {
+		fields = { "abbr", "kind", "menu" },
+		format = function(entry, item)
+			local menu_icon = {
+				nvim_lsp = "nvim_lsp",
+				luasnip = "luasnip ",
+				buffer = "buffer ",
+			}
+
+			item.menu = menu_icon[entry.source.name]
+			return item
+		end,
+	},
 })
