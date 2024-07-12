@@ -15,6 +15,9 @@
       "catch_workers_output" = 1;
     };
   };
+  services.phpfpm.phpOptions = ''
+    display_errors = on;
+  '';
   services.nginx = {
     enable = true;
     virtualHosts = {
