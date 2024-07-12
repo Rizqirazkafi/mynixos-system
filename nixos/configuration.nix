@@ -29,7 +29,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs pkgs-unstable; };
     users.rizqirazkafi = import ../home.nix;
   };
   programs.tmux = {

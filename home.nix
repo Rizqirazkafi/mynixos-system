@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, pkgs-unstable, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -79,6 +79,7 @@
     enableCompletion = true;
     initExtra = ''fastfetch ; echo "Hello, what good shall I do today?"'';
   };
+  nixpkgs.config.allowUnfree = true;
   programs.neovim = let
     system = "x86_64-linux";
     toLua = str: ''
@@ -95,8 +96,8 @@
     enable = true;
     # catppuccin.enable = true;
 
-    package = inputs.nixpkgs-unstable.legacyPackages.${system}.neovim-unwrapped;
-    extraPackages = with inputs.nixpkgs-unstable.legacyPackages.${system}; [
+    package = pkgs-unstable.neovim-unwrapped;
+    extraPackages = with pkgs-unstable; [
       nodejs_18
       xclip
       luajitPackages.lua-lsp
@@ -112,9 +113,9 @@
       fd
       php82Packages.php-codesniffer
       vscode-langservers-extracted
-      # phpactor
+      pkgs.phpactor
       php
-      # nodePackages.intelephense
+      nodePackages.intelephense
       # ansible-language-server
       # ansible-lint
     ];
@@ -186,7 +187,7 @@
         inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
         vim-snipmate
         cmp-latex-symbols
-        phpactor
+        # phpactor
         ncm2
         ncm2-path
         ncm2-bufword

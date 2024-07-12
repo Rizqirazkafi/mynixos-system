@@ -117,10 +117,10 @@ require("lspconfig").texlab.setup({
 --	capabilities = capabilities,
 --	single_file_support = true,
 --})
--- require("lspconfig").intelephense.setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- })
+require("lspconfig").intelephense.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 -- require("lspconfig").marksman.setup({
 -- 	on_attach = on_attach,
 -- 	capabilities = capabilities,
