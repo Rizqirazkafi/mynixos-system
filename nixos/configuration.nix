@@ -16,7 +16,8 @@
     ./file-system.nix
     # ./overlays.nix
     ./auto-cpufreq.nix
-    ./nginx.nix
+    # ./nginx.nix
+    ./nginx-simple.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.catppuccin.nixosModules.catppuccin
     # ./moodle.nix
