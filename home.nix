@@ -186,7 +186,7 @@
         inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
         vim-snipmate
         cmp-latex-symbols
-        # phpactor
+        phpactor
         ncm2
         ncm2-path
         ncm2-bufword
@@ -215,7 +215,7 @@
             p.tree-sitter-javascript
             p.tree-sitter-markdown
             p.tree-sitter-html
-            # p.tree-sitter-css
+            p.tree-sitter-css
             p.tree-sitter-arduino
             # p.tree-sitter-dart
             p.tree-sitter-php
