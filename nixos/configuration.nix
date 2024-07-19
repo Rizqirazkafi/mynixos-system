@@ -268,7 +268,6 @@
     google-chrome
     picom
     nitrogen
-    virt-manager
     bridge-utils
     libvirt
     qemu
@@ -348,7 +347,7 @@
     qpwgraph
     obs-studio
     pavucontrol
-    # Deployment
+    # Development
     # flutter
     # dart
     # etc

@@ -7,12 +7,10 @@
   home.homeDirectory = "/home/rizqirazkafi";
   imports = [
     #list of inputs
-    # inputs.nix-colors.homeManagerModules.default
     inputs.catppuccin.homeManagerModules.catppuccin
     ./features/alacritty.nix
   ];
 
-  # colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
   xdg.enable = true;
   catppuccin.enable = true;
   catppuccin.flavor = "mocha";
@@ -34,11 +32,11 @@
     hello
     lazygit
     tree
-    # nerdfonts
     nixpkgs-fmt
     # papirus-icon-theme
     papirus-folders
     catppuccin-papirus-folders
+    yarn
   ];
 
   home.file = { };
@@ -47,7 +45,6 @@
     EDITOR = "nvim";
     XDG_DATA_DIRS =
       "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
-    # GTK_THEME = config.gtk.theme.name;
     CHROME_EXECUTABLE = "google-chrome-stable";
     SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
   };
@@ -56,11 +53,6 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   services.picom.enable = true;
-  # services.devilspie2 = {
-  #   enable = true;
-  #   config = ''
-  #     if (get_window_name() == "video0 - mpv") then set_window_type("_NET_WM_WINDOW_TYPE_DOCK") stick_window(true) set_window_above(true) end'';
-  # };
 
   programs.bash = {
     enable = true;
@@ -175,19 +167,14 @@
         telescope-fzf-native-nvim
         # luasnip
 
-        # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.cmp-buffer
-        # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.cmp-nvim-lsp
         inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
-        # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.cmp_luasnip
 
         cmp-buffer
         cmp-nvim-lsp
-        # pkgs.vimPlugins.myluasnip
         cmp_luasnip
         inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
         vim-snipmate
         cmp-latex-symbols
-        # phpactor
         ncm2
         ncm2-path
         ncm2-bufword
@@ -204,7 +191,6 @@
           plugin = lualine-nvim;
           config = toLuaFile ./nvim/plugin/lualine.lua;
         }
-        # vimtex
         markdown-preview-nvim
         {
           plugin = (nvim-treesitter.withPlugins (p: [
@@ -234,14 +220,8 @@
 
   xsession = { enable = true; };
   fonts.fontconfig.enable = true;
-  programs.alacritty = {
-    enable = true;
-    # catppuccin = { enable = true; };
-  };
-  programs.rofi = {
-    enable = true;
-    # catppuccin = { enable = true; };
-  };
+  programs.alacritty = { enable = true; };
+  programs.rofi = { enable = true; };
 
   gtk = {
     enable = true;
