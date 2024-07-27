@@ -7,6 +7,10 @@ using flake and home-manager
 1. extract using dpkg-deb -xv ovmf_<year>_all.deb destination
 1. use under /usr/share/OVMF
 1. Add these two to xml config
+
+You can also use Fedora build of edk2-ovmf
+https://koji.fedoraproject.org/koji/packageinfo?packageID=16183
+1. extract using rpmextract from nixpkgs
 ```xml
 <os>
   <loader readonly="yes" secure="yes" type="pflash">/path/to/OVMF_CODE.secboot.fd</loader>
