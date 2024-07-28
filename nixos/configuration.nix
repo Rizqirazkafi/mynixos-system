@@ -231,17 +231,14 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    gabutdm
-    pkgs-unstable.zoom-us
+    # pkgs-unstable.zoom-us
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
-    neofetch
     fastfetch
     unzip
     stow
     lm_sensors
-    auto-cpufreq # manage power
     arandr
     wget
     interception-tools
@@ -270,8 +267,6 @@
     nitrogen
     bridge-utils
     libvirt
-    qemu
-    qemu_kvm
     pcmanfm
     lxappearance
     # ventoy-full
@@ -301,10 +296,7 @@
     # Networking
     pptp
     ppp
-    winbox
     tigervnc
-    x11vnc
-    # ansible
     nmap
     netcat-gnu # read write data via net
     inetutils
@@ -315,7 +307,6 @@
     dynamips
     tigervnc
     # sshfs
-    ciscoPacketTracer8
     jre_minimal
     remmina
     gnomeExtensions.remmina-search-provider
@@ -342,7 +333,6 @@
     # nasm
     gnumake
     # Audio
-    # noisetorch
     easyeffects
     qpwgraph
     obs-studio
@@ -356,14 +346,12 @@
     polkit
     xdotool
     baobab
-    zoom-us
+    # zoom-us
     wineWowPackages.stable
     winetricks
     discord
     xorg.xkill
     # ueberzug
-    goverlay # displayFPS
-    mangohud
   ];
 
   fonts.packages = with pkgs;
