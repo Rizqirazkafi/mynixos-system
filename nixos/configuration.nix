@@ -290,9 +290,8 @@
     # Office Suite
     python312Packages.pygments
     inputs.own-texlive.legacyPackages.${system}.texliveFull
-    # inputs.nixpkgs-unstable.legacyPackages.${system}.libreoffice
     beamerpresenter
-    libreoffice
+    libreoffice-fresh
     # Networking
     pptp
     ppp
@@ -318,7 +317,7 @@
     xorg.xhost
     # Tool for Nvidia
     lshw
-    # nvtopPackages.full
+    nvtopPackages.nvidia
     mediainfo
     # themes
     # libsForQt5.qtstyleplugin-kvantum
