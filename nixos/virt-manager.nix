@@ -1,14 +1,14 @@
-{ config, lib, pkgs, pkgs-unstable, ... }: {
+{ config, lib, pkgs, ... }: {
   programs.virt-manager.enable = true;
   virtualisation = {
     libvirtd = {
       enable = true;
       allowedBridges = [ "virbr0" ];
       qemu = {
-        package = pkgs.qemu_kvm;
-        runAsRoot = true;
         swtpm.enable = true;
         ovmf.enable = true;
+        ovmf.packages = [ pkgs.OVMF-Custom.fd ];
+        vhostUserPackages = [ pkgs.virtio-win ];
       };
     };
     spiceUSBRedirection.enable = true;
