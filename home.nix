@@ -217,6 +217,12 @@
     extraLuaConfig = "	${builtins.readFile ./nvim/options.lua}\n";
 
   };
+  home.file = {
+    ".config/nvim/after" = {
+      source = ./nvim/after;
+      recursive = true;
+    };
+  };
 
   xsession = { enable = true; };
   fonts.fontconfig.enable = true;
