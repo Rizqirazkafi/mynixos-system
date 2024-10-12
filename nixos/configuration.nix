@@ -17,7 +17,7 @@
     # ./overlays.nix
     ./auto-cpufreq.nix
     # ./nginx.nix
-    ./nginx-simple.nix
+    # ./nginx-simple.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.catppuccin.nixosModules.catppuccin
     # ./moodle.nix
@@ -81,7 +81,7 @@
   services.pptpd.enable = true;
 
   # Enable zerotier
-  services.zerotierone.enable = false;
+  services.zerotierone.enable = true;
   services.zerotierone.port = 9993;
 
   # Set your time zone.
@@ -211,7 +211,7 @@
     # QT_AUTO_SCREEN_SET_FACTOR = "0";
     # QT_SCALE_FACTOR = "1.5";
     # QT_FONT_DPI = "96";
-    SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
+    # SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
   };
   # environment.variables.QT_QPA_PLATFORMTHEME = "kvantum";
   # qt.style = "kvantum";
@@ -281,7 +281,6 @@
     # terminus-nerdfont
     # fira-code-nerdfont
     flatpak
-    kdePackages.kdeconnect-kde
     jq
     # Graphics and Video
     flameshot # screenshot tool
@@ -292,7 +291,10 @@
     inputs.own-texlive.legacyPackages.${system}.texliveFull
     beamerpresenter
     libreoffice-fresh
+    onlyoffice-bin_latest
     # Networking
+    scrcpy
+    android-tools
     pptp
     ppp
     tigervnc
@@ -351,6 +353,7 @@
     discord
     xorg.xkill
     # ueberzug
+    mysql-workbench
   ];
 
   fonts.packages = with pkgs;
@@ -448,9 +451,9 @@
   #     };
   #   };
   # };
-
+  # Fix password prompt for nm-applet
+  services.gnome.gnome-keyring.enable = true;
   # Workarround for GNS3 ubridge
-
   security.wrappers.ubridge = {
     source = "/run/current-system/sw/bin/ubridge";
     capabilities = "cap_net_admin,cap_net_raw=ep";
