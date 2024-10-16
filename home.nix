@@ -143,6 +143,10 @@
         #   plugin = catppuccin-nvim;
         #   config = "colorscheme catppuccin-mocha";
         # }
+        {
+          plugin = flutter-tools-nvim;
+          config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+        }
         neodev-nvim
         {
           plugin = nvim-cmp;

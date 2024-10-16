@@ -205,8 +205,8 @@
     };
   };
   environment.variables = {
-    # GDK_SCALE = "0.3";
-    # GDK_DPI_SCALE = "1";
+    GDK_SCALE = "0.3";
+    GDK_DPI_SCALE = "1";
     # Scale QT Application e.g: VirtualBox
     # QT_AUTO_SCREEN_SET_FACTOR = "0";
     # QT_SCALE_FACTOR = "1.5";
@@ -306,9 +306,7 @@
     gns3-server
     ubridge
     dynamips
-    tigervnc
     # sshfs
-    jre_minimal
     remmina
     gnomeExtensions.remmina-search-provider
     distrobox
@@ -326,11 +324,8 @@
     # libsForQt5.qt5ct
     # theme-obsidian2
     # Programming and stuff
-    # arduino
-    # arduino-cli
-    # kicad
-    # go
-    # gofumpt
+    go
+    gofumpt
     # nasm
     gnumake
     # Audio
@@ -339,8 +334,8 @@
     obs-studio
     pavucontrol
     # Development
-    # flutter
-    # dart
+    flutter
+    dart
     # etc
     openssl
     gparted
@@ -350,10 +345,8 @@
     # zoom-us
     wineWowPackages.stable
     winetricks
-    discord
     xorg.xkill
     # ueberzug
-    mysql-workbench
   ];
 
   fonts.packages = with pkgs;
@@ -393,14 +386,6 @@
   };
 
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # List services that you want to enable:
 
