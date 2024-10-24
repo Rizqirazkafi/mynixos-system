@@ -18,7 +18,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs pkgs-unstable; };
-    users.rizqirazkafi = import ../home.nix;
+    users.rizqirazkafi = import ./home.nix;
   };
   programs.tmux = {
     enable = true;
