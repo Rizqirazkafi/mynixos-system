@@ -34,17 +34,6 @@
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        # overlays = [
-        #   (final: prev: {
-        #     OVMF = prev.OVMF.override {
-        #       secureBoot = true;
-        #       tpmSupport = true;
-        #       msVarsTemplate = true;
-        #       tlsSupport = true;
-        #     };
-        #     OVMF-Custom = final.OVMF;
-        #   })
-        # ];
       };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
@@ -55,6 +44,10 @@
         nixos-laptop = lib.nixosSystem {
           specialArgs = { inherit inputs pkgs pkgs-unstable; };
           modules = [ ./nixos/configuration.nix ];
+        };
+        rizqi-server = lib.nixosSystem {
+          specialArgs = { inherit inputs pkgs pkgs-unstable; };
+          modules = [ ./rizqi-nixos/configuration.nix ];
         };
       };
     };
