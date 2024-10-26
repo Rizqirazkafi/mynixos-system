@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, pkgs, pkgs-unstable, ... }:
+{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -18,7 +18,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs pkgs-unstable; };
-    users.rizqirazkafi = import ./home.nix;
+    users.rizqirazkafi = import ../home.nix;
   };
   programs.tmux = {
     enable = true;
