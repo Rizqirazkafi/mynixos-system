@@ -51,6 +51,16 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.interfaces.ens18 = {
+    ipv4.addresses = [{
+      address = "192.168.30.20";
+      prefixLength = 25;
+    }];
+  };
+  networking.defaultGateway = {
+    address = "192.168.30.1";
+    interface = "ens18";
+  };
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -71,17 +81,12 @@
   };
 
   # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rizqirazkafi = {
     isNormalUser = true;
     description = "rizqirazkafi";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [ ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
   };
 
   # Allow unfree packages
@@ -98,6 +103,7 @@
     unzip
     ripgrep
     fd
+    gnome.gnome-remote-desktop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -131,9 +137,12 @@
   environment.etc."nextcloud-admin-pass".text = "PWD";
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud28;
-    hostName = "192.168.30.91";
+    package = pkgs.nextcloud30;
+    hostName = "192.168.30.20";
     config.adminpassFile = "/etc/nextcloud-admin-pass";
+    # datadir = "/home/rizqirazkafi/secondhdd/data";
   };
+  services.qemuGuest.enable = true;
+  virtualisation.docker = { enable = true; };
 
 }
