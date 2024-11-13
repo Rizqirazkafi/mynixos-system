@@ -57,6 +57,7 @@
       prefixLength = 25;
     }];
   };
+  networking.nameservers = [ "172.30.30.1" "1.1.1.1" "8.8.8.8" ];
   networking.defaultGateway = {
     address = "192.168.30.1";
     interface = "ens18";
@@ -81,6 +82,28 @@
   };
 
   # Configure keymap in X11
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
+  environment.gnome.excludePackages = (with pkgs; [
+    gnome-photos
+    gnome-tour
+    gedit # text editor
+  ]) ++ (with pkgs.gnome; [
+    cheese # webcam tool
+    gnome-music
+    epiphany # web browser
+    geary # email reader
+    evince # document viewer
+    gnome-characters
+    totem # video player
+    tali # poker game
+    iagno # go game
+    hitori # sudoku game
+    atomix # puzzle game
+  ]);
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rizqirazkafi = {
@@ -138,11 +161,14 @@
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud30;
-    hostName = "192.168.30.20";
+    hostName = "personal-cloud.local";
     config.adminpassFile = "/etc/nextcloud-admin-pass";
     # datadir = "/home/rizqirazkafi/secondhdd/data";
   };
   services.qemuGuest.enable = true;
   virtualisation.docker = { enable = true; };
+  # Enable zerotier
+  services.zerotierone.enable = true;
+  services.zerotierone.port = 9993;
 
 }
