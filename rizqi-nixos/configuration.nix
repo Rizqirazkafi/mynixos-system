@@ -65,6 +65,16 @@
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
+  # xserver
+  services.xserver.enable = true;
+  services.xserver.desktopManager = {
+    xterm.enable = false;
+    xfce.enable = true;
+  };
+  services.displayManager.defaultSession = "xfce";
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "startxfce4";
+  services.xrdp.openFirewall = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -82,29 +92,6 @@
   };
 
   # Configure keymap in X11
-  services.xserver = {
-    enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-    gedit # text editor
-  ]) ++ (with pkgs.gnome; [
-    cheese # webcam tool
-    gnome-music
-    epiphany # web browser
-    geary # email reader
-    evince # document viewer
-    gnome-characters
-    totem # video player
-    tali # poker game
-    iagno # go game
-    hitori # sudoku game
-    atomix # puzzle game
-  ]);
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rizqirazkafi = {
     isNormalUser = true;
@@ -126,7 +113,7 @@
     unzip
     ripgrep
     fd
-    gnome.gnome-remote-desktop
+    firefox
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
