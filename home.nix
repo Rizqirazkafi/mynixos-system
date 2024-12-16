@@ -6,15 +6,12 @@
   home.username = "rizqirazkafi";
   home.homeDirectory = "/home/rizqirazkafi";
   imports = [
-    #list of inputs
     inputs.catppuccin.homeManagerModules.catppuccin
-    ./features/alacritty.nix
+    inputs.stylix.homeManagerModules.stylix
+    #list of inputs
   ];
 
   xdg.enable = true;
-  catppuccin.enable = true;
-  catppuccin.flavor = "mocha";
-  catppuccin.accent = "lavender";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -46,13 +43,30 @@
     XDG_DATA_DIRS =
       "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
     CHROME_EXECUTABLE = "google-chrome-stable";
-    SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
   };
-  home.sessionPath = [ "/home/rizqirazkafi/.local/bin" ];
+
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    image = ./wallpaper/nixos-wallpaper-catppuccin-mocha.png;
+    polarity = "dark";
+    cursor.package = pkgs.bibata-cursors;
+    cursor.name = "Bibata-Modern-Ice";
+    fonts = {
+      serif = config.stylix.fonts.monospace;
+      sansSerif = config.stylix.fonts.monospace;
+      sizes = {
+        terminal = 10;
+        applications = 14;
+        desktop = 14;
+      };
+
+    };
+    targets.neovim.enable = false;
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  services.picom.enable = true;
 
   programs.bash = {
     enable = true;
@@ -64,12 +78,8 @@
         "sudo nbfc set -f 0 -s 100; sleep 6 && sudo nbfc set -f 1 -s 100";
       labconnect = "sudo pon lab debug dump logfd 2 nodetach";
       lg = "lazygit";
-      myfdm =
-        "distrobox-enter --root -n ubuntu -- /opt/freedownloadmanager/fdm";
-      ubuntu-firefox = "distrobox-enter --root -n ubuntu -- /usr/bin/firefox";
     };
     enableCompletion = true;
-    initExtra = ''fastfetch ; echo "Hello, what good shall I do today?"'';
   };
   nixpkgs.config.allowUnfree = true;
   programs.neovim = let
@@ -86,7 +96,10 @@
     '';
   in {
     enable = true;
-    # catppuccin.enable = true;
+    catppuccin = {
+      enable = true;
+      flavor = "mocha";
+    };
 
     package = pkgs-unstable.neovim-unwrapped;
     extraPackages = with pkgs-unstable; [
@@ -96,7 +109,6 @@
       luajitPackages.jsregexp
       luajitPackages.fidget-nvim
       nil
-      texlab
       emmet-ls
       stylua
       tree-sitter
@@ -119,10 +131,6 @@
         lazygit-nvim
         plenary-nvim
         nvim-lspconfig
-        # {
-        #   plugin = nvim-ts-rainbow2;
-        #   config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
-        # }
         {
           plugin = indent-blankline-nvim;
           config = toLuaFile ./nvim/plugin/ibl.lua;
@@ -139,10 +147,6 @@
           plugin = nvim-lspconfig;
           config = toLuaFile ./nvim/plugin/lsp.lua;
         }
-        # {
-        #   plugin = catppuccin-nvim;
-        #   config = "colorscheme catppuccin-mocha";
-        # }
         {
           plugin = flutter-tools-nvim;
           config = toLuaFile ./nvim/plugin/flutter-tools.lua;
@@ -168,6 +172,7 @@
           plugin = which-key-nvim;
           config = toLuaFile ./nvim/plugin/which-key.lua;
         }
+        base16-nvim
         telescope-fzf-native-nvim
         # luasnip
 
@@ -233,19 +238,4 @@
   programs.alacritty = { enable = true; };
   programs.rofi = { enable = true; };
 
-  gtk = {
-    enable = true;
-    catppuccin.enable = true;
-    iconTheme.name = "Papirus-Dark";
-    iconTheme.package = pkgs.catppuccin-papirus-folders;
-    font.name = "TerminessNerdFont-Regular";
-    font.package = pkgs.terminus_font;
-    font.size = 14;
-  };
-  qt = {
-    enable = true;
-    style.catppuccin.enable = true;
-    style.name = "kvantum";
-    platformTheme.name = "kvantum";
-  };
 }
