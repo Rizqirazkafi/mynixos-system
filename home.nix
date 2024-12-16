@@ -6,9 +6,9 @@
   home.username = "rizqirazkafi";
   home.homeDirectory = "/home/rizqirazkafi";
   imports = [
-    inputs.catppuccin.homeManagerModules.catppuccin
-    inputs.stylix.homeManagerModules.stylix
     #list of inputs
+    inputs.catppuccin.homeManagerModules.catppuccin
+    ./features/alacritty.nix
   ];
 
   xdg.enable = true;
@@ -43,27 +43,11 @@
     XDG_DATA_DIRS =
       "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
     CHROME_EXECUTABLE = "google-chrome-stable";
+    GSK_RENDERER = "cairo nautilus";
   };
-
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-    image = ./wallpaper/nixos-wallpaper-catppuccin-mocha.png;
-    polarity = "dark";
-    cursor.package = pkgs.bibata-cursors;
-    cursor.name = "Bibata-Modern-Ice";
-    fonts = {
-      serif = config.stylix.fonts.monospace;
-      sansSerif = config.stylix.fonts.monospace;
-      sizes = {
-        terminal = 10;
-        applications = 14;
-        desktop = 14;
-      };
-
-    };
-    targets.neovim.enable = false;
-  };
+  catppuccin.enable = true;
+  catppuccin.flavor = "mocha";
+  catppuccin.accent = "lavender";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -237,5 +221,21 @@
   fonts.fontconfig.enable = true;
   programs.alacritty = { enable = true; };
   programs.rofi = { enable = true; };
+  gtk = {
+    enable = true;
+    catppuccin.enable = true;
+    iconTheme.name = "Papirus-Dark";
+    iconTheme.package = pkgs.catppuccin-papirus-folders;
+    font.name = "TerminessNerdFont-Regular";
+    font.package = pkgs.terminus_font;
+    font.size = 14;
+  };
+
+  qt = {
+    enable = true;
+    style.name = "kvantum";
+    platformTheme.name = "kvantum";
+    style.catppuccin = { enable = true; };
+  };
 
 }
