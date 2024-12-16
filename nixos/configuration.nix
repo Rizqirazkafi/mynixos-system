@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, lib, pkgs, pkgs-unstable, ... }:
+{ inputs, config, lib, pkgs, pkgs-unstable, stylix, ... }:
 
 {
   imports = [
@@ -19,13 +19,12 @@
     # ./nginx.nix
     # ./nginx-simple.nix
     inputs.home-manager.nixosModules.home-manager
-    inputs.catppuccin.nixosModules.catppuccin
     # ./moodle.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "rizqirazkafi" ];
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixVersions.stable;
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -63,6 +62,8 @@
 
   networking.hosts = {
     "127.0.0.1" = [ "phpdemo.myhome.local" "myhome.local" "moodle.local" ];
+    "192.168.30.20" = [ "personal-cloud.local" ];
+    "192.168.192.124" = [ "personal-cloud.local" ];
   };
 
   programs.dconf.enable =
@@ -148,7 +149,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -184,14 +185,16 @@
       "ubridge"
       "kvm"
       "wireshark"
-      "docker"
+      # "docker"
       "nginx"
+      "adbusers"
     ];
-    packages = with pkgs;
-      [
-        firefox
-        #  thunderbird
-      ];
+    packages = with pkgs; [
+      firefox
+      nextcloud-client
+      #  thunderbird
+    ];
+    homeMode = "755";
   };
 
   # Allow unfree packages
@@ -213,8 +216,6 @@
     # QT_FONT_DPI = "96";
     # SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
   };
-  # environment.variables.QT_QPA_PLATFORMTHEME = "kvantum";
-  # qt.style = "kvantum";
   programs.light.enable = true;
   programs.thunar = {
     enable = true;
@@ -235,6 +236,7 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
+    mission-center
     fastfetch
     unzip
     stow
@@ -244,17 +246,15 @@
     interception-tools
     git
     xclip
-    gnome.gnome-keyring
-    gnome.nautilus
-    gnome.adwaita-icon-theme
-    gnome.gnome-shell
+    gnome-keyring
+    nautilus
+    adwaita-icon-theme
+    gnome-shell
     polkit_gnome
     alacritty
     gcc.cc.libgcc
     gcc_multi
     python3
-    rose-pine-gtk-theme
-    rose-pine-icon-theme
     i3
     i3status
     libnotify # Notification daemon
@@ -263,7 +263,7 @@
     pamixer
     rofi
     google-chrome
-    picom
+    pkgs-unstable.picom
     nitrogen
     bridge-utils
     libvirt
@@ -280,24 +280,23 @@
     # nerdfonts
     # terminus-nerdfont
     # fira-code-nerdfont
-    flatpak
     jq
     # Graphics and Video
     flameshot # screenshot tool
     nomacs # image viewer
-    gimp
+    # gimp
     # Office Suite
     python312Packages.pygments
-    inputs.own-texlive.legacyPackages.${system}.texliveFull
+    # inputs.own-texlive.legacyPackages.${system}.texliveFull
     beamerpresenter
     libreoffice-fresh
-    onlyoffice-bin_latest
+    # onlyoffice-bin_latest
     # Networking
+    pkgs-unstable.winbox4
     scrcpy
-    android-tools
+    # pkgs-unstable.android-tools
     pptp
     ppp
-    tigervnc
     nmap
     netcat-gnu # read write data via net
     inetutils
@@ -309,11 +308,11 @@
     # sshfs
     remmina
     gnomeExtensions.remmina-search-provider
-    distrobox
-    transmission-gtk
+    # distrobox
+    # transmission-gtk
     # rclone
     # Add polkit for distrobox
-    gnome.zenity
+    zenity
     xorg.xhost
     # Tool for Nvidia
     lshw
@@ -324,8 +323,8 @@
     # libsForQt5.qt5ct
     # theme-obsidian2
     # Programming and stuff
-    go
-    gofumpt
+    # go
+    # gofumpt
     # nasm
     gnumake
     # Audio
@@ -334,8 +333,14 @@
     obs-studio
     pavucontrol
     # Development
+    # android-studio
+    cmake
     flutter
     dart
+    ninja
+    pkg-config
+    clang
+    jdk17
     # etc
     openssl
     gparted
@@ -348,19 +353,23 @@
     xorg.xkill
     # ueberzug
   ];
+  programs.adb.enable = true;
 
   fonts.packages = with pkgs;
     [ (nerdfonts.override { fonts = [ "Terminus" ]; }) ];
 
   # Enable docker with rootles
 
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
+  # virtualisation.docker = {
+  #   enable = true;
+  #   # rootless = {
+  #   #   enable = true;
+  #   #   setSocketVariable = true;
+  #   # };
+  #   daemon.settings = {
+  #     data-root = "/home/rizqirazkafi/secondssd/ISO/docker";
+  #   };
+  # };
   virtualisation.virtualbox = {
     host = {
       enable = true;
@@ -385,7 +394,7 @@
     '';
   };
 
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
   # List services that you want to enable:
 
@@ -446,5 +455,40 @@
     group = "users";
     permissions = "u+rx,g+x";
   };
+  # services.hardware.openrgb = {
+  #   enable = true;
+  #   motherboard = "intel";
+  # };
+  system.userActivationScripts = {
+    stdio = {
+      text = ''
+        rm -f ~/Android/Sdk/platform-tools/adb
+        ln -s /run/current-system/sw/bin/adb ~/Android/Sdk/platform-tools/adb
+      '';
+      deps = [ ];
+    };
+  };
+  programs.nix-ld.enable = true;
+
+  # stylix = {
+  #   enable = true;
+  #   base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  #   image = ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
+  #   polarity = "dark";
+  #   cursor.package = pkgs.bibata-cursors;
+  #   cursor.name = "Bibata-Modern-Ice";
+  #   fonts = {
+  #     serif = config.stylix.fonts.monospace;
+  #     sansSerif = config.stylix.fonts.monospace;
+  #     sizes = {
+  #       terminal = 10;
+  #       applications = 14;
+  #       desktop = 14;
+  #     };
+  #
+  #   };
+  #   targets.nixvim.enable = false;
+  #   targets.neovim.enable = false;
+  # };
 
 }
