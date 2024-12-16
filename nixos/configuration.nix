@@ -225,9 +225,9 @@
       xfce4-whiskermenu-plugin
     ];
   };
-  environment.shellInit = ''
-    [ -n "$DISPLAY" ] && xhost +si:localuser:$USER || true
-  '';
+  # environment.shellInit = ''
+  #   [ -n "$DISPLAY" ] && xhost +si:localuser:$USER || true
+  # '';
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
