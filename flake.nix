@@ -3,11 +3,11 @@
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-legacy.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-colors.url = "github:misterio77/nix-colors";
@@ -17,6 +17,7 @@
     };
     #catppuccin.url = "github:catppuccin/nix";
     catppuccin.url = "github:catppuccin/nix";
+    stylix.url = "github:danth/stylix";
     # own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
     # own-flutter-tools.flake = false;
     own-texlive.url =
@@ -27,7 +28,7 @@
     # ultimate-autopairs.flake = false;
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, stylix, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -43,7 +44,8 @@
       nixosConfigurations = {
         nixos-laptop = lib.nixosSystem {
           specialArgs = { inherit inputs pkgs pkgs-unstable; };
-          modules = [ ./nixos/configuration.nix ];
+          modules = [stylix.nixosModules.stylix ./nixos/configuration.nix 
+        ];
         };
         rizqi-server = lib.nixosSystem {
           specialArgs = { inherit inputs pkgs pkgs-unstable; };
