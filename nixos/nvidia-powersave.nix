@@ -1,11 +1,12 @@
 { config, lib, pkgs, ... }: {
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    # driSupport = true;
+    # enable32bit = true;
   };
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.open = false;
   hardware.nvidia.prime = {
     offload = {
       enable = true;
