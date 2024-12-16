@@ -17,7 +17,6 @@
     };
     #catppuccin.url = "github:catppuccin/nix";
     catppuccin.url = "github:catppuccin/nix";
-    stylix.url = "github:danth/stylix";
     # own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
     # own-flutter-tools.flake = false;
     own-texlive.url =
@@ -28,7 +27,7 @@
     # ultimate-autopairs.flake = false;
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, stylix, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
