@@ -44,8 +44,7 @@
       nixosConfigurations = {
         nixos-laptop = lib.nixosSystem {
           specialArgs = { inherit inputs pkgs pkgs-unstable; };
-          modules = [stylix.nixosModules.stylix ./nixos/configuration.nix 
-        ];
+          modules = [ ./nixos/configuration.nix ];
         };
         rizqi-server = lib.nixosSystem {
           specialArgs = { inherit inputs pkgs pkgs-unstable; };
