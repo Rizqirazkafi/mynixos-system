@@ -7,7 +7,6 @@
       qemu = {
         swtpm.enable = true;
         ovmf.enable = true;
-        ovmf.packages = [ pkgs.OVMF-Custom.fd ];
         vhostUserPackages = [ pkgs.virtio-win ];
       };
     };

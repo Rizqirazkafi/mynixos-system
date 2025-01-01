@@ -12,9 +12,6 @@
   ];
 
   xdg.enable = true;
-  catppuccin.enable = true;
-  catppuccin.flavor = "mocha";
-  catppuccin.accent = "lavender";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -46,13 +43,14 @@
     XDG_DATA_DIRS =
       "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
     CHROME_EXECUTABLE = "google-chrome-stable";
-    SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
+    GSK_RENDERER = "cairo";
   };
-  home.sessionPath = [ "/home/rizqirazkafi/.local/bin" ];
+  catppuccin.enable = true;
+  catppuccin.flavor = "mocha";
+  catppuccin.accent = "lavender";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  services.picom.enable = true;
 
   programs.bash = {
     enable = true;
@@ -64,12 +62,8 @@
         "sudo nbfc set -f 0 -s 100; sleep 6 && sudo nbfc set -f 1 -s 100";
       labconnect = "sudo pon lab debug dump logfd 2 nodetach";
       lg = "lazygit";
-      myfdm =
-        "distrobox-enter --root -n ubuntu -- /opt/freedownloadmanager/fdm";
-      ubuntu-firefox = "distrobox-enter --root -n ubuntu -- /usr/bin/firefox";
     };
     enableCompletion = true;
-    initExtra = ''fastfetch ; echo "Hello, what good shall I do today?"'';
   };
   nixpkgs.config.allowUnfree = true;
   programs.neovim = let
@@ -86,17 +80,20 @@
     '';
   in {
     enable = true;
-    # catppuccin.enable = true;
+    catppuccin = {
+      enable = true;
+      flavor = "mocha";
+    };
 
-    package = pkgs-unstable.neovim-unwrapped;
-    extraPackages = with pkgs-unstable; [
+    package = pkgs.neovim-unwrapped;
+    extraPackages = with pkgs; [
       nodejs_18
       xclip
       luajitPackages.lua-lsp
       luajitPackages.jsregexp
       luajitPackages.fidget-nvim
+      luajitPackages.luasnip
       nil
-      texlab
       emmet-ls
       stylua
       tree-sitter
@@ -112,111 +109,107 @@
       # ansible-lint
     ];
 
-    plugins =
-      with inputs.nixpkgs-unstable.legacyPackages.${system}.vimPlugins; [
-        lspkind-nvim
-        vim-tmux-navigator
-        lazygit-nvim
-        plenary-nvim
-        nvim-lspconfig
-        # {
-        #   plugin = nvim-ts-rainbow2;
-        #   config = toLuaFile ./nvim/plugin/ts-rainbow.lua;
-        # }
-        {
-          plugin = indent-blankline-nvim;
-          config = toLuaFile ./nvim/plugin/ibl.lua;
-        }
-        {
-          plugin = comment-nvim;
-          config = toLua ''require("Comment").setup()'';
-        }
-        {
-          plugin = dressing-nvim;
-          config = toLua ''require("dressing").setup()'';
-        }
-        {
-          plugin = nvim-lspconfig;
-          config = toLuaFile ./nvim/plugin/lsp.lua;
-        }
-        # {
-        #   plugin = catppuccin-nvim;
-        #   config = "colorscheme catppuccin-mocha";
-        # }
-        {
-          plugin = flutter-tools-nvim;
-          config = toLuaFile ./nvim/plugin/flutter-tools.lua;
-        }
-        neodev-nvim
-        {
-          plugin = nvim-cmp;
-          config = toLuaFile ./nvim/plugin/cmp.lua;
-        }
-        {
-          plugin = telescope-nvim;
-          config = toLuaFile ./nvim/plugin/telescope.lua;
-        }
-        {
-          plugin = harpoon;
-          config = toLuaFile ./nvim/plugin/harpoon.lua;
-        }
-        {
-          plugin = fidget-nvim;
-          config = toLuaFile ./nvim/plugin/fidget.lua;
-        }
-        {
-          plugin = which-key-nvim;
-          config = toLuaFile ./nvim/plugin/which-key.lua;
-        }
-        telescope-fzf-native-nvim
-        # luasnip
+    plugins = with pkgs.vimPlugins; [
+      lspkind-nvim
+      vim-tmux-navigator
+      lazygit-nvim
+      plenary-nvim
+      nvim-lspconfig
+      {
+        plugin = indent-blankline-nvim;
+        config = toLuaFile ./nvim/plugin/ibl.lua;
+      }
+      {
+        plugin = comment-nvim;
+        config = toLua ''require("Comment").setup()'';
+      }
+      {
+        plugin = dressing-nvim;
+        config = toLua ''require("dressing").setup()'';
+      }
+      {
+        plugin = nvim-lspconfig;
+        config = toLuaFile ./nvim/plugin/lsp.lua;
+      }
+      {
+        plugin = flutter-tools-nvim;
+        config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+      }
+      neodev-nvim
+      {
+        plugin = nvim-cmp;
+        config = toLuaFile ./nvim/plugin/cmp.lua;
+      }
+      {
+        plugin = telescope-nvim;
+        config = toLuaFile ./nvim/plugin/telescope.lua;
+      }
+      {
+        plugin = harpoon;
+        config = toLuaFile ./nvim/plugin/harpoon.lua;
+      }
+      {
+        plugin = fidget-nvim;
+        config = toLuaFile ./nvim/plugin/fidget.lua;
+      }
+      {
+        plugin = which-key-nvim;
+        config = toLuaFile ./nvim/plugin/which-key.lua;
+      }
+      base16-nvim
+      telescope-fzf-native-nvim
+      # if luasnip broken, use this:
+      # https://github.com/nvim-lua/kickstart.nvim/issues/537
+      pkgs-unstable.vimPlugins.luasnip
 
-        inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
+      # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
 
-        cmp-buffer
-        cmp-nvim-lsp
-        cmp_luasnip
-        inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
-        vim-snipmate
-        cmp-latex-symbols
-        ncm2
-        ncm2-path
-        ncm2-bufword
-        ncm2-html-subscope
-        {
-          plugin = gitsigns-nvim;
-          config = toLuaFile ./nvim/plugin/gitsigns.lua;
-        }
-        {
-          plugin = none-ls-nvim;
-          config = toLuaFile ./nvim/plugin/none-ls-nvim.lua;
-        }
-        {
-          plugin = lualine-nvim;
-          config = toLuaFile ./nvim/plugin/lualine.lua;
-        }
-        markdown-preview-nvim
-        {
-          plugin = (nvim-treesitter.withPlugins (p: [
-            p.tree-sitter-nix
-            p.tree-sitter-bash
-            p.tree-sitter-json
-            p.tree-sitter-latex
-            p.tree-sitter-vimdoc
-            p.tree-sitter-javascript
-            p.tree-sitter-markdown
-            p.tree-sitter-html
-            p.tree-sitter-css
-            p.tree-sitter-arduino
-            # p.tree-sitter-dart
-            p.tree-sitter-php
-          ]));
-          config = toLuaFile ./nvim/plugin/treesitter.lua;
+      cmp-buffer
+      cmp-nvim-lsp
+      pkgs-unstable.vimPlugins.cmp_luasnip
+      # cmp-snippy
+      friendly-snippets
+      # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
+      vim-snipmate
+      cmp-latex-symbols
+      ncm2
+      ncm2-path
+      ncm2-bufword
+      ncm2-html-subscope
+      {
+        plugin = gitsigns-nvim;
+        config = toLuaFile ./nvim/plugin/gitsigns.lua;
+      }
+      {
+        plugin = none-ls-nvim;
+        config = toLuaFile ./nvim/plugin/none-ls-nvim.lua;
+      }
+      {
+        plugin = lualine-nvim;
+        config = toLuaFile ./nvim/plugin/lualine.lua;
+      }
+      markdown-preview-nvim
+      {
+        plugin = (nvim-treesitter.withPlugins (p: [
+          p.tree-sitter-nix
+          p.tree-sitter-bash
+          p.tree-sitter-json
+          p.tree-sitter-latex
+          p.tree-sitter-vimdoc
+          p.tree-sitter-javascript
+          p.tree-sitter-markdown
+          p.tree-sitter-html
+          p.tree-sitter-css
+          p.tree-sitter-arduino
+          # p.tree-sitter-dart
+          p.tree-sitter-php
+        ]));
+        config = toLuaFile ./nvim/plugin/treesitter.lua;
 
-        }
-        vim-nix
-        ansible-vim
-      ];
+      }
+      vim-nix
+      ansible-vim
+    ];
 
     extraLuaConfig = "	${builtins.readFile ./nvim/options.lua}\n";
 
@@ -232,7 +225,6 @@
   fonts.fontconfig.enable = true;
   programs.alacritty = { enable = true; };
   programs.rofi = { enable = true; };
-
   gtk = {
     enable = true;
     catppuccin.enable = true;
@@ -242,10 +234,12 @@
     font.package = pkgs.terminus_font;
     font.size = 14;
   };
+
   qt = {
     enable = true;
-    style.catppuccin.enable = true;
     style.name = "kvantum";
     platformTheme.name = "kvantum";
+    style.catppuccin = { enable = true; };
   };
+
 }
