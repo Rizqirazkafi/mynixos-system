@@ -19,6 +19,7 @@
     # ./nginx.nix
     # ./nginx-simple.nix
     inputs.home-manager.nixosModules.home-manager
+    inputs.catppuccin.nixosModules.catppuccin
     # ./moodle.nix
   ];
 
@@ -56,6 +57,8 @@
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" "ppp_mppe" "pptp" ];
   boot.kernelPackages = pkgs.linuxPackages_6_6;
+  boot.plymouth.catppuccin.enable = true;
+  boot.plymouth.catppuccin.flavor = "mocha";
 
   networking.hostName = "nixos-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -109,15 +112,25 @@
   services.xserver.dpi = 75;
 
   # Enable the LXQT Desktop Environment.
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.lightdm.background =
-    ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
-  services.xserver.displayManager.lightdm.greeters.gtk.extraConfig =
-    "user-background = false";
-  services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
-  services.xserver.displayManager.lightdm.greeters.gtk.theme.name = "rose-pine";
-  services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name =
-    "rose-pine";
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.displayManager.lightdm.background =
+  #   ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
+  # services.xserver.displayManager.lightdm.greeters.gtk.extraConfig =
+  #   "user-background = false";
+  # services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
+  # services.xserver.displayManager.lightdm.greeters.gtk.theme.name = "rose-pine";
+  # services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name =
+  #   "rose-pine";
+  # SDDM
+  services.displayManager.sddm = {
+    enable = true;
+    package = pkgs.kdePackages.sddm;
+    catppuccin = {
+      enable = true;
+      flavor = "mocha";
+      font = "TerminesNerdFont-Regular";
+    };
+  };
   services.xserver = {
     windowManager.i3 = {
       enable = true;
@@ -232,7 +245,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # pkgs-unstable.zoom-us
+    pkgs-unstable.zoom-us
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
@@ -301,15 +314,17 @@
     netcat-gnu # read write data via net
     inetutils
     vnstat # monitor network
-    gns3-gui
+    (gns3-gui.overrideAttrs (oldAttrs: rec { src = inputs.gns3-gui; }))
+    # my-gns3-gui
+    # gns3-gui
     gns3-server
     ubridge
     dynamips
-    # sshfs
+    sshfs
     remmina
     gnomeExtensions.remmina-search-provider
     # distrobox
-    # transmission-gtk
+    transmission-gtk
     # rclone
     # Add polkit for distrobox
     zenity
@@ -347,7 +362,6 @@
     polkit
     xdotool
     baobab
-    # zoom-us
     wineWowPackages.stable
     winetricks
     xorg.xkill
