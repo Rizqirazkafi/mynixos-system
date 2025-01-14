@@ -25,9 +25,12 @@
     plugin-luasnip.flake = false;
     # ultimate-autopairs.url = "github:altermo/ultimate-autopair.nvim";
     # ultimate-autopairs.flake = false;
+    gns3-gui.url = "github:Rizqirazkafi/gns3-gui";
+    gns3-gui.flake = false;
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, ... }@inputs:
+  outputs =
+    { self, nixpkgs, nixpkgs-unstable, nbfc-linux, gns3-gui, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -42,7 +45,7 @@
     in {
       nixosConfigurations = {
         nixos-laptop = lib.nixosSystem {
-          specialArgs = { inherit inputs pkgs pkgs-unstable; };
+          specialArgs = { inherit inputs pkgs pkgs-unstable gns3-gui; };
           modules = [ ./nixos/configuration.nix ];
         };
         rizqi-server = lib.nixosSystem {
