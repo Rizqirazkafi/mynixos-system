@@ -31,6 +31,22 @@
         "type": "github"
       }
     },
+    "gns3-gui": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736352230,
+        "narHash": "sha256-3SFteaDPWo3t9Km8809aOnld/iiWPJDhkzaYf426kSE=",
+        "owner": "Rizqirazkafi",
+        "repo": "gns3-gui",
+        "rev": "f80aa6bbdccc4ed2ea507628fddb84e433dd72db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Rizqirazkafi",
+        "repo": "gns3-gui",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -204,6 +220,7 @@
     "root": {
       "inputs": {
         "catppuccin": "catppuccin",
+        "gns3-gui": "gns3-gui",
         "home-manager": "home-manager",
         "nbfc-linux": "nbfc-linux",
         "nix-colors": "nix-colors",
