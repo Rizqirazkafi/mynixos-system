@@ -219,6 +219,10 @@
       source = ./nvim/after;
       recursive = true;
     };
+    ".config/picom" = {
+      source = ./picom;
+      recursive = true;
+    };
   };
 
   xsession = { enable = true; };
