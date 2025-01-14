@@ -174,11 +174,10 @@ require("lspconfig").phpactor.setup({
 -- 		},
 -- 	},
 -- })
---require("lspconfig").dartls.setup({
---	on_attach = on_attach,
---	capabilities = capabilities,
---	single_file_support = true,
---})
+require("lspconfig").dartls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 require("lspconfig").ccls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
