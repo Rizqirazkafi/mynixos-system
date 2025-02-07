@@ -12,6 +12,19 @@
   ];
 
   xdg.enable = true;
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "image/jpeg" = [ "org.nomacs.ImageLounge.desktop" ];
+      "image/png" = [ "org.nomacs.ImageLounge.desktop" ];
+      "video/mp4" = [ "vlc.desktop" ];
+      "video/x-matroska" = [ "vlc.desktop" ]; # MKV
+      "video/avi" = [ "vlc.desktop" ];
+      "video/mpeg" = [ "vlc.desktop" ];
+      "video/webm" = [ "vlc.desktop" ];
+      "video/ogg" = [ "vlc.desktop" ];
+    };
+  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -139,6 +152,10 @@
       {
         plugin = nvim-cmp;
         config = toLuaFile ./nvim/plugin/cmp.lua;
+      }
+      {
+        plugin = autoclose-nvim;
+        config = toLua ''require("autoclose").setup()'';
       }
       {
         plugin = telescope-nvim;
