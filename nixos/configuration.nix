@@ -85,8 +85,8 @@
   services.pptpd.enable = true;
 
   # Enable zerotier
-  services.zerotierone.enable = true;
-  services.zerotierone.port = 9993;
+  # services.zerotierone.enable = true;
+  # services.zerotierone.port = 9993;
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -109,7 +109,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.dpi = 75;
+  services.xserver.dpi = 96;
 
   # Enable the LXQT Desktop Environment.
   # services.xserver.displayManager.lightdm.enable = true;
@@ -281,7 +281,7 @@
     bridge-utils
     libvirt
     pcmanfm
-    lxappearance
+    # lxappearance
     # ventoy-full
     vlc
     mpv
@@ -299,10 +299,10 @@
     nomacs # image viewer
     # gimp
     # Office Suite
-    python312Packages.pygments
+    # python312Packages.pygments
     # inputs.own-texlive.legacyPackages.${system}.texliveFull
-    beamerpresenter
-    libreoffice-fresh
+    # beamerpresenter
+    # libreoffice-fresh
     # onlyoffice-bin_latest
     # Networking
     pkgs-unstable.winbox4
@@ -348,7 +348,7 @@
     obs-studio
     pavucontrol
     # Development
-    # android-studio
+    android-studio
     cmake
     flutter
     dart
@@ -362,9 +362,9 @@
     polkit
     xdotool
     baobab
-    wineWowPackages.stable
-    winetricks
-    xorg.xkill
+    # wineWowPackages.stable
+    # winetricks
+    # xorg.xkill
     # ueberzug
   ];
   programs.adb.enable = true;
