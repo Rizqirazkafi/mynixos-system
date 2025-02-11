@@ -55,7 +55,7 @@
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelModules = [ "kvm-intel" "ppp_mppe" "pptp" ];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.kernelPackages = pkgs.linuxPackages_6_6;
   boot.plymouth.catppuccin.enable = true;
   boot.plymouth.catppuccin.flavor = "mocha";
@@ -81,7 +81,6 @@
   # programs.noisetorch.enable = true;
 
   # Enable legacy PPTP module
-  networking.firewall.connectionTrackingModules = [ "pptp" "snmp" ];
   services.pptpd.enable = true;
 
   # Enable zerotier
@@ -220,15 +219,7 @@
       name = "Utterly Nord Plasma";
     };
   };
-  environment.variables = {
-    GDK_SCALE = "0.3";
-    GDK_DPI_SCALE = "1";
-    # Scale QT Application e.g: VirtualBox
-    # QT_AUTO_SCREEN_SET_FACTOR = "0";
-    # QT_SCALE_FACTOR = "1.5";
-    # QT_FONT_DPI = "96";
-    # SUDO_ASKPASS = "/home/rizqirazkafi/.local/bin/password-prompt";
-  };
+  environment.variables = { };
   programs.light.enable = true;
   programs.thunar = {
     enable = true;
@@ -443,22 +434,6 @@
   xdg.mime.defaultApplications = {
     "application/octet-stream" = "cisco-pt8.desktop.desktop";
   };
-  # systemd = {
-  #   user.services.polkit-gnome-authentication-agent-1 = {
-  #     description = "polkit-gnome-authentication-agent-1";
-  #     wantedBy = [ "graphical-session.target" ];
-  #     wants = [ "graphical-session.target" ];
-  #     after = [ "graphical-session.target" ];
-  #     serviceConfig = {
-  #       Type = "simple";
-  #       ExecStart =
-  #         "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-  #       Restart = "on-failure";
-  #       RestartSec = 1;
-  #       TimeoutStopSec = 10;
-  #     };
-  #   };
-  # };
   # Fix password prompt for nm-applet
   services.gnome.gnome-keyring.enable = true;
   # Workarround for GNS3 ubridge
@@ -469,40 +444,4 @@
     group = "users";
     permissions = "u+rx,g+x";
   };
-  # services.hardware.openrgb = {
-  #   enable = true;
-  #   motherboard = "intel";
-  # };
-  system.userActivationScripts = {
-    stdio = {
-      text = ''
-        rm -f ~/Android/Sdk/platform-tools/adb
-        ln -s /run/current-system/sw/bin/adb ~/Android/Sdk/platform-tools/adb
-      '';
-      deps = [ ];
-    };
-  };
-  programs.nix-ld.enable = true;
-
-  # stylix = {
-  #   enable = true;
-  #   base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-  #   image = ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
-  #   polarity = "dark";
-  #   cursor.package = pkgs.bibata-cursors;
-  #   cursor.name = "Bibata-Modern-Ice";
-  #   fonts = {
-  #     serif = config.stylix.fonts.monospace;
-  #     sansSerif = config.stylix.fonts.monospace;
-  #     sizes = {
-  #       terminal = 10;
-  #       applications = 14;
-  #       desktop = 14;
-  #     };
-  #
-  #   };
-  #   targets.nixvim.enable = false;
-  #   targets.neovim.enable = false;
-  # };
-
 }
