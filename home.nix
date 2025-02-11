@@ -218,7 +218,7 @@
           p.tree-sitter-html
           p.tree-sitter-css
           p.tree-sitter-arduino
-          # p.tree-sitter-dart
+          p.tree-sitter-dart
           p.tree-sitter-php
         ]));
         config = toLuaFile ./nvim/plugin/treesitter.lua;
