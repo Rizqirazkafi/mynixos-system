@@ -1,11 +1,6 @@
 { config, lib, pkgs, ... }: {
-  fileSystems."/home/rizqirazkafi/winssd" = {
-    device = "/dev/disk/by-uuid/AC2CC3AF2CC372BE";
-    fsType = "ntfs-3g";
-    options = [ "rw" "uid=1000" ];
-  };
-  fileSystems."/home/rizqirazkafi/secondssd" = {
-    device = "/dev/disk/by-uuid/AA88175D8817277B";
+  fileSystems."/home/rizqirazkafi/1tb" = {
+    device = "/dev/disk/by-uuid/329C4F7D1D010F75";
     fsType = "ntfs-3g";
     options = [ "rw" "uid=1000" ];
   };
