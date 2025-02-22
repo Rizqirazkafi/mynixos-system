@@ -197,11 +197,12 @@
       "ubridge"
       "kvm"
       "wireshark"
-      # "docker"
+      "docker"
       "nginx"
       "adbusers"
     ];
     packages = with pkgs; [
+      inputs.zen-browser.packages."${system}".default
       firefox
       nextcloud-client
       #  thunderbird
@@ -220,6 +221,9 @@
     };
   };
   environment.variables = { };
+  programs.bash.shellInit = ''
+    export LS_COLORS+=":ow=01;33";
+  '';
   programs.light.enable = true;
   programs.thunar = {
     enable = true;
@@ -288,27 +292,27 @@
     # Graphics and Video
     flameshot # screenshot tool
     nomacs # image viewer
-    # gimp
+    gimp
     # Office Suite
     # python312Packages.pygments
     # inputs.own-texlive.legacyPackages.${system}.texliveFull
     # beamerpresenter
-    # libreoffice-fresh
+    libreoffice-fresh
     # onlyoffice-bin_latest
     # Networking
     pkgs-unstable.winbox4
     scrcpy
-    # pkgs-unstable.android-tools
+    pkgs-unstable.android-tools
     pptp
     ppp
     nmap
     netcat-gnu # read write data via net
     inetutils
     vnstat # monitor network
-    (gns3-gui.overrideAttrs (oldAttrs: rec { src = inputs.gns3-gui; }))
+    # (gns3-gui.overrideAttrs (oldAttrs: rec { src = inputs.gns3-gui; }))
     # my-gns3-gui
-    # gns3-gui
-    gns3-server
+    pkgs-unstable.gns3-gui
+    pkgs-unstable.gns3-server
     ubridge
     dynamips
     sshfs
@@ -340,13 +344,13 @@
     pavucontrol
     # Development
     android-studio
-    cmake
     flutter
     dart
-    ninja
-    pkg-config
-    clang
-    jdk17
+    cmake # require for flutter
+    ninja # require for flutter
+    clang # require for flutter
+    pkg-config # require for flutter
+    # Education
     # etc
     openssl
     gparted
@@ -359,22 +363,21 @@
     # ueberzug
   ];
   programs.adb.enable = true;
-
+  programs.nix-ld.enable = true;
   fonts.packages = with pkgs;
     [ (nerdfonts.override { fonts = [ "Terminus" ]; }) ];
 
   # Enable docker with rootles
-
-  # virtualisation.docker = {
-  #   enable = true;
-  #   # rootless = {
-  #   #   enable = true;
-  #   #   setSocketVariable = true;
-  #   # };
-  #   daemon.settings = {
-  #     data-root = "/home/rizqirazkafi/secondssd/ISO/docker";
-  #   };
-  # };
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+    daemon.settings = {
+      data-root = "/home/rizqirazkafi/secondssd/ISO/docker";
+    };
+  };
   virtualisation.virtualbox = {
     host = {
       enable = true;
