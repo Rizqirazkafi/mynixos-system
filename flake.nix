@@ -6,6 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-legacy.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,8 +30,8 @@
     gns3-gui.flake = false;
   };
 
-  outputs =
-    { self, nixpkgs, nixpkgs-unstable, nbfc-linux, gns3-gui, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, gns3-gui, zen-browser
+    , ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -45,7 +46,9 @@
     in {
       nixosConfigurations = {
         nixos-laptop = lib.nixosSystem {
-          specialArgs = { inherit inputs pkgs pkgs-unstable gns3-gui; };
+          specialArgs = {
+            inherit inputs pkgs pkgs-unstable gns3-gui zen-browser;
+          };
           modules = [ ./nixos/configuration.nix ];
         };
         rizqi-server = lib.nixosSystem {
