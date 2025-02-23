@@ -77,6 +77,9 @@
       lg = "lazygit";
     };
     enableCompletion = true;
+    bashrcExtra = ''
+      export LS_COLORS+=":ow=01;33";
+    '';
   };
   nixpkgs.config.allowUnfree = true;
   programs.neovim = let
@@ -244,7 +247,7 @@
 
   xsession = { enable = true; };
   fonts.fontconfig.enable = true;
-  programs.alacritty = { enable = true; };
+  # programs.alacritty = { enable = true; };
   programs.rofi = { enable = true; };
   gtk = {
     enable = true;
