@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }: {
   programs.virt-manager.enable = true;
+  # use virsh net-start default to enable virbr0
   virtualisation = {
     libvirtd = {
       enable = true;
