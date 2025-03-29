@@ -23,6 +23,9 @@
       "video/mpeg" = [ "vlc.desktop" ];
       "video/webm" = [ "vlc.desktop" ];
       "video/ogg" = [ "vlc.desktop" ];
+      "application/pdf" = [ "zathura.desktop" ];
+      "x-scheme-handler/http" = [ "zen.desktop" ];
+      "x-scheme-handler/https" = [ "zen.desktop" ];
     };
   };
 
