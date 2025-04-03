@@ -14,7 +14,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "rizqirazkafi" ];
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixVersions.stable;
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
@@ -75,6 +75,19 @@
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "startxfce4";
   services.xrdp.openFirewall = true;
+  services.guacamole-server = {
+    enable = true;
+    host = "127.0.0.1";
+    userMappingXml = ../guacamole/user-mapping.xml;
+  };
+  services.guacamole-client = {
+    enable = true;
+    enableWebserver = true;
+    settings = {
+      guacd-port = 4822;
+      guacd-hostname = "127.0.0.1";
+    };
+  };
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -114,6 +127,8 @@
     ripgrep
     fd
     firefox
+    winbox4
+    google-chrome
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
