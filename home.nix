@@ -26,6 +26,7 @@
       "application/pdf" = [ "zathura.desktop" ];
       "x-scheme-handler/http" = [ "zen.desktop" ];
       "x-scheme-handler/https" = [ "zen.desktop" ];
+      "x-scheme-handler/magnet" = [ "transmission-gtk.desktop" ];
     };
   };
 
@@ -50,6 +51,9 @@
     papirus-folders
     catppuccin-papirus-folders
     yarn
+    typst
+    typstyle
+    tinymist
   ];
 
   home.file = { };
@@ -124,6 +128,7 @@
       pkgs.phpactor
       php
       nodePackages.intelephense
+      texlab
       # ansible-language-server
       # ansible-lint
     ];
@@ -212,12 +217,14 @@
         config = toLuaFile ./nvim/plugin/lualine.lua;
       }
       markdown-preview-nvim
+      typst-preview-nvim
       {
         plugin = (nvim-treesitter.withPlugins (p: [
           p.tree-sitter-nix
           p.tree-sitter-bash
           p.tree-sitter-json
           p.tree-sitter-latex
+          p.tree-sitter-typst
           p.tree-sitter-vimdoc
           p.tree-sitter-javascript
           p.tree-sitter-markdown
@@ -226,6 +233,8 @@
           p.tree-sitter-arduino
           p.tree-sitter-dart
           p.tree-sitter-php
+          p.tree-sitter-c
+          p.tree-sitter-cpp
         ]));
         config = toLuaFile ./nvim/plugin/treesitter.lua;
 
