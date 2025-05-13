@@ -83,9 +83,17 @@
   # Enable legacy PPTP module
   services.pptpd.enable = true;
 
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
+  # Enable OSPF on virbr0 interface
+  services.frr.ospfd = { enable = true; };
+
   # Enable zerotier
-  # services.zerotierone.enable = true;
-  # services.zerotierone.port = 9993;
+  services.zerotierone.enable = true;
+  services.zerotierone.port = 9993;
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -163,6 +171,7 @@
   # Enable sound with pipewire.
   # sound.enable = true;
   hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.package = pkgs.pulseaudioFull;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -203,6 +212,7 @@
     ];
     packages = with pkgs; [
       inputs.zen-browser.packages."${system}".default
+      brave
       firefox
       nextcloud-client
       #  thunderbird
@@ -240,7 +250,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    keepassxc
+    syncthing
+    zerotierone
     pkgs-unstable.zoom-us
+    pkgs-unstable.telegram-desktop
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
@@ -293,10 +307,14 @@
     flameshot # screenshot tool
     nomacs # image viewer
     gimp
+    inkscape
+    audacity
+    yt-dlp
+    reco
     # Office Suite
     # python312Packages.pygments
-    # inputs.own-texlive.legacyPackages.${system}.texliveFull
-    # beamerpresenter
+    texliveFull
+    beamerpresenter
     libreoffice-fresh
     # onlyoffice-bin_latest
     # Networking
@@ -313,6 +331,7 @@
     # my-gns3-gui
     pkgs-unstable.gns3-gui
     pkgs-unstable.gns3-server
+    wireshark
     ubridge
     dynamips
     sshfs
@@ -320,6 +339,7 @@
     gnomeExtensions.remmina-search-provider
     # distrobox
     transmission-gtk
+    anydesk
     # rclone
     # Add polkit for distrobox
     zenity
