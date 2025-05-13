@@ -79,6 +79,15 @@ require("lspconfig").nil_ls.setup({
 -- 	filetypes = { "tex", "bib" },
 -- 	single_file_support = true,
 -- })
+require("lspconfig").tinymist.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	settings = {
+		formatterMode = "typstyle",
+		exportPdf = "never",
+		-- semanticTokens = "disable",
+	},
+})
 require("lspconfig").texlab.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -121,11 +130,11 @@ require("lspconfig").intelephense.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
--- require("lspconfig").marksman.setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- 	single_file_support = true,
--- })
+require("lspconfig").marksman.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	single_file_support = true,
+})
 require("lspconfig").phpactor.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
