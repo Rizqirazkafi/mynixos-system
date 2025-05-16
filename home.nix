@@ -52,8 +52,11 @@
     catppuccin-papirus-folders
     yarn
     typst
+    typescript-language-server
     typstyle
     tinymist
+    nodejs_18
+    live-server
   ];
 
   home.file = { };
@@ -110,14 +113,14 @@
 
     package = pkgs.neovim-unwrapped;
     extraPackages = with pkgs; [
-      nodejs_18
+      # nodejs_18
       xclip
       luajitPackages.lua-lsp
       luajitPackages.jsregexp
       luajitPackages.fidget-nvim
       luajitPackages.luasnip
       nil
-      emmet-ls
+      emmet-language-server
       stylua
       tree-sitter
       nixfmt-classic
@@ -128,7 +131,7 @@
       pkgs.phpactor
       php
       nodePackages.intelephense
-      texlab
+      # texlab
       # ansible-language-server
       # ansible-lint
     ];
@@ -155,10 +158,10 @@
         plugin = nvim-lspconfig;
         config = toLuaFile ./nvim/plugin/lsp.lua;
       }
-      {
-        plugin = flutter-tools-nvim;
-        config = toLuaFile ./nvim/plugin/flutter-tools.lua;
-      }
+      # {
+      #   plugin = flutter-tools-nvim;
+      #   config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+      # }
       neodev-nvim
       {
         plugin = nvim-cmp;
@@ -199,7 +202,7 @@
       friendly-snippets
       # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
       vim-snipmate
-      cmp-latex-symbols
+      # cmp-latex-symbols
       ncm2
       ncm2-path
       ncm2-bufword
@@ -223,15 +226,15 @@
           p.tree-sitter-nix
           p.tree-sitter-bash
           p.tree-sitter-json
-          p.tree-sitter-latex
+          # p.tree-sitter-latex
           p.tree-sitter-typst
           p.tree-sitter-vimdoc
           p.tree-sitter-javascript
           p.tree-sitter-markdown
           p.tree-sitter-html
           p.tree-sitter-css
-          p.tree-sitter-arduino
-          p.tree-sitter-dart
+          # p.tree-sitter-arduino
+          # p.tree-sitter-dart
           p.tree-sitter-php
           p.tree-sitter-c
           p.tree-sitter-cpp
