@@ -5,10 +5,11 @@ null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.stylua,
 		-- null_ls.builtins.formatting.gofumpt,
-		null_ls.builtins.formatting.dart_format,
+		-- null_ls.builtins.formatting.dart_format,
 		null_ls.builtins.formatting.nixfmt,
 		null_ls.builtins.formatting.phpcbf,
-		null_ls.builtins.formatting.latexindent,
+		-- null_ls.builtins.formatting.latexindent,
+		null_ls.builtins.formatting.typstyle,
 		null_ls.builtins.diagnostics.php,
 		-- null_ls.builtins.diagnostics.markdownlint_cli2,
 		-- null_ls.builtins.diagnostics.digestif,
