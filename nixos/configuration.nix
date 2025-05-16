@@ -313,7 +313,7 @@
     reco
     # Office Suite
     # python312Packages.pygments
-    texliveFull
+    # texliveFull
     beamerpresenter
     libreoffice-fresh
     # onlyoffice-bin_latest
@@ -363,13 +363,13 @@
     obs-studio
     pavucontrol
     # Development
-    android-studio
-    flutter
-    dart
-    cmake # require for flutter
-    ninja # require for flutter
-    clang # require for flutter
-    pkg-config # require for flutter
+    # android-studio
+    # flutter
+    # dart
+    # cmake # require for flutter
+    # ninja # require for flutter
+    # clang # require for flutter
+    # pkg-config # require for flutter
     # Education
     # etc
     openssl
