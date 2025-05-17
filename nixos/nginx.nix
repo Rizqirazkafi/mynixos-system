@@ -1,17 +1,19 @@
 { pkgs, lib, config, ... }:
 let
   appUser = "phpdemo";
-  domain = "${appUser}.myhome.local";
-  dataDir = "/var/www/${domain}/html";
+  domain = "${appUser}.local";
+  dataDir = "/var/www/form-penjurusan";
 in {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   services.phpfpm.pools.${appUser} = {
-    user = "rizqirazkafi";
-    group = "nginx";
+    user = appUser;
+    # user = "rizqirazkafi";
+    # group = "nginx";
     settings = {
-      "listen.owner" = "rizqirazkafi";
-      "listen.group" = "nginx";
+      "listen" = config.services.phpfpm.pools.${appUser}.socket;
+      "listen.owner" = config.services.nginx.user;
+      # "listen.group" = config.services.nginx.group;
       "listen.mode" = "0660";
       "pm" = "dynamic";
       "pm.max_children" = 75;
@@ -29,41 +31,47 @@ in {
       ${domain} = {
         root = "${dataDir}";
 
-        extraConfig = "index index.php; ";
+        extraConfig = "index index.html index.php; charset utf-8;";
 
         locations."/" = {
           extraConfig = ''
             # First attempt to serve request as file, then
             # as directory, then fall back to displaying a 404.
 
-            try_files $uri $uri/ =404;		
-            autoindex on;
+            try_files $uri $uri/ /index.php$is_args$args;		
+            # error_page 404 /index.php;
+
+            # autoindex on;
           '';
         };
 
-        locations."~ .php" = {
+        locations."~ \\.php" = {
           extraConfig = ''
-            include ${config.services.nginx.package}/conf/fastcgi_params;
-
-            # regex to split $uri to $fastcgi_script_name and $fastcgi_path
-            fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-
-            # Check that the PHP script exists before passing it
-            try_files $fastcgi_script_name =404;
-
-            # Bypass the fact that try_files resets $fastcgi_path_info
-            # see: http://trac.nginx.org/nginx/ticket/321
-            set $path_info $fastcgi_path_info;
-            fastcgi_param PATH_INFO $path_info;
-
-            fastcgi_index index.php;
-            fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+            fastcgi_split_path_info ^(.+\\.php)(/.+)$;
+            fastcgi_pass unix:${config.services.phpfpm.pools.${appUser}.socket};
+            # fastcgi_index index.php;
+            # fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+            # include ${config.services.nginx.package}/conf/fastcgi_params;
             include ${pkgs.nginx}/conf/fastcgi.conf;
 
-            fastcgi_pass unix:${config.services.phpfpm.pools.${appUser}.socket};
+
           '';
         };
       };
     };
   };
+  users.users.${appUser} = {
+    isSystemUser = true;
+    home = dataDir;
+    group = appUser;
+  };
+  users.groups.${appUser} = { };
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+  };
+  systemd.services.nginx.wantedBy = lib.mkForce [ ];
+  systemd.services.nginx.serviceConfig.ProtectHome = lib.mkForce false;
+  systemd.services.phpfpm-phpdemo.serviceConfig.ProtectHome = lib.mkForce false;
+  systemd.services.phpfpm-phpdemo.wantedBy = lib.mkForce [ ];
 }
