@@ -16,7 +16,7 @@
     ./file-system.nix
     # ./overlays.nix
     ./auto-cpufreq.nix
-    # ./nginx.nix
+    ./nginx.nix
     # ./nginx-simple.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.catppuccin.nixosModules.catppuccin
@@ -64,7 +64,7 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   networking.hosts = {
-    "127.0.0.1" = [ "phpdemo.myhome.local" "myhome.local" "moodle.local" ];
+    "127.0.0.1" = [ "phpdemo.local" "myhome.local" "moodle.local" ];
     "192.168.30.20" = [ "personal-cloud.local" ];
     "192.168.192.124" = [ "personal-cloud.local" ];
   };
@@ -81,7 +81,7 @@
   # programs.noisetorch.enable = true;
 
   # Enable legacy PPTP module
-  services.pptpd.enable = true;
+  # services.pptpd.enable = true;
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
@@ -94,6 +94,7 @@
   # Enable zerotier
   services.zerotierone.enable = true;
   services.zerotierone.port = 9993;
+  systemd.services.zerotierone.wantedBy = lib.mkForce [ ];
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -321,8 +322,8 @@
     pkgs-unstable.winbox4
     scrcpy
     pkgs-unstable.android-tools
-    pptp
-    ppp
+    # pptp
+    # ppp
     nmap
     netcat-gnu # read write data via net
     inetutils
@@ -427,8 +428,8 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-  security.pam.sshAgentAuth.enable = true;
+  # services.openssh.enable = true;
+  # security.pam.sshAgentAuth.enable = true;
   # Open ports in the firewall.
   #	networking.firewall.allowedTCPPorts = [ 22 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
