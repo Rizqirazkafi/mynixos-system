@@ -57,6 +57,7 @@
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.kernelPackages = pkgs.linuxPackages_6_6;
+  boot.plymouth.enable = true;
   boot.plymouth.catppuccin.enable = true;
   boot.plymouth.catppuccin.flavor = "mocha";
 
@@ -91,6 +92,7 @@
   # Enable OSPF on virbr0 interface
   services.frr.ospfd = { enable = true; };
 
+  systemd.services.frr.wantedBy = lib.mkForce [ ];
   # Enable zerotier
   services.zerotierone.enable = true;
   services.zerotierone.port = 9993;
@@ -118,6 +120,10 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.dpi = 96;
+  services.xserver = {
+    libinput.enable = true;
+    libinput.touchpad.accelProfile = "flat";
+  };
 
   # Enable the LXQT Desktop Environment.
   # services.xserver.displayManager.lightdm.enable = true;
@@ -371,6 +377,7 @@
     # ninja # require for flutter
     # clang # require for flutter
     # pkg-config # require for flutter
+    jdk17
     # Education
     # etc
     openssl
@@ -399,6 +406,7 @@
       data-root = "/home/rizqirazkafi/secondssd/ISO/docker";
     };
   };
+  systemd.services.docker.wantedBy = lib.mkForce [ ];
   virtualisation.virtualbox = {
     host = {
       enable = true;
@@ -424,6 +432,11 @@
   };
 
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
+  services.vsftpd = {
+    enable = true;
+    localUsers = true;
+    writeEnable = true;
+  };
 
   # List services that you want to enable:
 
