@@ -10,7 +10,6 @@ null_ls.setup({
 		null_ls.builtins.formatting.phpcbf,
 		-- null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.formatting.typstyle,
-		null_ls.builtins.diagnostics.php,
 		-- null_ls.builtins.diagnostics.markdownlint_cli2,
 		-- null_ls.builtins.diagnostics.digestif,
 		-- null_ls.builtins.formatting.asmfmt,
