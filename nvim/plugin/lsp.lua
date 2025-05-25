@@ -54,6 +54,7 @@ require("lspconfig").lua_ls.setup({
 require("lspconfig").emmet_language_server.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	filetypes = { "html", "css", "php" },
 })
 
 require("lspconfig").nil_ls.setup({
@@ -111,10 +112,10 @@ require("lspconfig").eslint.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
-require("lspconfig").intelephense.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
+-- require("lspconfig").intelephense.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- })
 require("lspconfig").marksman.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -123,25 +124,19 @@ require("lspconfig").marksman.setup({
 require("lspconfig").phpactor.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
-	-- single_file_support = true,
 })
 require("lspconfig").html.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
-	filetypes = { "html", "php" },
+	filetypes = { "php", "html" },
 	init_options = {
 		configurationSection = { "html", "css", "javascript" },
-		embeddedLanguages = {
-			css = true,
-			javascript = true,
-		},
-		provideFormatter = true,
+		embeddedLanguages = { css = true, javascript = true },
 	},
 })
 require("lspconfig").cssls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
-	filetypes = { "css", "scss", "less" },
 })
 -- require("lspconfig").dartls.setup({
 -- 	on_attach = on_attach,
