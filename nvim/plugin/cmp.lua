@@ -43,9 +43,16 @@ cmp.setup({
 		{ name = "buffer" },
 	}),
 	formatting = {
-		format = function(_, vim_item)
-			vim_item.kind = (cmp_kinds[vim_item.kind] or "") .. vim_item.kind
-			return vim_item
+		fields = { "abbr", "kind", "menu" },
+		format = function(entry, item)
+			local menu_icon = {
+				nvim_lsp = "nvim_lsp",
+				luasnip = "luasnip ",
+				buffer = "buffer ",
+			}
+
+			item.menu = menu_icon[entry.source.name]
+			return item
 		end,
 	},
 })
