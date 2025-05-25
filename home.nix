@@ -127,6 +127,7 @@
       ccls
       fd
       php82Packages.php-codesniffer
+      php82Packages.php-cs-fixer
       vscode-langservers-extracted
       pkgs.phpactor
       php
@@ -264,6 +265,11 @@
   fonts.fontconfig.enable = true;
   # programs.alacritty = { enable = true; };
   programs.rofi = { enable = true; };
+  # xsession.pointerCursor = {
+  #   name = "Catppuccin-Mocha-Lavender-Cursors";
+  #   package = pkgs.catppuccin-cursors.mochaDark;
+  #   size = 20;
+  # };
   gtk = {
     enable = true;
     catppuccin.enable = true;
