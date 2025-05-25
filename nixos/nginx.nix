@@ -2,7 +2,7 @@
 let
   appUser = "phpdemo";
   domain = "${appUser}.local";
-  dataDir = "/var/www/form-penjurusan";
+  dataDir = "/var/www";
 in {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
@@ -41,7 +41,7 @@ in {
             try_files $uri $uri/ /index.php$is_args$args;		
             # error_page 404 /index.php;
 
-            # autoindex on;
+            autoindex on;
           '';
         };
 
@@ -70,6 +70,7 @@ in {
     enable = true;
     package = pkgs.mariadb;
   };
+  systemd.services.mysql.wantedBy = lib.mkForce [ ];
   systemd.services.nginx.wantedBy = lib.mkForce [ ];
   systemd.services.nginx.serviceConfig.ProtectHome = lib.mkForce false;
   systemd.services.phpfpm-phpdemo.serviceConfig.ProtectHome = lib.mkForce false;
