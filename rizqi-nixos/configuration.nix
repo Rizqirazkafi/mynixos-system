@@ -13,7 +13,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "rizqirazkafi" ];
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixVersions.stable;
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;

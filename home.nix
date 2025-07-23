@@ -7,7 +7,7 @@
   home.homeDirectory = "/home/rizqirazkafi";
   imports = [
     #list of inputs
-    inputs.catppuccin.homeManagerModules.catppuccin
+    inputs.catppuccin.homeModules.catppuccin
     ./features/alacritty.nix
   ];
 
@@ -48,18 +48,23 @@
     tree
     nixpkgs-fmt
     # papirus-icon-theme
-    papirus-folders
-    catppuccin-papirus-folders
+    # papirus-folders
+    # catppuccin-papirus-folders
     yarn
     typst
     typescript-language-server
     typstyle
     tinymist
-    nodejs_18
+    nodejs
     live-server
   ];
 
-  home.file = { };
+  home.file = {
+    ".xprofile".text = ''
+      xrandr --output eDP-1-1 --mode 1920x1080 --rate 60;
+      xrandr --output eDP-1 --mode 1920x1080 --rate 60;
+    '';
+  };
 
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -68,9 +73,6 @@
     CHROME_EXECUTABLE = "google-chrome-stable";
     GSK_RENDERER = "cairo";
   };
-  catppuccin.enable = true;
-  catppuccin.flavor = "mocha";
-  catppuccin.accent = "lavender";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -106,10 +108,6 @@
     '';
   in {
     enable = true;
-    catppuccin = {
-      enable = true;
-      flavor = "mocha";
-    };
 
     package = pkgs.neovim-unwrapped;
     extraPackages = with pkgs; [
@@ -159,10 +157,10 @@
         plugin = nvim-lspconfig;
         config = toLuaFile ./nvim/plugin/lsp.lua;
       }
-      # {
-      #   plugin = flutter-tools-nvim;
-      #   config = toLuaFile ./nvim/plugin/flutter-tools.lua;
-      # }
+      {
+        plugin = flutter-tools-nvim;
+        config = toLuaFile ./nvim/plugin/flutter-tools.lua;
+      }
       neodev-nvim
       {
         plugin = nvim-cmp;
@@ -235,7 +233,7 @@
           p.tree-sitter-html
           p.tree-sitter-css
           # p.tree-sitter-arduino
-          # p.tree-sitter-dart
+          p.tree-sitter-dart
           p.tree-sitter-php
           p.tree-sitter-c
           p.tree-sitter-cpp
@@ -272,19 +270,46 @@
   # };
   gtk = {
     enable = true;
-    catppuccin.enable = true;
-    iconTheme.name = "Papirus-Dark";
-    iconTheme.package = pkgs.catppuccin-papirus-folders;
+    #   catppuccin.enable = true;
+    #   iconTheme.name = "Papirus-Dark";
+    #   iconTheme.package = pkgs.catppuccin-papirus-folders;
     font.name = "TerminessNerdFont-Regular";
     font.package = pkgs.terminus_font;
     font.size = 14;
   };
+  #
+  # qt = {
+  #   enable = true;
+  #   style.name = "kvantum";
+  #   platformTheme.name = "kvantum";
+  #   style.catppuccin = { enable = true; };
+  # };
 
-  qt = {
+  catppuccin = {
     enable = true;
-    style.name = "kvantum";
-    platformTheme.name = "kvantum";
-    style.catppuccin = { enable = true; };
+    flavor = "mocha";
+    accent = "lavender";
+    nvim = {
+      enable = true;
+      flavor = "mocha";
+    };
+    rofi = {
+      enable = true;
+      flavor = "mocha";
+    };
+    kvantum = {
+      enable = true;
+      apply = true;
+      flavor = "mocha";
+      accent = "lavender";
+    };
+    gtk = {
+      enable = true;
+      flavor = "mocha";
+      icon.enable = true;
+      icon.flavor = "mocha";
+      icon.accent = "lavender";
+    };
   };
 
 }

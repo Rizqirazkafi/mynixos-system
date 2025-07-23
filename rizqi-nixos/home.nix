@@ -5,7 +5,7 @@
   home.homeDirectory = "/home/rizqirazkafi";
   imports = [
     #list of inputs
-    inputs.catppuccin.homeManagerModules.catppuccin
+    inputs.catppuccin.homeModules.catppuccin
   ];
   xdg.enable = true;
   catppuccin.enable = true;

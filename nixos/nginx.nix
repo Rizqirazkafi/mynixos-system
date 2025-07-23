@@ -7,13 +7,13 @@ in {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   services.phpfpm.pools.${appUser} = {
-    user = appUser;
-    # user = "rizqirazkafi";
-    # group = "nginx";
+    # user = appUser;
+    user = "rizqirazkafi";
+    group = "nginx";
     settings = {
       "listen" = config.services.phpfpm.pools.${appUser}.socket;
       "listen.owner" = config.services.nginx.user;
-      # "listen.group" = config.services.nginx.group;
+      "listen.group" = config.services.nginx.group;
       "listen.mode" = "0660";
       "pm" = "dynamic";
       "pm.max_children" = 75;
@@ -60,12 +60,12 @@ in {
       };
     };
   };
-  users.users.${appUser} = {
-    isSystemUser = true;
-    home = dataDir;
-    group = appUser;
-  };
-  users.groups.${appUser} = { };
+  # users.users.${appUser} = {
+  #   isSystemUser = true;
+  #   home = dataDir;
+  #   group = appUser;
+  # };
+  # users.groups.${appUser} = { };
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
@@ -75,4 +75,6 @@ in {
   systemd.services.nginx.serviceConfig.ProtectHome = lib.mkForce false;
   systemd.services.phpfpm-phpdemo.serviceConfig.ProtectHome = lib.mkForce false;
   systemd.services.phpfpm-phpdemo.wantedBy = lib.mkForce [ ];
+  systemd.services.phpfpm-phpdemo.serviceConfig.ReadWritePaths =
+    [ "/home/rizqirazkafi/Documents/github/form-penjurusan" ];
 }

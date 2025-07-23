@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, lib, pkgs, pkgs-unstable, stylix, ... }:
+{ inputs, config, lib, pkgs, nixgl, pkgs-unstable, stylix, ... }:
 
 {
   imports = [
@@ -53,13 +53,22 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 10;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.grub = {
+  #   enable = true;
+  #   efiSupport = true;
+  #   device = "nodev";
+  #   useOSProber = true;
+  #   efiInstallAsRemovable = true;
+  # };
+   boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.efi.efiSysMountPoint = "/boot";
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_6;
-  boot.plymouth.enable = true;
-  boot.plymouth.catppuccin.enable = true;
-  boot.plymouth.catppuccin.flavor = "mocha";
+  boot.kernelPackages = pkgs.linuxPackages_6_14;
+  # boot.plymouth.enable = true;
+  # boot.plymouth.catppuccin.enable = true;
+  # boot.plymouth.catppuccin.flavor = "mocha";
 
   networking.hostName = "nixos-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -120,9 +129,9 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.dpi = 96;
-  services.xserver = {
-    libinput.enable = true;
-    libinput.touchpad.accelProfile = "flat";
+  services.libinput = {
+    enable = true;
+    touchpad.accelProfile = "flat";
   };
 
   # Enable the LXQT Desktop Environment.
@@ -139,11 +148,16 @@
   services.displayManager.sddm = {
     enable = true;
     package = pkgs.kdePackages.sddm;
-    catppuccin = {
-      enable = true;
-      flavor = "mocha";
-      font = "TerminesNerdFont-Regular";
-    };
+    # catppuccin = {
+    #   enable = true;
+    #   flavor = "mocha";
+    #   font = "TerminesNerdFont-Regular";
+    # };
+  };
+  catppuccin.sddm = {
+    enable = true;
+    flavor = "mocha";
+    font = "TerminesNerdFont-Regular";
   };
   services.xserver = {
     windowManager.i3 = {
@@ -177,8 +191,8 @@
 
   # Enable sound with pipewire.
   # sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  services.pulseaudio.enable = false;
+  services.pulseaudio.package = pkgs.pulseaudioFull;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -257,11 +271,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    efibootmgr
     keepassxc
     syncthing
     zerotierone
     pkgs-unstable.zoom-us
-    pkgs-unstable.telegram-desktop
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
@@ -306,6 +320,7 @@
     # marp-cli
     terminus_font
     terminus_font_ttf
+    poppins
     # nerdfonts
     # terminus-nerdfont
     # fira-code-nerdfont
@@ -313,12 +328,11 @@
     # Graphics and Video
     flameshot # screenshot tool
     nomacs # image viewer
-    gimp
+    pkgs-unstable.gimp3-with-plugins
     inkscape
     audacity
     yt-dlp
-    reco
-    # Office Suite
+    reco # Office Suite
     # python312Packages.pygments
     # texliveFull
     beamerpresenter
@@ -345,7 +359,7 @@
     remmina
     gnomeExtensions.remmina-search-provider
     # distrobox
-    transmission-gtk
+    transmission_4-gtk
     anydesk
     # rclone
     # Add polkit for distrobox
@@ -370,16 +384,18 @@
     obs-studio
     pavucontrol
     # Development
-    # android-studio
-    # flutter
-    # dart
-    # cmake # require for flutter
-    # ninja # require for flutter
-    # clang # require for flutter
-    # pkg-config # require for flutter
+    # pkgs.nixgl.nixGLNvidia
+    android-studio
+    flutter
+    dart
+    cmake # require for flutter
+    ninja # require for flutter
+    clang # require for flutter
+    pkg-config # require for flutter
     jdk17
     # Education
     # etc
+    curl
     openssl
     gparted
     polkit
@@ -391,33 +407,33 @@
     # ueberzug
   ];
   programs.adb.enable = true;
+  programs.kdeconnect.enable = true;
   programs.nix-ld.enable = true;
-  fonts.packages = with pkgs;
-    [ (nerdfonts.override { fonts = [ "Terminus" ]; }) ];
+  fonts.packages = with pkgs; [ nerd-fonts.terminess-ttf poppins ];
 
   # Enable docker with rootles
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-    daemon.settings = {
-      data-root = "/home/rizqirazkafi/secondssd/ISO/docker";
-    };
-  };
-  systemd.services.docker.wantedBy = lib.mkForce [ ];
-  virtualisation.virtualbox = {
-    host = {
-      enable = true;
-      enableExtensionPack = true;
-    };
-    # guest = {
-    #   enable = true;
-    #   x11 = true;
-    # };
-  };
-  users.extraGroups.vboxusers.members = [ "rizqirazkafi" ];
+  # virtualisation.docker = {
+  #   enable = true;
+  #   rootless = {
+  #     enable = true;
+  #     setSocketVariable = true;
+  #   };
+  #   daemon.settings = {
+  #     data-root = "/home/rizqirazkafi/secondssd/ISO/docker";
+  #   };
+  # };
+  # systemd.services.docker.wantedBy = lib.mkForce [ ];
+  # virtualisation.virtualbox = {
+  #   host = {
+  #     enable = true;
+  #     enableExtensionPack = true;
+  #   };
+  #   # guest = {
+  #   #   enable = true;
+  #   #   x11 = true;
+  #   # };
+  # };
+  # users.extraGroups.vboxusers.members = [ "rizqirazkafi" ];
 
   # Swap capslock with Escape and Ctrl key
   services.interception-tools = {
@@ -432,11 +448,11 @@
   };
 
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
-  services.vsftpd = {
-    enable = true;
-    localUsers = true;
-    writeEnable = true;
-  };
+  # services.vsftpd = {
+  #   enable = true;
+  #   localUsers = true;
+  #   writeEnable = true;
+  # };
 
   # List services that you want to enable:
 
@@ -468,8 +484,21 @@
     extraPortals = [ pkgs.xdg-desktop-portal-xapp pkgs.xdg-desktop-portal-gtk ];
     config = { common = { default = [ "xapp" "gtk" ]; }; };
   };
+  xdg.mime.enable = true;
   xdg.mime.defaultApplications = {
     "application/octet-stream" = "cisco-pt8.desktop.desktop";
+    "image/jpeg" = [ "org.nomacs.ImageLounge.desktop" ];
+    "image/png" = [ "org.nomacs.ImageLounge.desktop" ];
+    "video/mp4" = [ "vlc.desktop" ];
+    "video/x-matroska" = [ "vlc.desktop" ]; # MKV
+    "video/avi" = [ "vlc.desktop" ];
+    "video/mpeg" = [ "vlc.desktop" ];
+    "video/webm" = [ "vlc.desktop" ];
+    "video/ogg" = [ "vlc.desktop" ];
+    "application/pdf" = [ "zathura.desktop" ];
+    "x-scheme-handler/http" = [ "zen.desktop" ];
+    "x-scheme-handler/https" = [ "zen.desktop" ];
+    "x-scheme-handler/magnet" = [ "transmission-gtk.desktop" ];
   };
   # Fix password prompt for nm-applet
   services.gnome.gnome-keyring.enable = true;
