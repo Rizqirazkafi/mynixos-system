@@ -10,8 +10,8 @@
     ./hardware-configuration.nix
     ./nbfc.nix
     ./vim.nix
-    # ./nvidia.nix
-    ./nvidia-powersave.nix
+    ./nvidia.nix
+    # ./nvidia-powersave.nix
     ./virt-manager.nix
     ./file-system.nix
     # ./overlays.nix
@@ -19,7 +19,7 @@
     ./nginx.nix
     # ./nginx-simple.nix
     inputs.home-manager.nixosModules.home-manager
-    inputs.catppuccin.nixosModules.catppuccin
+    # inputs.catppuccin.nixosModules.catppuccin
     # ./moodle.nix
   ];
 
@@ -47,20 +47,31 @@
     terminal = "screen-256color";
   };
 
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/windows-95.yaml";
+
+  stylix.enable = true;
+
+  stylix.fonts = {
+    monospace = {
+      package = pkgs.nerd-fonts.terminess-ttf;
+      name = "Terminess Nerd Font";
+    };
+  };
+
   # for virt-manager
   programs.file-roller.enable = true;
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 10;
-  # boot.loader.grub = {
-  #   enable = true;
-  #   efiSupport = true;
-  #   device = "nodev";
-  #   useOSProber = true;
-  #   efiInstallAsRemovable = true;
-  # };
-   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = false;
+  #boot.loader.systemd-boot.configurationLimit = 10;
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    device = "nodev";
+    useOSProber = true;
+    #  # efiInstallAsRemovable = true;
+  };
+  boot.loader.efi.canTouchEfiVariables = true;
   # boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.supportedFilesystems = [ "ntfs" ];
@@ -105,7 +116,7 @@
   # Enable zerotier
   services.zerotierone.enable = true;
   services.zerotierone.port = 9993;
-  systemd.services.zerotierone.wantedBy = lib.mkForce [ ];
+  # systemd.services.zerotierone.wantedBy = lib.mkForce [ ];
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -135,7 +146,7 @@
   };
 
   # Enable the LXQT Desktop Environment.
-  # services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
   # services.xserver.displayManager.lightdm.background =
   #   ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
   # services.xserver.displayManager.lightdm.greeters.gtk.extraConfig =
@@ -145,20 +156,10 @@
   # services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name =
   #   "rose-pine";
   # SDDM
-  services.displayManager.sddm = {
-    enable = true;
-    package = pkgs.kdePackages.sddm;
-    # catppuccin = {
-    #   enable = true;
-    #   flavor = "mocha";
-    #   font = "TerminesNerdFont-Regular";
-    # };
-  };
-  catppuccin.sddm = {
-    enable = true;
-    flavor = "mocha";
-    font = "TerminesNerdFont-Regular";
-  };
+  # services.displayManager.sddm = {
+  #   enable = true;
+  #   package = pkgs.kdePackages.sddm;
+  # };
   services.xserver = {
     windowManager.i3 = {
       enable = true;
@@ -243,6 +244,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.android_sdk.accept_license = true;
   nixpkgs.config.qt5 = {
     enable = true;
     platformTheme = "qt5ct";
@@ -251,7 +253,10 @@
       name = "Utterly Nord Plasma";
     };
   };
-  environment.variables = { };
+  environment.variables = {
+    LD_LIBRARY_PATH = "${pkgs.libglvnd}/lib";
+    JAVA_HOME = "${pkgs.jdk17}";
+  };
   programs.bash.shellInit = ''
     export LS_COLORS+=":ow=01;33";
   '';
@@ -368,6 +373,7 @@
     # Tool for Nvidia
     lshw
     nvtopPackages.nvidia
+    mesa-demos
     mediainfo
     # themes
     # libsForQt5.qtstyleplugin-kvantum
@@ -381,11 +387,18 @@
     # Audio
     easyeffects
     qpwgraph
-    obs-studio
     pavucontrol
     # Development
     # pkgs.nixgl.nixGLNvidia
-    android-studio
+    # pkgs-unstable.android-studio
+    # (pkgs.androidenv.emulateApp {
+    #   name = "AndroidEmulator";
+    #   platformVersion = "34";
+    #   abiVersion = "x86_64"; # armeabi-v7a, mips, x86_64
+    #   systemImageType = "google_apis_playstore";
+    # })
+    xorg.libX11
+    xorg.libX11.dev
     flutter
     dart
     cmake # require for flutter
@@ -393,6 +406,7 @@
     clang # require for flutter
     pkg-config # require for flutter
     jdk17
+    zlib
     # Education
     # etc
     curl
@@ -408,6 +422,10 @@
   ];
   programs.adb.enable = true;
   programs.kdeconnect.enable = true;
+  programs.obs-studio = {
+    enable = true;
+    package = pkgs.obs-studio.override { cudaSupport = true; };
+  };
   programs.nix-ld.enable = true;
   fonts.packages = with pkgs; [ nerd-fonts.terminess-ttf poppins ];
 

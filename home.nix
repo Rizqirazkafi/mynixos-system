@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, inputs, ... }:
+{ config, pkgs, pkgs-unstable, lib, nixgl, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -7,11 +7,17 @@
   home.homeDirectory = "/home/rizqirazkafi";
   imports = [
     #list of inputs
-    inputs.catppuccin.homeModules.catppuccin
-    ./features/alacritty.nix
+    # ./features/alacritty.nix
   ];
 
+  stylix.targets = {
+    xfce.enable = true;
+    neovim.enable = true;
+  };
+
   xdg.enable = true;
+  programs.alacritty.enable = true;
+  programs.librewolf.enable = true;
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
@@ -49,7 +55,6 @@
     nixpkgs-fmt
     # papirus-icon-theme
     # papirus-folders
-    # catppuccin-papirus-folders
     yarn
     typst
     typescript-language-server
@@ -93,7 +98,6 @@
       export LS_COLORS+=":ow=01;33";
     '';
   };
-  nixpkgs.config.allowUnfree = true;
   programs.neovim = let
     system = "x86_64-linux";
     toLua = str: ''
@@ -153,6 +157,11 @@
         plugin = dressing-nvim;
         config = toLua ''require("dressing").setup()'';
       }
+      # {
+      #   plugin = CopilotChat-nvim;
+      #   config = toLua ''require("CopilotChat").setup()'';
+      # }
+      # { plugin = copilot-vim; }
       {
         plugin = nvim-lspconfig;
         config = toLuaFile ./nvim/plugin/lsp.lua;
@@ -263,20 +272,12 @@
   fonts.fontconfig.enable = true;
   # programs.alacritty = { enable = true; };
   programs.rofi = { enable = true; };
-  # xsession.pointerCursor = {
-  #   name = "Catppuccin-Mocha-Lavender-Cursors";
-  #   package = pkgs.catppuccin-cursors.mochaDark;
-  #   size = 20;
+  # gtk = {
+  #   enable = true;
+  #   font.name = "TerminessNerdFont-Regular";
+  #   font.package = pkgs.terminus_font;
+  #   font.size = 14;
   # };
-  gtk = {
-    enable = true;
-    #   catppuccin.enable = true;
-    #   iconTheme.name = "Papirus-Dark";
-    #   iconTheme.package = pkgs.catppuccin-papirus-folders;
-    font.name = "TerminessNerdFont-Regular";
-    font.package = pkgs.terminus_font;
-    font.size = 14;
-  };
   #
   # qt = {
   #   enable = true;
@@ -285,31 +286,31 @@
   #   style.catppuccin = { enable = true; };
   # };
 
-  catppuccin = {
-    enable = true;
-    flavor = "mocha";
-    accent = "lavender";
-    nvim = {
-      enable = true;
-      flavor = "mocha";
-    };
-    rofi = {
-      enable = true;
-      flavor = "mocha";
-    };
-    kvantum = {
-      enable = true;
-      apply = true;
-      flavor = "mocha";
-      accent = "lavender";
-    };
-    gtk = {
-      enable = true;
-      flavor = "mocha";
-      icon.enable = true;
-      icon.flavor = "mocha";
-      icon.accent = "lavender";
-    };
-  };
+  # catppuccin = {
+  #   enable = true;
+  #   flavor = "mocha";
+  #   accent = "lavender";
+  #   nvim = {
+  #     enable = true;
+  #     flavor = "mocha";
+  #   };
+  #   rofi = {
+  #     enable = true;
+  #     flavor = "mocha";
+  #   };
+  #   kvantum = {
+  #     enable = true;
+  #     apply = true;
+  #     flavor = "mocha";
+  #     accent = "lavender";
+  #   };
+  #   gtk = {
+  #     enable = true;
+  #     flavor = "mocha";
+  #     icon.enable = true;
+  #     icon.flavor = "mocha";
+  #     icon.accent = "lavender";
+  #   };
+  # };
 
 }

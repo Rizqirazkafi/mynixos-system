@@ -12,13 +12,14 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-colors.url = "github:misterio77/nix-colors";
+    # nix-colors.url = "github:misterio77/nix-colors";
     nbfc-linux = {
       url = "github:nbfc-linux/nbfc-linux";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
     #catppuccin.url = "github:catppuccin/nix";
-    catppuccin.url = "github:catppuccin/nix";
+    # catppuccin.url = "github:catppuccin/nix";
+    stylix.url = "github:danth/stylix/release-25.05";
     # own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
     # own-flutter-tools.flake = false;
     own-texlive.url =
@@ -37,9 +38,11 @@
       system = "x86_64-linux";
       lib = nixpkgs.lib;
       pkgs = import nixpkgs {
+        nixGL.packages = import <nixgl> { inherit pkgs; };
         inherit system;
         overlays = [ nixgl.overlay ];
         config.allowUnfree = true;
+        config.android_sdk.accept_license = true;
       };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
@@ -51,7 +54,8 @@
           specialArgs = {
             inherit inputs pkgs pkgs-unstable gns3-gui zen-browser nixgl;
           };
-          modules = [ ./nixos/configuration.nix ];
+          modules =
+            [ ./nixos/configuration.nix inputs.stylix.nixosModules.stylix ];
         };
         rizqi-server = lib.nixosSystem {
           specialArgs = { inherit inputs pkgs pkgs-unstable; };
