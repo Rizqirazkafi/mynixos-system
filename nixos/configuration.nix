@@ -16,7 +16,8 @@
     ./file-system.nix
     # ./overlays.nix
     ./auto-cpufreq.nix
-    ./nginx.nix
+    # ./nginx.nix
+    # ./openvswitch.nix
     # ./nginx-simple.nix
     inputs.home-manager.nixosModules.home-manager
     # inputs.catppuccin.nixosModules.catppuccin
@@ -42,6 +43,10 @@
       set -g prefix C-Space
       bind C-Space send-prefix
       set -g mouse
+      set -g base-index 1 
+      set -g pane-base-index 1
+      set -g mode-keys vi
+      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
     '';
     plugins = with pkgs.tmuxPlugins; [ sensible vim-tmux-navigator ];
     terminal = "screen-256color";
@@ -50,6 +55,13 @@
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/windows-95.yaml";
 
   stylix.enable = true;
+
+  stylix.targets = {
+    lightdm.enable = true;
+    lightdm.useWallpaper = ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
+    qt.enable = false;
+    qt.platform = "qt5ct";
+  };
 
   stylix.fonts = {
     monospace = {
@@ -63,12 +75,13 @@
 
   # Bootloader.
   boot.loader.systemd-boot.enable = false;
-  #boot.loader.systemd-boot.configurationLimit = 10;
+  # boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.grub = {
     enable = true;
     efiSupport = true;
     device = "nodev";
     useOSProber = true;
+    configurationLimit = 5;
     #  # efiInstallAsRemovable = true;
   };
   boot.loader.efi.canTouchEfiVariables = true;
@@ -76,13 +89,14 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_14;
+  boot.kernelPackages = pkgs.linuxPackages_6_17;
   # boot.plymouth.enable = true;
   # boot.plymouth.catppuccin.enable = true;
   # boot.plymouth.catppuccin.flavor = "mocha";
 
   networking.hostName = "nixos-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
   networking.hosts = {
     "127.0.0.1" = [ "phpdemo.local" "myhome.local" "moodle.local" ];
@@ -109,13 +123,20 @@
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-  # Enable OSPF on virbr0 interface
-  services.frr.ospfd = { enable = true; };
+  # Jellyfin
+  # services.jellyfin = {
+  #   enable = true;
+  #   openFirewall = true;
+  #
+  # };
 
-  systemd.services.frr.wantedBy = lib.mkForce [ ];
+  # Enable OSPF on virbr0 interface
+  # services.frr.ospfd = { enable = true; };
+
+  # systemd.services.frr.wantedBy = lib.mkForce [ ];
   # Enable zerotier
-  services.zerotierone.enable = true;
-  services.zerotierone.port = 9993;
+  # services.zerotierone.enable = true;
+  # services.zerotierone.port = 9993;
   # systemd.services.zerotierone.wantedBy = lib.mkForce [ ];
 
   # Set your time zone.
@@ -146,12 +167,13 @@
   };
 
   # Enable the LXQT Desktop Environment.
+  # services.displayManager.ly.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
   # services.xserver.displayManager.lightdm.background =
   #   ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
   # services.xserver.displayManager.lightdm.greeters.gtk.extraConfig =
   #   "user-background = false";
-  # services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
+  services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
   # services.xserver.displayManager.lightdm.greeters.gtk.theme.name = "rose-pine";
   # services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name =
   #   "rose-pine";
@@ -178,7 +200,6 @@
         noDesktop = false;
         enableXfwm = true;
       };
-      lxqt = { enable = false; };
     };
   };
 
@@ -228,23 +249,23 @@
       "ubridge"
       "kvm"
       "wireshark"
-      "docker"
+      # "docker"
       "nginx"
       "adbusers"
     ];
     packages = with pkgs; [
       inputs.zen-browser.packages."${system}".default
-      brave
+      # brave
       firefox
-      nextcloud-client
+      # nextcloud-client
       #  thunderbird
     ];
-    homeMode = "755";
+    # homeM"755";
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.android_sdk.accept_license = true;
+  # nixpkgs.config.android_sdk.accept_license = true;
   nixpkgs.config.qt5 = {
     enable = true;
     platformTheme = "qt5ct";
@@ -256,7 +277,11 @@
   environment.variables = {
     LD_LIBRARY_PATH = "${pkgs.libglvnd}/lib";
     JAVA_HOME = "${pkgs.jdk17}";
+    # __GLX_VENDOR_LIBRARY_NAME = "mesa";
   };
+  # environment.etc."distrobox/distrobox.conf".text = ''
+  #   container_additional_volumes="/nix/store:/nix/store:ro /etc/profiles/per-user:/etc/profiles/per-user:ro /etc/static/profiles/per-user:/etc/static/profiles/per-user:ro"
+  # '';
   programs.bash.shellInit = ''
     export LS_COLORS+=":ow=01;33";
   '';
@@ -279,7 +304,7 @@
     efibootmgr
     keepassxc
     syncthing
-    zerotierone
+    # zerotierone
     pkgs-unstable.zoom-us
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
@@ -300,9 +325,19 @@
     gnome-shell
     polkit_gnome
     alacritty
-    gcc.cc.libgcc
-    gcc_multi
-    python3
+    # gcc.cc.libgcc
+    # gcc_multi
+    gcc13
+    boost
+    waf
+    gsl
+    harfbuzzFull
+    libxml2
+    sqlite
+    eigen
+    asio
+    python313Packages.pyvizio
+    ovn
     i3
     i3status
     libnotify # Notification daemon
@@ -311,6 +346,7 @@
     pamixer
     rofi
     google-chrome
+    ungoogled-chromium
     pkgs-unstable.picom
     nitrogen
     bridge-utils
@@ -319,9 +355,12 @@
     # lxappearance
     # ventoy-full
     vlc
+    # ffmpeg
+    (pkgs.ffmpeg.override { withNvenc = true; })
     mpv
     # mplayer
     zathura
+    ranger
     # marp-cli
     terminus_font
     terminus_font_ttf
@@ -338,15 +377,18 @@
     audacity
     yt-dlp
     reco # Office Suite
+    # davinci-resolve
     # python312Packages.pygments
     # texliveFull
+    python313
+    python313Packages.pip
     beamerpresenter
     libreoffice-fresh
     # onlyoffice-bin_latest
     # Networking
-    pkgs-unstable.winbox4
+    # pkgs-unstable.winbox4
     scrcpy
-    pkgs-unstable.android-tools
+    # pkgs-unstable.android-tools
     # pptp
     # ppp
     nmap
@@ -355,17 +397,17 @@
     vnstat # monitor network
     # (gns3-gui.overrideAttrs (oldAttrs: rec { src = inputs.gns3-gui; }))
     # my-gns3-gui
-    pkgs-unstable.gns3-gui
-    pkgs-unstable.gns3-server
+    gns3-gui
+    gns3-server
     wireshark
     ubridge
     dynamips
     sshfs
     remmina
     gnomeExtensions.remmina-search-provider
-    # distrobox
+    pkgs-unstable.distrobox
     transmission_4-gtk
-    anydesk
+    # anydesk
     # rclone
     # Add polkit for distrobox
     zenity
@@ -377,7 +419,9 @@
     mediainfo
     # themes
     # libsForQt5.qtstyleplugin-kvantum
-    # libsForQt5.qt5ct
+    libsForQt5.qt5ct
+    qt5Full
+    mercurialFull
     # theme-obsidian2
     # Programming and stuff
     # go
@@ -409,6 +453,7 @@
     zlib
     # Education
     # etc
+    libgnurl
     curl
     openssl
     gparted
@@ -419,6 +464,8 @@
     # winetricks
     # xorg.xkill
     # ueberzug
+    glxinfo
+    vulkan-tools
   ];
   programs.adb.enable = true;
   programs.kdeconnect.enable = true;
@@ -436,9 +483,7 @@
   #     enable = true;
   #     setSocketVariable = true;
   #   };
-  #   daemon.settings = {
-  #     data-root = "/home/rizqirazkafi/secondssd/ISO/docker";
-  #   };
+  #   daemon.settings = { data-root = "/home/rizqirazkafi/1tb/ISO/docker"; };
   # };
   # systemd.services.docker.wantedBy = lib.mkForce [ ];
   # virtualisation.virtualbox = {
@@ -446,10 +491,10 @@
   #     enable = true;
   #     enableExtensionPack = true;
   #   };
-  #   # guest = {
-  #   #   enable = true;
-  #   #   x11 = true;
-  #   # };
+  #   #   # guest = {
+  #   #   #   enable = true;
+  #   #   #   x11 = true;
+  #   #   # };
   # };
   # users.extraGroups.vboxusers.members = [ "rizqirazkafi" ];
 
@@ -513,9 +558,9 @@
     "video/mpeg" = [ "vlc.desktop" ];
     "video/webm" = [ "vlc.desktop" ];
     "video/ogg" = [ "vlc.desktop" ];
-    "application/pdf" = [ "zathura.desktop" ];
-    "x-scheme-handler/http" = [ "zen.desktop" ];
-    "x-scheme-handler/https" = [ "zen.desktop" ];
+    "application/pdf" = [ "org.pwmt.zathura-pdf-mupdf.desktop" ];
+    "x-scheme-handler/http" = [ "zen-beta.desktop" ];
+    "x-scheme-handler/https" = [ "zen-beta.desktop" ];
     "x-scheme-handler/magnet" = [ "transmission-gtk.desktop" ];
   };
   # Fix password prompt for nm-applet
@@ -528,4 +573,16 @@
     group = "users";
     permissions = "u+rx,g+x";
   };
+  # networking.vswitches = {
+  #   vs0 = { interfaces = { r1-r2 = { type = "internal"; }; }; };
+  # };
+
+  networking.bridges = {
+    r1-r2.interfaces = [ ];
+    r2-r3.interfaces = [ ];
+    r1-l1.interfaces = [ ];
+    r2-l2.interfaces = [ ];
+    r3-l3.interfaces = [ ];
+  };
+
 }
