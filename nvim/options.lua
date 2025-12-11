@@ -28,7 +28,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "70"
 vim.opt.clipboard = "unnamedplus"
 vim.g.mkdp_browser = "zen"
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
