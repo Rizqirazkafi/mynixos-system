@@ -13,6 +13,7 @@
   stylix.targets = {
     xfce.enable = true;
     neovim.enable = true;
+    rofi.enable = true;
   };
 
   xdg.enable = true;
@@ -21,6 +22,7 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
+      "text/html" = [ "zen-beta.desktop" ];
       "image/jpeg" = [ "org.nomacs.ImageLounge.desktop" ];
       "image/png" = [ "org.nomacs.ImageLounge.desktop" ];
       "video/mp4" = [ "vlc.desktop" ];
@@ -29,9 +31,11 @@
       "video/mpeg" = [ "vlc.desktop" ];
       "video/webm" = [ "vlc.desktop" ];
       "video/ogg" = [ "vlc.desktop" ];
-      "application/pdf" = [ "zathura.desktop" ];
-      "x-scheme-handler/http" = [ "zen.desktop" ];
-      "x-scheme-handler/https" = [ "zen.desktop" ];
+      "application/pdf" = [ "org.pwmt.zathura-pdf-mupdf.desktop" ];
+      "default-web-browser" = [ "zen-beta.desktop" ];
+      "x-scheme-handler/http" = [ "zen-beta.desktop" ];
+      "x-scheme-handler/https" = [ "zen-beta.desktop" ];
+      "x-scheme-handler/unknown" = [ "zen-beta.desktop" ];
       "x-scheme-handler/magnet" = [ "transmission-gtk.desktop" ];
     };
   };
@@ -127,6 +131,7 @@
       tree-sitter
       nixfmt-classic
       ccls
+      clang-tools
       fd
       php82Packages.php-codesniffer
       php82Packages.php-cs-fixer
@@ -210,7 +215,7 @@
       friendly-snippets
       # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
       vim-snipmate
-      # cmp-latex-symbols
+      cmp-latex-symbols
       ncm2
       ncm2-path
       ncm2-bufword
@@ -234,7 +239,7 @@
           p.tree-sitter-nix
           p.tree-sitter-bash
           p.tree-sitter-json
-          # p.tree-sitter-latex
+          p.tree-sitter-latex
           p.tree-sitter-typst
           p.tree-sitter-vimdoc
           p.tree-sitter-javascript
