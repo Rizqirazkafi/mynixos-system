@@ -6,8 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-legacy.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixgl.url = "github:nix-community/nixGL";
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    zen-browser.url = "github:0xc000022070/zen-browser-flake/beta";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,15 +31,13 @@
     gns3-gui.flake = false;
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, nixgl, gns3-gui
-    , zen-browser, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, gns3-gui, zen-browser
+    , ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
       pkgs = import nixpkgs {
-        nixGL.packages = import <nixgl> { inherit pkgs; };
         inherit system;
-        overlays = [ nixgl.overlay ];
         config.allowUnfree = true;
         config.android_sdk.accept_license = true;
       };
@@ -52,7 +49,7 @@
       nixosConfigurations = {
         nixos-laptop = lib.nixosSystem {
           specialArgs = {
-            inherit inputs pkgs pkgs-unstable gns3-gui zen-browser nixgl;
+            inherit inputs pkgs pkgs-unstable gns3-gui zen-browser;
           };
           modules =
             [ ./nixos/configuration.nix inputs.stylix.nixosModules.stylix ];
