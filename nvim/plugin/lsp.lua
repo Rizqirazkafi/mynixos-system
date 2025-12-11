@@ -72,33 +72,33 @@ require("lspconfig").tinymist.setup({
 	capabilities = capabilities,
 	settings = {
 		formatterMode = "typstyle",
-		exportPdf = "never",
+		exportPdf = "onType",
 		-- semanticTokens = "disable",
 	},
 })
--- require("lspconfig").texlab.setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- 	single_file_support = true,
--- 	settings = {
--- 		texlab = {
--- 			build = {
--- 				args = { "-pdf", "-interaction=nonstopmode", "-shell-escape", "-synctex=1", "%f" },
--- 				executable = "pdflatex",
--- 				onSave = true,
--- 			},
--- 			completion = { matcher = "fuzzy" },
--- 			diagnostics = {
--- 				ignoredPatterns = { "Underfull.*", "Overfull.*" },
--- 			},
--- 			formatterLineLength = 80,
--- 			latexFormatter = "latexindent",
--- 			latexindent = {
--- 				modifyLineBreaks = true,
--- 			},
--- 		},
--- 	},
--- })
+require("lspconfig").texlab.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	-- single_file_support = true,
+	settings = {
+		texlab = {
+			build = {
+				args = { "-pdf", "-interaction=nonstopmode", "-shell-escape", "-synctex=1", "%f" },
+				executable = "pdflatex",
+				onSave = true,
+			},
+			completion = { matcher = "fuzzy" },
+			diagnostics = {
+				ignoredPatterns = { "Underfull.*", "Overfull.*" },
+			},
+			formatterLineLength = 80,
+			latexFormatter = "latexindent",
+			latexindent = {
+				modifyLineBreaks = true,
+			},
+		},
+	},
+})
 -- require("lspconfig").digestif.setup({
 -- 	on_attach = on_attach,
 -- 	capabilities = capabilities,
@@ -142,20 +142,24 @@ require("lspconfig").dartls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
-require("lspconfig").ccls.setup({
+require("lspconfig").clangd.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
-	single_file_support = true,
-	init_options = {
-		compilationDatabaseDirectory = "build",
-		index = {
-			threads = 0,
-		},
-		clang = {
-			excludeArgs = { "-frounding-math" },
-		},
-	},
 })
+-- require("lspconfig").ccls.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	single_file_support = true,
+-- 	init_options = {
+-- 		compilationDatabaseDirectory = "build",
+-- 		index = {
+-- 			threads = 0,
+-- 		},
+-- 		clang = {
+-- 			excludeArgs = { "-frounding-math" },
+-- 		},
+-- 	},
+-- })
 --require("lspconfig").asm_lsp.setup({
 --	on_attach = on_attach,
 --	capabilities = capabilities,
