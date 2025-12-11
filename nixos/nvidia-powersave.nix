@@ -5,7 +5,7 @@
     extraPackages = with pkgs; [ nvidia-vaapi-driver libvdpau-va-gl ];
   };
   services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
-  hardware.nvidia.modesetting.enable = true;
+  # hardware.nvidia.modesetting.enable = false;
   hardware.nvidia.open = false;
   hardware.nvidia.prime = {
     offload = {
