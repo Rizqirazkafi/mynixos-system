@@ -7,17 +7,18 @@
   home.homeDirectory = "/home/rizqirazkafi";
   imports = [
     #list of inputs
-    # ./features/alacritty.nix
+    ./features/alacritty.nix
   ];
 
   stylix.targets = {
     xfce.enable = true;
     neovim.enable = true;
+    neovim.transparentBackground.main = true;
     rofi.enable = true;
   };
 
   xdg.enable = true;
-  programs.alacritty.enable = true;
+  # programs.alacritty.enable = true;
   programs.librewolf.enable = true;
   xdg.mimeApps = {
     enable = true;
@@ -60,10 +61,10 @@
     # papirus-icon-theme
     # papirus-folders
     yarn
-    typst
+    pkgs-unstable.typst
     typescript-language-server
     typstyle
-    tinymist
+    pkgs-unstable.tinymist
     nodejs
     live-server
   ];
