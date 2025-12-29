@@ -30,6 +30,7 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "70"
 vim.opt.clipboard = "unnamedplus"
+
 vim.g.mkdp_browser = "zen"
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
