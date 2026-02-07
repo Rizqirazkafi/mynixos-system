@@ -19,7 +19,6 @@
 
   xdg.enable = true;
   # programs.alacritty.enable = true;
-  programs.librewolf.enable = true;
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
@@ -201,7 +200,6 @@
         plugin = which-key-nvim;
         config = toLuaFile ./nvim/plugin/which-key.lua;
       }
-      base16-nvim
       telescope-fzf-native-nvim
       # if luasnip broken, use this:
       # https://github.com/nvim-lua/kickstart.nvim/issues/537
