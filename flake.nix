@@ -1,6 +1,13 @@
 {
   description = "Home Manager configuration of rizqirazkafi";
 
+  nixConfig = {
+    substituters = [
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      "https://cache.nixos.org"
+    ];
+  };
+
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
@@ -16,46 +23,54 @@
       url = "github:nbfc-linux/nbfc-linux";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
-    #catppuccin.url = "github:catppuccin/nix";
-    # catppuccin.url = "github:catppuccin/nix";
     stylix.url = "github:danth/stylix/release-25.05";
-    # own-flutter-tools.url = "github:akinsho/flutter-tools.nvim";
-    # own-flutter-tools.flake = false;
     own-texlive.url =
       "github:nixos/nixpkgs/bf8462aeba50cc753971480f613fbae0747cffc0";
-    plugin-luasnip.url = "github:L3MON4D3/LuaSnip";
-    plugin-luasnip.flake = false;
-    # ultimate-autopairs.url = "github:altermo/ultimate-autopair.nvim";
-    # ultimate-autopairs.flake = false;
-    gns3-gui.url = "github:Rizqirazkafi/gns3-gui";
-    gns3-gui.flake = false;
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, gns3-gui, zen-browser
-    , ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nbfc-linux, zen-browser, stylix
+    , home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
+      overlay-nbfc = final: prev: {
+        nbfc-linux = prev.nbfc-linux.overrideAttrs (old: {
+          nativeBuildInputs = (old.nativeBuildInputs or [ ])
+            ++ [ final.pkg-config ];
+          buildInputs = (old.buildInputs or [ ]) ++ [ final.curl.dev ];
+          configureFlags = (old.configureFlags or [ ]) ++ [ "LIBS=-lcurl" ];
+        });
+      };
+      overlay-meson = final: prev: {
+        meson = prev.meson.overrideAttrs (_: { doCheck = false; });
+      };
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true;
-        config.android_sdk.accept_license = true;
+        overlays = [ overlay-nbfc overlay-meson ];
+        config = {
+          allowUnfree = true;
+          android_sdk.accept_license = true;
+        };
       };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
       };
+
     in {
       nixosConfigurations = {
         nixos-laptop = lib.nixosSystem {
-          specialArgs = {
-            inherit inputs pkgs pkgs-unstable gns3-gui zen-browser;
-          };
-          modules =
-            [ ./nixos/configuration.nix inputs.stylix.nixosModules.stylix ];
+          specialArgs = { inherit pkgs-unstable inputs zen-browser; };
+          modules = [
+            ({ ... }: { nixpkgs.pkgs = pkgs; })
+
+            ./nixos/configuration.nix
+            stylix.nixosModules.stylix
+            home-manager.nixosModules.home-manager
+          ];
         };
         rizqi-server = lib.nixosSystem {
-          specialArgs = { inherit inputs pkgs pkgs-unstable; };
+          specialArgs = { inherit inputs; };
           modules = [ ./rizqi-nixos/configuration.nix ];
         };
       };
