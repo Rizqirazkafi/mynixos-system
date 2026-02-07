@@ -9,7 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./nbfc.nix
-    ./vim.nix
+    # ./vim.nix
     ./nvidia.nix
     # ./nvidia-powersave.nix
     ./virt-manager.nix
@@ -60,7 +60,6 @@
     lightdm.enable = true;
     lightdm.useWallpaper = ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
     qt.enable = false;
-    qt.platform = "qt5ct";
   };
 
   stylix.fonts = {
@@ -69,9 +68,6 @@
       name = "Terminess Nerd Font";
     };
   };
-
-  # for virt-manager
-  programs.file-roller.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = false;
@@ -89,7 +85,7 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_17;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.plymouth.enable = true;
   # boot.plymouth.catppuccin.enable = true;
   # boot.plymouth.catppuccin.flavor = "mocha";
@@ -166,22 +162,6 @@
     touchpad.accelProfile = "flat";
   };
 
-  # Enable the LXQT Desktop Environment.
-  # services.displayManager.ly.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  # services.xserver.displayManager.lightdm.background =
-  #   ../wallpaper/nixos-wallpaper-catppuccin-mocha.png;
-  # services.xserver.displayManager.lightdm.greeters.gtk.extraConfig =
-  #   "user-background = false";
-  services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
-  # services.xserver.displayManager.lightdm.greeters.gtk.theme.name = "rose-pine";
-  # services.xserver.displayManager.lightdm.greeters.gtk.iconTheme.name =
-  #   "rose-pine";
-  # SDDM
-  # services.displayManager.sddm = {
-  #   enable = true;
-  #   package = pkgs.kdePackages.sddm;
-  # };
   services.xserver = {
     windowManager.i3 = {
       enable = true;
@@ -199,6 +179,12 @@
         enable = true;
         noDesktop = false;
         enableXfwm = true;
+      };
+    };
+    displayManager = {
+      lightdm = {
+        enable = true;
+        greeters.gtk.enable = true;
       };
     };
   };
@@ -263,17 +249,6 @@
     # homeM"755";
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-  # nixpkgs.config.android_sdk.accept_license = true;
-  nixpkgs.config.qt5 = {
-    enable = true;
-    platformTheme = "qt5ct";
-    style = {
-      package = pkgs.utterly-nord-plasma;
-      name = "Utterly Nord Plasma";
-    };
-  };
   environment.variables = {
     LD_LIBRARY_PATH = "${pkgs.libglvnd}/lib";
     JAVA_HOME = "${pkgs.jdk17}";
@@ -285,6 +260,8 @@
   programs.bash.shellInit = ''
     export LS_COLORS+=":ow=01;33";
   '';
+  programs.bash.shellAliases = { fastfetch = "fastfetch --thread 2"; };
+
   programs.light.enable = true;
   programs.thunar = {
     enable = true;
@@ -301,15 +278,14 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    libxslt
     efibootmgr
     keepassxc
-    syncthing
     # zerotierone
     pkgs-unstable.zoom-us
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
     htop
-    mission-center
     fastfetch
     unzip
     stow
@@ -329,15 +305,6 @@
     # gcc_multi
     gcc13
     boost
-    waf
-    gsl
-    harfbuzzFull
-    libxml2
-    sqlite
-    eigen
-    asio
-    python313Packages.pyvizio
-    ovn
     i3
     i3status
     libnotify # Notification daemon
@@ -346,7 +313,7 @@
     pamixer
     rofi
     google-chrome
-    ungoogled-chromium
+    # ungoogled-chromium
     pkgs-unstable.picom
     nitrogen
     bridge-utils
@@ -373,26 +340,23 @@
     flameshot # screenshot tool
     nomacs # image viewer
     pkgs-unstable.gimp3-with-plugins
-    inkscape
-    audacity
     yt-dlp
-    reco # Office Suite
+    # Office Suite
     # davinci-resolve
     # python312Packages.pygments
     # texliveFull
-    python313
-    python313Packages.pip
+    # python313
     beamerpresenter
     libreoffice-fresh
     # onlyoffice-bin_latest
     # Networking
     # pkgs-unstable.winbox4
-    scrcpy
+    # scrcpy
     # pkgs-unstable.android-tools
     # pptp
     # ppp
     nmap
-    netcat-gnu # read write data via net
+    # netcat-gnu # read write data via net
     inetutils
     vnstat # monitor network
     # (gns3-gui.overrideAttrs (oldAttrs: rec { src = inputs.gns3-gui; }))
@@ -407,6 +371,7 @@
     gnomeExtensions.remmina-search-provider
     pkgs-unstable.distrobox
     transmission_4-gtk
+    qbittorrent
     # anydesk
     # rclone
     # Add polkit for distrobox
@@ -415,13 +380,12 @@
     # Tool for Nvidia
     lshw
     nvtopPackages.nvidia
-    mesa-demos
     mediainfo
     # themes
     # libsForQt5.qtstyleplugin-kvantum
     libsForQt5.qt5ct
-    qt5Full
-    mercurialFull
+    libsForQt5.qt5.wrapQtAppsHook
+    libsForQt5.qt5.qtbase
     # theme-obsidian2
     # Programming and stuff
     # go
@@ -434,7 +398,7 @@
     pavucontrol
     # Development
     # pkgs.nixgl.nixGLNvidia
-    # pkgs-unstable.android-studio
+    pkgs-unstable.android-studio
     # (pkgs.androidenv.emulateApp {
     #   name = "AndroidEmulator";
     #   platformVersion = "34";
@@ -455,6 +419,7 @@
     # etc
     libgnurl
     curl
+    libgnurl
     openssl
     gparted
     polkit
@@ -464,16 +429,15 @@
     # winetricks
     # xorg.xkill
     # ueberzug
-    glxinfo
-    vulkan-tools
   ];
   programs.adb.enable = true;
-  programs.kdeconnect.enable = true;
+  # programs.kdeconnect.enable = true;
   programs.obs-studio = {
     enable = true;
     package = pkgs.obs-studio.override { cudaSupport = true; };
   };
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [ curl ];
   fonts.packages = with pkgs; [ nerd-fonts.terminess-ttf poppins ];
 
   # Enable docker with rootles
