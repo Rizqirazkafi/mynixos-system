@@ -13,6 +13,7 @@
     ./nvidia.nix
     # ./nvidia-powersave.nix
     ./virt-manager.nix
+    ./virtualbox.nix
     ./file-system.nix
     # ./overlays.nix
     ./auto-cpufreq.nix
@@ -103,7 +104,10 @@
   programs.dconf.enable =
     true; # virt-manager requires dconf to remember settings
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    plugins = with pkgs; [ networkmanager-openvpn ];
+  };
 
   # Enable network manager applet
   programs.nm-applet.enable = true;
@@ -163,16 +167,22 @@
   };
 
   services.xserver = {
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        dmenu # application launcher most people use
-        i3status # gives you the default i3 status bar
-        i3lock # default i3 screen locker
-        i3blocks # if you are planning on using i3blocks over i3status
-      ];
-      updateSessionEnvironment = true;
+    windowManager = {
+      i3 = {
+        enable = true;
+        extraPackages = with pkgs; [
+          dmenu # application launcher most people use
+          i3status # gives you the default i3 status bar
+          i3lock # default i3 screen locker
+          i3blocks # if you are planning on using i3blocks over i3status
+        ];
+        updateSessionEnvironment = true;
+      };
+      windowmaker.enable = true;
+      fvwm3.enable = true;
+      mlvwm.enable = true;
     };
+
     desktopManager = {
       xterm.enable = false;
       xfce = {
@@ -235,7 +245,7 @@
       "ubridge"
       "kvm"
       "wireshark"
-      # "docker"
+      "docker"
       "nginx"
       "adbusers"
     ];
@@ -254,9 +264,9 @@
     JAVA_HOME = "${pkgs.jdk17}";
     # __GLX_VENDOR_LIBRARY_NAME = "mesa";
   };
-  # environment.etc."distrobox/distrobox.conf".text = ''
-  #   container_additional_volumes="/nix/store:/nix/store:ro /etc/profiles/per-user:/etc/profiles/per-user:ro /etc/static/profiles/per-user:/etc/static/profiles/per-user:ro"
-  # '';
+  environment.etc."distrobox/distrobox.conf".text = ''
+    container_additional_volumes="/nix/store:/nix/store:ro /etc/profiles/per-user:/etc/profiles/per-user:ro /etc/static/profiles/per-user:/etc/static/profiles/per-user:ro"
+  '';
   programs.bash.shellInit = ''
     export LS_COLORS+=":ow=01;33";
   '';
@@ -398,7 +408,7 @@
     pavucontrol
     # Development
     # pkgs.nixgl.nixGLNvidia
-    pkgs-unstable.android-studio
+    # pkgs-unstable.android-studio
     # (pkgs.androidenv.emulateApp {
     #   name = "AndroidEmulator";
     #   platformVersion = "34";
@@ -437,18 +447,26 @@
     package = pkgs.obs-studio.override { cudaSupport = true; };
   };
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [ curl ];
+  programs.nix-ld.libraries = with pkgs; [ curl bash ];
   fonts.packages = with pkgs; [ nerd-fonts.terminess-ttf poppins ];
 
   # Enable docker with rootles
-  # virtualisation.docker = {
-  #   enable = true;
-  #   rootless = {
-  #     enable = true;
-  #     setSocketVariable = true;
-  #   };
-  #   daemon.settings = { data-root = "/home/rizqirazkafi/1tb/ISO/docker"; };
-  # };
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "overlay2";
+    daemon.settings = {
+      data-root = "/home/rizqirazkafi/DockerSystem";
+      # features = { cdi = true; };
+      "default-runtime" = "nvidia";
+      # "runtimes" = {
+      #   "nvidia" = {
+      #     # "path" = "/run/current-system/sw/bin/nvidia-container-runtime";
+      #     "runtimeArgs" = [ ];
+      #   };
+      # };
+    };
+    enableNvidia = true;
+  };
   # systemd.services.docker.wantedBy = lib.mkForce [ ];
   # virtualisation.virtualbox = {
   #   host = {
