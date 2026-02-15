@@ -1,7 +1,11 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, pkgs-unstable, ... }: {
   hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
 
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware.nvidia-container-toolkit.enable = true;
+  # hardware.nvidia-container-toolkit.package =
+  #   pkgs-unstable.nvidia-container-toolkit;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     nvidiaPersistenced = true;
