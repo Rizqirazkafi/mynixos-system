@@ -13,7 +13,7 @@
     ./nvidia.nix
     # ./nvidia-powersave.nix
     ./virt-manager.nix
-    ./virtualbox.nix
+    # ./virtualbox.nix
     ./file-system.nix
     # ./overlays.nix
     ./auto-cpufreq.nix
@@ -86,7 +86,7 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.plymouth.enable = true;
   # boot.plymouth.catppuccin.enable = true;
   # boot.plymouth.catppuccin.flavor = "mocha";
@@ -95,11 +95,11 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
-  networking.hosts = {
-    "127.0.0.1" = [ "phpdemo.local" "myhome.local" "moodle.local" ];
-    "192.168.30.20" = [ "personal-cloud.local" ];
-    "192.168.192.124" = [ "personal-cloud.local" ];
-  };
+  # networking.hosts = {
+  #   "127.0.0.1" = [ "phpdemo.local" "myhome.local" "moodle.local" ];
+  #   "192.168.30.20" = [ "personal-cloud.local" ];
+  #   "192.168.192.124" = [ "personal-cloud.local" ];
+  # };
 
   programs.dconf.enable =
     true; # virt-manager requires dconf to remember settings
@@ -117,7 +117,7 @@
 
   # Enable legacy PPTP module
   # services.pptpd.enable = true;
-
+  services.power-profiles-daemon.enable = false;
   # Enable bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -175,12 +175,10 @@
           i3status # gives you the default i3 status bar
           i3lock # default i3 screen locker
           i3blocks # if you are planning on using i3blocks over i3status
+          devour # swallow window
         ];
         updateSessionEnvironment = true;
       };
-      windowmaker.enable = true;
-      fvwm3.enable = true;
-      mlvwm.enable = true;
     };
 
     desktopManager = {
@@ -288,7 +286,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    libxslt
+    # libxslt
     efibootmgr
     keepassxc
     # zerotierone
@@ -306,7 +304,7 @@
     git
     xclip
     gnome-keyring
-    nautilus
+    pkgs-unstable.nautilus
     adwaita-icon-theme
     gnome-shell
     polkit_gnome
@@ -328,7 +326,8 @@
     nitrogen
     bridge-utils
     libvirt
-    pcmanfm
+    # looking-glass-client
+    pkgs-unstable.pcmanfm
     # lxappearance
     # ventoy-full
     vlc
@@ -341,6 +340,7 @@
     # marp-cli
     terminus_font
     terminus_font_ttf
+    dosemu_fonts
     poppins
     # nerdfonts
     # terminus-nerdfont
@@ -354,6 +354,7 @@
     # Office Suite
     # davinci-resolve
     # python312Packages.pygments
+    realesrgan-ncnn-vulkan # AI Video Upscale
     # texliveFull
     # python313
     beamerpresenter
@@ -371,10 +372,10 @@
     vnstat # monitor network
     # (gns3-gui.overrideAttrs (oldAttrs: rec { src = inputs.gns3-gui; }))
     # my-gns3-gui
-    gns3-gui
-    gns3-server
-    wireshark
-    ubridge
+    # gns3-gui
+    # gns3-server
+    # wireshark
+    # ubridge
     dynamips
     sshfs
     remmina
@@ -392,7 +393,7 @@
     nvtopPackages.nvidia
     mediainfo
     # themes
-    # libsForQt5.qtstyleplugin-kvantum
+    libsForQt5.qtstyleplugin-kvantum
     libsForQt5.qt5ct
     libsForQt5.qt5.wrapQtAppsHook
     libsForQt5.qt5.qtbase
@@ -417,19 +418,17 @@
     # })
     xorg.libX11
     xorg.libX11.dev
-    flutter
-    dart
-    cmake # require for flutter
-    ninja # require for flutter
-    clang # require for flutter
-    pkg-config # require for flutter
-    jdk17
+    # flutter
+    # dart
+    # cmake # require for flutter
+    # ninja # require for flutter
+    # clang # require for flutter
+    # pkg-config # require for flutter
+    # jdk17
     zlib
     # Education
     # etc
-    libgnurl
     curl
-    libgnurl
     openssl
     gparted
     polkit
@@ -478,7 +477,7 @@
   #   #   #   x11 = true;
   #   #   # };
   # };
-  # users.extraGroups.vboxusers.members = [ "rizqirazkafi" ];
+  users.extraGroups.vboxusers.members = [ "rizqirazkafi" ];
 
   # Swap capslock with Escape and Ctrl key
   services.interception-tools = {
@@ -560,11 +559,7 @@
   # };
 
   networking.bridges = {
-    r1-r2.interfaces = [ ];
-    r2-r3.interfaces = [ ];
-    r1-l1.interfaces = [ ];
-    r2-l2.interfaces = [ ];
-    r3-l3.interfaces = [ ];
+
   };
 
 }
