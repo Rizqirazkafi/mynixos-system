@@ -145,6 +145,10 @@ require("lspconfig").dartls.setup({
 require("lspconfig").clangd.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	cmd = {
+		"clangd",
+		"--header-insertion=never",
+	},
 })
 -- require("lspconfig").ccls.setup({
 -- 	on_attach = on_attach,
