@@ -11,12 +11,13 @@
   ];
 
   stylix.targets = {
-    xfce.enable = true;
+    xfce.enable = false;
+    xfce.fonts.enable = false;
     neovim.enable = true;
     neovim.transparentBackground.main = true;
     rofi.enable = true;
+    qt.enable = false;
   };
-
   xdg.enable = true;
   # programs.alacritty.enable = true;
   xdg.mimeApps = {
