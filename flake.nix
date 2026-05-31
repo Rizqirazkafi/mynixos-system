@@ -23,7 +23,7 @@
       url = "github:nbfc-linux/nbfc-linux";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
-    stylix.url = "github:danth/stylix/release-25.05";
+    stylix.url = "github:danth/stylix/release-25.11";
     own-texlive.url =
       "github:nixos/nixpkgs/bf8462aeba50cc753971480f613fbae0747cffc0";
   };
