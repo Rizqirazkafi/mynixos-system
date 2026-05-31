@@ -7,6 +7,32 @@
   # hardware.nvidia-container-toolkit.package =
   #   pkgs-unstable.nvidia-container-toolkit;
   services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver = {
+    config = ''
+      Section "Device"
+          Identifier  "Intel Graphics"
+          Driver      "intel"
+          #Option      "AccelMethod"  "sna" # default
+          #Option      "AccelMethod"  "uxa" # fallback
+          Option      "TearFree"        "true"
+          Option      "SwapbuffersWait" "true"
+          BusID       "PCI:0:2:0"
+          #Option      "DRI" "2"             # DRI3 is now default
+      EndSection
+
+      Section "Device"
+          Identifier "nvidia"
+          Driver "nvidia"
+          BusID "PCI:1:0:0"
+          Option "AllowEmptyInitialConfiguration"
+      EndSection
+    '';
+    screenSection = ''
+      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
+      Option         "AllowIndirectGLXProtocol" "off"
+      Option         "TripleBuffer" "on"
+    '';
+  };
   hardware.nvidia = {
     nvidiaPersistenced = true;
     modesetting.enable = true;
@@ -16,11 +42,15 @@
     nvidiaSettings = true;
   };
   hardware.nvidia.prime = {
-    sync.enable = true;
+    # sync.enable = true;
+    offload.enable = true;
+    offload.enableOffloadCmd = true;
     intelBusId = "PCI:0:2:0";
     nvidiaBusId = "PCI:1:0:0";
   };
   boot.blacklistedKernelModules = [ "nouveau" ];
+  boot.initrd.kernelModules = [ "i915" ];
+  boot.kernelParams = [ "intel_iommu=on" "iommu=pt" ];
 
   specialisation.on-the-go.configuration = {
     system.nixos.tags = [ "on-the-go" ];
@@ -43,11 +73,11 @@
     boot.blacklistedKernelModules =
       [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
 
-    services.xserver.config = ''
-      Section "Device"
-          Identifier "Intel"
-          Driver "intel"
-      EndSection
-    '';
+    # services.xserver.config = ''
+    #   Section "Device"
+    #       Identifier "Intel"
+    #       Driver "intel"
+    #   EndSection
+    # '';
   };
 }
