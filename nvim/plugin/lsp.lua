@@ -31,7 +31,7 @@ end
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 require("neodev").setup()
-require("lspconfig").lua_ls.setup({
+vim.lsp.config("lua_ls", {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	root_dir = function()
@@ -51,35 +51,9 @@ require("lspconfig").lua_ls.setup({
 		},
 	},
 })
-require("lspconfig").emmet_language_server.setup({
+vim.lsp.config("texlab", {
 	on_attach = on_attach,
 	capabilities = capabilities,
-	filetypes = { "html", "css", "php" },
-})
-
-require("lspconfig").nil_ls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
--- require("lspconfig").ltex.setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- 	filetypes = { "tex", "bib" },
--- 	single_file_support = true,
--- })
-require("lspconfig").tinymist.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	settings = {
-		formatterMode = "typstyle",
-		exportPdf = "onType",
-		-- semanticTokens = "disable",
-	},
-})
-require("lspconfig").texlab.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	-- single_file_support = true,
 	settings = {
 		texlab = {
 			build = {
@@ -99,113 +73,50 @@ require("lspconfig").texlab.setup({
 		},
 	},
 })
--- require("lspconfig").digestif.setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- 	single_file_support = true,
--- })
-require("lspconfig").ts_ls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-require("lspconfig").eslint.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
--- require("lspconfig").intelephense.setup({
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- })
-require("lspconfig").marksman.setup({
+vim.lsp.config("marksman", {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	single_file_support = true,
 })
-require("lspconfig").phpactor.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-require("lspconfig").html.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	filetypes = { "php", "html" },
-	init_options = {
-		configurationSection = { "html", "css", "javascript" },
-		embeddedLanguages = { css = true, javascript = true },
-	},
-})
-require("lspconfig").cssls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-require("lspconfig").dartls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-require("lspconfig").clangd.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	cmd = {
-		"clangd",
-		"--header-insertion=never",
-	},
-})
--- require("lspconfig").ccls.setup({
+-- require("lspconfig").html.setup({
 -- 	on_attach = on_attach,
 -- 	capabilities = capabilities,
--- 	single_file_support = true,
+-- 	filetypes = { "php", "html" },
 -- 	init_options = {
--- 		compilationDatabaseDirectory = "build",
--- 		index = {
--- 			threads = 0,
--- 		},
--- 		clang = {
--- 			excludeArgs = { "-frounding-math" },
--- 		},
+-- 		configurationSection = { "html", "css", "javascript" },
+-- 		embeddedLanguages = { css = true, javascript = true },
 -- 	},
 -- })
---require("lspconfig").asm_lsp.setup({
---	on_attach = on_attach,
---	capabilities = capabilities,
---	single_file_support = true,
---})
---require("lspconfig").gopls.setup({
---	on_attach = on_attach,
---	capabilities = capabilities,
---	cmd = { "gopls" },
---	filetypes = { "go", "gomod", "gowork", "gotmp" },
---	settings = {
---		gopls = {
---			completeUnimported = true,
---			usePlaceholders = true,
---			analyses = {
---				unusedparams = true,
---			},
---		},
---	},
---})
-require("lspconfig").ansiblels.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	settings = {
-		ansible = {
-			ansible = {
-				path = "ansible",
-			},
-			executionEnvironment = {
-				enabled = false,
-			},
-			python = {
-				interpreterPath = "python",
-			},
-			validation = {
-				enabled = true,
-				lint = {
-					enabled = true,
-					path = "ansible-lint",
-				},
-			},
-		},
-	},
-	single_file_support = true,
-})
+-- require("lspconfig").clangd.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	cmd = {
+-- 		"clangd",
+-- 		"--header-insertion=never",
+-- 	},
+-- })
+-- require("lspconfig").ansiblels.setup({
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- 	settings = {
+-- 		ansible = {
+-- 			ansible = {
+-- 				path = "ansible",
+-- 			},
+-- 			executionEnvironment = {
+-- 				enabled = false,
+-- 			},
+-- 			python = {
+-- 				interpreterPath = "python",
+-- 			},
+-- 			validation = {
+-- 				enabled = true,
+-- 				lint = {
+-- 					enabled = true,
+-- 					path = "ansible-lint",
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+-- 	single_file_support = true,
+-- })
