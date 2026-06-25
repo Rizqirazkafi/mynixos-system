@@ -1,4 +1,12 @@
-{ config, pkgs, pkgs-unstable, lib, nixgl, inputs, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  lib,
+  nixgl,
+  inputs,
+  ...
+}:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -10,14 +18,14 @@
     ./features/alacritty.nix
   ];
 
-  stylix.targets = {
-    xfce.enable = false;
-    xfce.fonts.enable = false;
-    neovim.enable = true;
-    neovim.transparentBackground.main = true;
-    rofi.enable = true;
-    qt.enable = false;
-  };
+  # stylix.targets = {
+  #   xfce.enable = false;
+  #   xfce.fonts.enable = false;
+  #   neovim.enable = true;
+  #   neovim.transparentBackground.main = true;
+  #   rofi.enable = true;
+  #   qt.enable = false;
+  # };
   xdg.enable = true;
   # programs.alacritty.enable = true;
   xdg.mimeApps = {
@@ -48,7 +56,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "26.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -78,8 +86,7 @@
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    XDG_DATA_DIRS =
-      "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
+    XDG_DATA_DIRS = "$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share";
     CHROME_EXECUTABLE = "google-chrome-stable";
     GSK_RENDERER = "cairo";
   };
@@ -93,8 +100,7 @@
       ll = "ls -la";
       fanauto = "sudo nbfc set -f 0 -a; sleep 5 && sudo nbfc set -f 1 -a";
       fanhalf = "sudo nbfc set -f 0 -s 50; sleep 5 && sudo nbfc set -f 1 -s 50";
-      fanmax =
-        "sudo nbfc set -f 0 -s 100; sleep 6 && sudo nbfc set -f 1 -s 100";
+      fanmax = "sudo nbfc set -f 0 -s 100; sleep 6 && sudo nbfc set -f 1 -s 100";
       labconnect = "sudo pon lab debug dump logfd 2 nodetach";
       lg = "lazygit";
     };
@@ -103,165 +109,170 @@
       export LS_COLORS+=":ow=01;33";
     '';
   };
-  programs.neovim = let
-    system = "x86_64-linux";
-    toLua = str: ''
-      lua << EOF
-      ${str}
-      EOF
-    '';
-    toLuaFile = file: ''
-      lua << EOF
-      ${builtins.readFile file}
-      EOF
-    '';
-  in {
-    enable = true;
+  programs.neovim =
+    let
+      stdenv.hostPlatform.system = "x86_64-linux";
+    in
+    {
+      enable = true;
 
-    package = pkgs.neovim-unwrapped;
-    extraPackages = with pkgs; [
-      # nodejs_18
-      xclip
-      luajitPackages.lua-lsp
-      luajitPackages.jsregexp
-      luajitPackages.fidget-nvim
-      luajitPackages.luasnip
-      nil
-      emmet-language-server
-      stylua
-      tree-sitter
-      nixfmt-classic
-      ccls
-      clang-tools
-      fd
-      php82Packages.php-codesniffer
-      php82Packages.php-cs-fixer
-      vscode-langservers-extracted
-      pkgs.phpactor
-      php
-      nodePackages.intelephense
-      # texlab
-      # ansible-language-server
-      # ansible-lint
-    ];
+      package = pkgs.neovim-unwrapped;
+      extraPackages = with pkgs; [
+        # nodejs_18
+        xclip
+        luajitPackages.lua-lsp
+        luajitPackages.jsregexp
+        luajitPackages.fidget-nvim
+        luajitPackages.luasnip
+        nil
+        emmet-language-server
+        stylua
+        tree-sitter
+        nixfmt
+        ccls
+        clang-tools
+        fd
+        php82Packages.php-codesniffer
+        php82Packages.php-cs-fixer
+        vscode-langservers-extracted
+        pkgs.phpactor
+        php
+        # nodePackages.intelephense
+        # texlab
+        # ansible-language-server
+        # ansible-lint
+      ];
 
-    plugins = with pkgs.vimPlugins; [
-      lspkind-nvim
-      vim-tmux-navigator
-      lazygit-nvim
-      plenary-nvim
-      nvim-lspconfig
-      {
-        plugin = indent-blankline-nvim;
-        config = toLuaFile ./nvim/plugin/ibl.lua;
-      }
-      {
-        plugin = comment-nvim;
-        config = toLua ''require("Comment").setup()'';
-      }
-      {
-        plugin = dressing-nvim;
-        config = toLua ''require("dressing").setup()'';
-      }
-      # {
-      #   plugin = CopilotChat-nvim;
-      #   config = toLua ''require("CopilotChat").setup()'';
-      # }
-      # { plugin = copilot-vim; }
-      {
-        plugin = nvim-lspconfig;
-        config = toLuaFile ./nvim/plugin/lsp.lua;
-      }
-      {
-        plugin = flutter-tools-nvim;
-        config = toLuaFile ./nvim/plugin/flutter-tools.lua;
-      }
-      neodev-nvim
-      {
-        plugin = nvim-cmp;
-        config = toLuaFile ./nvim/plugin/cmp.lua;
-      }
-      {
-        plugin = autoclose-nvim;
-        config = toLua ''require("autoclose").setup()'';
-      }
-      {
-        plugin = telescope-nvim;
-        config = toLuaFile ./nvim/plugin/telescope.lua;
-      }
-      {
-        plugin = harpoon;
-        config = toLuaFile ./nvim/plugin/harpoon.lua;
-      }
-      {
-        plugin = fidget-nvim;
-        config = toLuaFile ./nvim/plugin/fidget.lua;
-      }
-      {
-        plugin = which-key-nvim;
-        config = toLuaFile ./nvim/plugin/which-key.lua;
-      }
-      telescope-fzf-native-nvim
-      # if luasnip broken, use this:
-      # https://github.com/nvim-lua/kickstart.nvim/issues/537
-      pkgs-unstable.vimPlugins.luasnip
+      plugins = with pkgs.vimPlugins; [
+        lspkind-nvim
+        vim-tmux-navigator
+        lazygit-nvim
+        plenary-nvim
+        nvim-lspconfig
+        {
+          plugin = indent-blankline-nvim;
+          config = builtins.readFile ./nvim/plugin/ibl.lua;
+          type = "lua";
+        }
+        {
+          plugin = dressing-nvim;
+          # config = "require('dressing').enable({})";
+          # type = "lua";
+        }
+        # {
+        #   plugin = CopilotChat-nvim;
+        #   config =  ''vim.lsp.config("CopilotChat").setup()'';
+        #   type = "lua";
+        # }
+        # { plugin = copilot-vim; }
+        {
+          plugin = nvim-lspconfig;
+          config = builtins.readFile ./nvim/plugin/lsp.lua;
+          type = "lua";
+        }
+        {
+          plugin = flutter-tools-nvim;
+          config = builtins.readFile ./nvim/plugin/flutter-tools.lua;
+          type = "lua";
+        }
+        neodev-nvim
+        {
+          plugin = nvim-cmp;
+          config = builtins.readFile ./nvim/plugin/cmp.lua;
+          type = "lua";
+        }
+        {
+          plugin = autoclose-nvim;
+          config = "require('autoclose').setup()";
+          type = "lua";
+        }
+        {
+          plugin = telescope-nvim;
+          config = builtins.readFile ./nvim/plugin/telescope.lua;
+          type = "lua";
+        }
+        {
+          plugin = harpoon;
+          config = builtins.readFile ./nvim/plugin/harpoon.lua;
+          type = "lua";
+        }
+        {
+          plugin = fidget-nvim;
+          config = builtins.readFile ./nvim/plugin/fidget.lua;
+          type = "lua";
+        }
+        {
+          plugin = which-key-nvim;
+          config = builtins.readFile ./nvim/plugin/which-key.lua;
+          type = "lua";
+        }
+        telescope-fzf-native-nvim
+        # if luasnip broken, use this:
+        # https://github.com/nvim-lua/kickstart.nvim/issues/537
+        pkgs-unstable.vimPlugins.luasnip
 
-      # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
+        # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.luasnip
 
-      cmp-buffer
-      cmp-nvim-lsp
-      pkgs-unstable.vimPlugins.cmp_luasnip
-      # cmp-snippy
-      friendly-snippets
-      # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
-      vim-snipmate
-      cmp-latex-symbols
-      ncm2
-      ncm2-path
-      ncm2-bufword
-      ncm2-html-subscope
-      {
-        plugin = gitsigns-nvim;
-        config = toLuaFile ./nvim/plugin/gitsigns.lua;
-      }
-      {
-        plugin = none-ls-nvim;
-        config = toLuaFile ./nvim/plugin/none-ls-nvim.lua;
-      }
-      {
-        plugin = lualine-nvim;
-        config = toLuaFile ./nvim/plugin/lualine.lua;
-      }
-      markdown-preview-nvim
-      typst-preview-nvim
-      {
-        plugin = (nvim-treesitter.withPlugins (p: [
-          p.tree-sitter-nix
-          p.tree-sitter-bash
-          p.tree-sitter-json
-          p.tree-sitter-latex
-          p.tree-sitter-typst
-          p.tree-sitter-vimdoc
-          p.tree-sitter-javascript
-          p.tree-sitter-markdown
-          p.tree-sitter-html
-          p.tree-sitter-css
-          # p.tree-sitter-arduino
-          p.tree-sitter-dart
-          p.tree-sitter-php
-          p.tree-sitter-c
-          p.tree-sitter-cpp
-        ]));
-        config = toLuaFile ./nvim/plugin/treesitter.lua;
+        cmp-buffer
+        cmp-nvim-lsp
+        pkgs-unstable.vimPlugins.cmp_luasnip
+        # cmp-snippy
+        friendly-snippets
+        # inputs.nixpkgs-legacy.legacyPackages.${pkgs.system}.vimPlugins.friendly-snippets
+        vim-snipmate
+        cmp-latex-symbols
+        ncm2
+        ncm2-path
+        ncm2-bufword
+        ncm2-html-subscope
+        {
+          plugin = gitsigns-nvim;
+          config = builtins.readFile ./nvim/plugin/gitsigns.lua;
+          type = "lua";
+        }
+        {
+          plugin = none-ls-nvim;
+          config = builtins.readFile ./nvim/plugin/none-ls-nvim.lua;
+          type = "lua";
+        }
+        {
+          plugin = lualine-nvim;
+          config = builtins.readFile ./nvim/plugin/lualine.lua;
+          type = "lua";
+        }
+        markdown-preview-nvim
+        typst-preview-nvim
+        {
+          plugin = (
+            nvim-treesitter.withPlugins (p: [
+              p.tree-sitter-nix
+              p.tree-sitter-bash
+              p.tree-sitter-json
+              p.tree-sitter-latex
+              p.tree-sitter-typst
+              p.tree-sitter-vimdoc
+              p.tree-sitter-javascript
+              p.tree-sitter-markdown
+              p.tree-sitter-html
+              p.tree-sitter-css
+              # p.tree-sitter-arduino
+              p.tree-sitter-dart
+              p.tree-sitter-php
+              p.tree-sitter-c
+              p.tree-sitter-cpp
+            ])
+          );
+          config = builtins.readFile ./nvim/plugin/treesitter.lua;
+          type = "lua";
 
-      }
-      vim-nix
-      ansible-vim
-    ];
+        }
+        vim-nix
+        ansible-vim
+      ];
 
-    extraLuaConfig = "	${builtins.readFile ./nvim/options.lua}\n";
+      initLua = "	${builtins.readFile ./nvim/options.lua}\n";
 
-  };
+    };
   home.file = {
     ".config/nvim/after" = {
       source = ./nvim/after;
@@ -273,10 +284,14 @@
     };
   };
 
-  xsession = { enable = true; };
+  xsession = {
+    enable = true;
+  };
   fonts.fontconfig.enable = true;
   # programs.alacritty = { enable = true; };
-  programs.rofi = { enable = true; };
+  programs.rofi = {
+    enable = true;
+  };
   # gtk = {
   #   enable = true;
   #   font.name = "TerminessNerdFont-Regular";
