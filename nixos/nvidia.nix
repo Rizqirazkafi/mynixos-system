@@ -1,6 +1,12 @@
 { config, lib, pkgs, pkgs-unstable, ... }: {
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+    intel-vaapi-driver
+    libva
+    libvdpau-va-gl
+  ];
 
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.nvidia-container-toolkit.enable = true;

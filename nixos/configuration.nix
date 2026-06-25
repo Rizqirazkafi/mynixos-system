@@ -2,7 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, lib, pkgs, nixgl, pkgs-unstable, stylix, ... }:
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  nixgl,
+  pkgs-unstable,
+  stylix,
+  ...
+}:
 
 {
   imports = [
@@ -25,8 +34,14 @@
     # ./moodle.nix
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "root" "rizqirazkafi" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nix.settings.trusted-users = [
+    "root"
+    "rizqirazkafi"
+  ];
   nix.package = pkgs.nixVersions.stable;
   home-manager = {
     useGlobalPkgs = true;
@@ -49,11 +64,14 @@
       set -g mode-keys vi
       bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
     '';
-    plugins = with pkgs.tmuxPlugins; [ sensible vim-tmux-navigator ];
+    plugins = with pkgs.tmuxPlugins; [
+      sensible
+      vim-tmux-navigator
+    ];
     terminal = "screen-256color";
   };
 
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/windows-95.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
 
   stylix.enable = true;
 
@@ -101,8 +119,7 @@
   #   "192.168.192.124" = [ "personal-cloud.local" ];
   # };
 
-  programs.dconf.enable =
-    true; # virt-manager requires dconf to remember settings
+  programs.dconf.enable = true; # virt-manager requires dconf to remember settings
   # Enable networking
   networking.networkmanager = {
     enable = true;
@@ -111,6 +128,10 @@
 
   # Enable network manager applet
   programs.nm-applet.enable = true;
+
+  # Appimage support
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
 
   # Enable noise torch
   # programs.noisetorch.enable = true;
@@ -122,6 +143,9 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
+  _class = "nixos";
+  location.latitude = -7.2;
+  location.longitude = 112.7;
 
   # Jellyfin
   # services.jellyfin = {
@@ -138,6 +162,7 @@
   # services.zerotierone.enable = true;
   # services.zerotierone.port = 9993;
   # systemd.services.zerotierone.wantedBy = lib.mkForce [ ];
+  services.tailscale.enable = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -200,7 +225,9 @@
   # Enable flatpak
   services.flatpak.enable = true;
   # Configure keymap in X11
-  services.xserver.xkb = { layout = "us"; };
+  services.xserver.xkb = {
+    layout = "us";
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -268,12 +295,14 @@
   programs.bash.shellInit = ''
     export LS_COLORS+=":ow=01;33";
   '';
-  programs.bash.shellAliases = { fastfetch = "fastfetch --thread 2"; };
+  programs.bash.shellAliases = {
+    fastfetch = "fastfetch --thread 2";
+  };
 
-  programs.light.enable = true;
+  hardware.acpilight.enable = true;
   programs.thunar = {
     enable = true;
-    plugins = with pkgs.xfce; [
+    plugins = with pkgs; [
       thunar-archive-plugin
       thunar-volman
       xfce4-whiskermenu-plugin
@@ -287,9 +316,11 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # libxslt
+    libva-utils
     efibootmgr
     keepassxc
     # zerotierone
+    openvpn
     pkgs-unstable.zoom-us
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     ripgrep
@@ -316,20 +347,15 @@
     i3
     i3status
     libnotify # Notification daemon
-    light
     playerctl
     pamixer
     rofi
     google-chrome
-    # ungoogled-chromium
     pkgs-unstable.picom
     nitrogen
     bridge-utils
     libvirt
-    # looking-glass-client
     pkgs-unstable.pcmanfm
-    # lxappearance
-    # ventoy-full
     vlc
     # ffmpeg
     (pkgs.ffmpeg.override { withNvenc = true; })
@@ -342,40 +368,23 @@
     terminus_font_ttf
     dosemu_fonts
     poppins
-    # nerdfonts
-    # terminus-nerdfont
-    # fira-code-nerdfont
     jq
     # Graphics and Video
     flameshot # screenshot tool
     nomacs # image viewer
     pkgs-unstable.gimp3-with-plugins
-    yt-dlp
+    pkgs-unstable.yt-dlp
     # Office Suite
-    # davinci-resolve
-    # python312Packages.pygments
     realesrgan-ncnn-vulkan # AI Video Upscale
-    # texliveFull
-    # python313
+    texliveFull
     beamerpresenter
     libreoffice-fresh
-    # onlyoffice-bin_latest
     # Networking
     # pkgs-unstable.winbox4
     # scrcpy
-    # pkgs-unstable.android-tools
-    # pptp
-    # ppp
     nmap
-    # netcat-gnu # read write data via net
     inetutils
     vnstat # monitor network
-    # (gns3-gui.overrideAttrs (oldAttrs: rec { src = inputs.gns3-gui; }))
-    # my-gns3-gui
-    # gns3-gui
-    # gns3-server
-    # wireshark
-    # ubridge
     dynamips
     sshfs
     remmina
@@ -387,10 +396,11 @@
     # rclone
     # Add polkit for distrobox
     zenity
-    xorg.xhost
+    xhost
     # Tool for Nvidia
     lshw
     nvtopPackages.nvidia
+    pkgs-unstable.winboat
     mediainfo
     # themes
     libsForQt5.qtstyleplugin-kvantum
@@ -416,8 +426,10 @@
     #   abiVersion = "x86_64"; # armeabi-v7a, mips, x86_64
     #   systemImageType = "google_apis_playstore";
     # })
-    xorg.libX11
-    xorg.libX11.dev
+    weston
+    wl-clipboard
+    libX11
+    libX11.dev
     # flutter
     # dart
     # cmake # require for flutter
@@ -426,6 +438,7 @@
     # pkg-config # require for flutter
     # jdk17
     zlib
+    pkgs-unstable.devenv
     # Education
     # etc
     curl
@@ -439,15 +452,20 @@
     # xorg.xkill
     # ueberzug
   ];
-  programs.adb.enable = true;
   # programs.kdeconnect.enable = true;
   programs.obs-studio = {
     enable = true;
     package = pkgs.obs-studio.override { cudaSupport = true; };
   };
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [ curl bash ];
-  fonts.packages = with pkgs; [ nerd-fonts.terminess-ttf poppins ];
+  programs.nix-ld.libraries = with pkgs; [
+    curl
+    bash
+  ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.terminess-ttf
+    poppins
+  ];
 
   # Enable docker with rootles
   virtualisation.docker = {
@@ -456,7 +474,7 @@
     daemon.settings = {
       data-root = "/home/rizqirazkafi/DockerSystem";
       # features = { cdi = true; };
-      "default-runtime" = "nvidia";
+      # "default-runtime" = "nvidia";
       # "runtimes" = {
       #   "nvidia" = {
       #     # "path" = "/run/current-system/sw/bin/nvidia-container-runtime";
@@ -464,7 +482,7 @@
       #   };
       # };
     };
-    enableNvidia = true;
+    # enableNvidia = true;
   };
   # systemd.services.docker.wantedBy = lib.mkForce [ ];
   # virtualisation.virtualbox = {
@@ -520,13 +538,25 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
-  security = { polkit.enable = true; };
+  security = {
+    polkit.enable = true;
+  };
   xdg.portal = {
     xdgOpenUsePortal = true;
     enable = true;
     lxqt.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-xapp pkgs.xdg-desktop-portal-gtk ];
-    config = { common = { default = [ "xapp" "gtk" ]; }; };
+    extraPortals = [
+      pkgs.xdg-desktop-portal-xapp
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config = {
+      common = {
+        default = [
+          "xapp"
+          "gtk"
+        ];
+      };
+    };
   };
   xdg.mime.enable = true;
   xdg.mime.defaultApplications = {
